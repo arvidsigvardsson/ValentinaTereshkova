@@ -1,0 +1,13 @@
+* Möte med Tommy 2017-04-04, och sedan en plan
+** Vi diskuterade de teknologier vi haft uppe
+** Tommy var positiv till triangulering med ultraljud. Han hade handlett (tror jag) ett examensarbete som inkluderade en sån lösning, som han skickade till oss. 
+*** Det projektet skickade pulser på ett liknande sätt vi tänkt oss. Ett problem som uppstod var att pga resonans hade inledningen på pulsen lägre magnitud än resten av signalen. Detta innebar att det var lite oklart när pulsen börjar. Antagligen fanns liknande problem i slutet av signalen. Tommy trodde dock att det problemet gick att avhjälpa
+*** Ett allmänt problem när det gäller signalöverföring är att signalstyrkan avtar snabbt med avståndet. Detta ställer särskilda krav på förstärkning.
+** Tommy tryckte lite på användning av bildbehandling, med t ex Open CV, skulle vara intressant. Vi diskuterade två möjligheter:
+*** att filma ovanifrån och "direkt" få ut koordinater
+*** att ha två eller fler kameror i marknivå och via vinkeln få ut position
+** Vi diskuterade även någon form av död räkning, t ex via pulsgivare på robotens hjul. Ett problem med sådana metoder är att systemet behöver omkalibreras efter hand, och att detta kunde göras t ex av sparsamt utplacerade RFID-taggar.
+* Vi bestämde oss för en plan med två lösningar, en enklare och en lite mer komplicerad, samt en backuplösning:
+** Enklare lösningen är att filma från balustraden på andra våningen på Niagara ner på golvet, och utföra bildbearbetning på detta. Även om noggrannheten inte blir den bästa bedömer vi att lösningen är relativt lätt att genomföra
+** Den mer komplicerade lösningen är den ultraljudslösning beskriven ovan.
+** Backup om ultraljudet inte fungerar är lösningen med två kameror i marknivå. Om vi behöver gå över till den lösningen i ett sent skede borde vi ha fått värdefull erfarenhet från den enklare lösningen som hjälp
