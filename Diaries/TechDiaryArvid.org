@@ -1,0 +1,29 @@
+* Teknisk dagbok - Projekt VT 2017
+** Arvid Sigvardsson
+** Datateknik och mobil IT, MAH
+
+* Dagbok
+** 2017-04-03
+*** Teknologier
+    Vi brainstormade olika ideer till postitioneringssystem:
+    1. Ultraljud
+    2. Ultra wide band
+    3. Snöre som roboten drar ut, vinkeln och längden bestämmer postitionen
+    4. Projicerat färgspektrum
+    5. RFID-taggar utplacerade i golvet
+    6. INS, inertial navigation system
+*** Indelning och systematisering
+     (1) och (2) är trianguleringsmetoder, medan de andra innebär någon form av fysisk lokalisering. Vi gjorde åtskillnad på centraliserade och decentraliserade system. I de centrala systemen fastställs postitionen centralt av systemet, inte "ombord" på roboten. Detta kräver någon form av trådlös kommunikation till en modul på roboten, t ex wifi eller bluetooth. De decentraliserade lösningarna räknar ut positionen direkt i modulen på roboten.
+*** Andra alternativ 
+    Vi diskuterade även möjligheten att använda en/flera kameror och utföra någon bildbehandling. En variant är att ha en överblicksbild och indela bilden i ett rutnät. Annan variant är att använda kamera för triangulering. Alla vi i gruppen är lite skeptiska till kameraideerna, lite oklart varför.
+*** Två stycken lösningar
+    Det lutar åt att vi försöker oss på två lösningar som vi arbetar med parallellt, en enklare och en mer avancerad/noggrann. Delvis för att kunna leverera något system i god tid för plattformsgrupperna att testa, men fortfarande kunna leverera ett noggrant system. Delvis för att ha redundancy, om ett system inte fungerar så kan vi använda det andra.
+*** Orientering
+    Det är inte helt klart i vår uppgiftsbeskrivning om vi ska leverera ett system som räknar ut robotens orientering, alltså i vilken riktning den tittar/kör. Det är klart att det är något som krävs för att klara uppgiften, men det kan vara så att plattformsgrupperna ska hantera detta själva. Jag/vi lutar åt att det är något vi ska utföra. Jag ser tre lösningar på problemet:
+    - gyroskop, tangerar INS ovan
+    - ultraljud med två mikrofoner, och mäta fasskillnad (?) mellan dem
+    - räkna ut orientering mha bildbehandling
+*** Kommunikationsprotokoll
+    Vi diskuterade med plattformsgrupperna att vi behöver bestämma hur vår positioneringsmodul ska kommunicera med deras styrenheter. Vi vill ha en "standard", alltså samma kommunikation med alla plattformar. Vi diskuterade löst t ex I2C och SPI. Ska försöka ha ett möte snart med representant från varje grupp.
+*** Gå vidare
+    Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
