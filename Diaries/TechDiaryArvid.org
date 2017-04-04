@@ -25,5 +25,10 @@
     - räkna ut orientering mha bildbehandling
 *** Kommunikationsprotokoll
     Vi diskuterade med plattformsgrupperna att vi behöver bestämma hur vår positioneringsmodul ska kommunicera med deras styrenheter. Vi vill ha en "standard", alltså samma kommunikation med alla plattformar. Vi diskuterade löst t ex I2C och SPI. Ska försöka ha ett möte snart med representant från varje grupp.
+*** Oklarheter 
+    - Hur stort område skall vi täcka?
+    - Vilken upplösning behövs?
+    - Vad har vi för budget?
+    - Hur många moduler ska vi bygga? Jag lutar åt 4, en för varje plattform, samt en i backup/för testning. Täcker budgeten detta?
 *** Gå vidare
     Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
