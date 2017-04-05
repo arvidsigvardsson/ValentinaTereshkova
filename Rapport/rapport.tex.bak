@@ -6,14 +6,13 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \usepackage{url}
-\usepackage{graphicx}
 \usepackage{pdfpages}
 \usepackage[nottoc,numbib]{tocbibind}
 \usepackage[utf8]{inputenc}
 \usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
 \usepackage[parfill]{parskip}
 
-\title{\includegraphics{mah_logo.eps} \\[2 cm] Ingenjörsprojekt VT 2017 - Positioneringssystem}
+\title{Ingenjörsprojekt VT 2017 - Positioneringssystem}
 \author{Hadi Deknache, Arvid Sigvardsson,
 Viktor Malmgren, Mikael Nilsson}
 \author{Gustaf Bohlin, Anton Hellbe, Mikael Nilsson, Arvid Sigvardsson}
@@ -21,6 +20,7 @@ Viktor Malmgren, Mikael Nilsson}
 
 \begin{document}
 \begin{titlepage}
+\includegraphics[height=2.0cm]{mah_logo.eps}
 \maketitle
 
 \centering  
