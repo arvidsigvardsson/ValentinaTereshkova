@@ -32,6 +32,6 @@
     - Hur många moduler ska vi bygga? Jag lutar åt 4, en för varje plattform, samt en i backup/för testning. Täcker budgeten detta?
 *** Gå vidare
     Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
-*** Första utvärdering av teknologier
-    |   | Ultraljud | UWB | INS | RFID |
-    |   |           |     |     |      |
+** 2017-04-04
+*** Vi hade möte med Tommy, se [[https://github.com/arvidsigvardsson/ValentinaTereshkova/blob/master/MeetingNotes/Tommy2017-04-04.org][anteckningar]]
+#+OPTIONS: toc:nil
