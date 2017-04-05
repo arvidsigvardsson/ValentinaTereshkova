@@ -1,8 +1,0 @@
-\contentsline {section}{\numberline {1}Sammanfattning}{1}
-\contentsline {section}{\numberline {2}Inledning}{3}
-\contentsline {section}{\numberline {3}Metod och utf\IeC {\"o}rande}{3}
-\contentsline {section}{\numberline {4}Resultat}{3}
-\contentsline {section}{\numberline {5}Diskussion}{3}
-\contentsline {section}{\numberline {6}Slutsats}{3}
-\contentsline {section}{\numberline {7}References}{4}
-\contentsline {section}{\numberline {8}Bilagor}{4}
