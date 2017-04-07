@@ -1,10 +1,12 @@
-\documentclass{article}
+\documentclass[11pt, a4paper]{report}
 \usepackage{graphicx}
 \usepackage{float}
 \usepackage{amsmath}
 \usepackage{siunitx}
 \usepackage{caption}
 \usepackage{subcaption}
+\usepackage[swedish]{babel}
+\usepackage[utf8]{inputenc}
 \usepackage{url}
 \usepackage{graphicx}
 \usepackage{pdfpages}
@@ -13,10 +15,16 @@
 \usepackage[top=2.5cm, bottom=2.5cm, left=3cm, right=3cm]{geometry}
 \usepackage[parfill]{parskip}
 
+\usepackage{titlesec}
+
+\titleformat{\chapter}[hang]   
+{\normalfont\huge\bfseries}{\thechapter}{15pt}{\Huge}   
+\titlespacing*{\chapter}{0pt}{0pt}{20pt}
+
 \title{\includegraphics{mah_logo.eps} \\[2 cm] Ingenjörsprojekt VT 2017 - Positioneringssystem}
 
 \author{Gustaf Bohlin, Anton Hellbe, Mikael Nilsson, Arvid Sigvardsson}
-\date{May 29, 2017}
+\date{2017-05-29}
 
 \begin{document}
 \begin{titlepage}
@@ -39,7 +47,7 @@
 \clearpage
 \end{titlepage}
 
-\section{Sammanfattning} 
+\chapter{Sammanfattning} 
 Vi kommer här att göra en översiktlig beskrivning av arbetet
 \begin{itemize}
 \item Varför vi gör det, vad är målet med projektet?
@@ -48,11 +56,14 @@ Vi kommer här att göra en översiktlig beskrivning av arbetet
 
 \end{itemize} 
 \newpage
+\setcounter{page}{0}
 \tableofcontents
 \thispagestyle{empty}
 \clearpage
 
-\section{Inledning}
+
+
+\chapter{Inledning}
 Här kommer vi att börja med att berätta  vad projektet går ut på samt att beskriva vad vår grupp har haft för uppgift under projektet.
 
 Vi kommer göra en sammanställning av de vanligaste teknologierna som finns för inomhuspositionering idag. Vi kommer också att lista de idéer som vi själva brainstormat fram.
@@ -61,32 +72,24 @@ Vi kommer göra en sammanställning av de vanligaste teknologierna som finns fö
 
 Förklara vad projektet kommer att handla om, varför projektet görs, vad målet med projektet är samt hypotes.
 
-\section{Teori}
+\chapter{Teori}
+Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats. 
 
-Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats.
-
-\section{Metod och utförande}
-Här kommer vi att beskriva hur vi har gått tillväga för att nå ett resultat. 
-Hur har vi gjort vår konceptstudie? Hur har vi kommit fram till vilken teknologi vi kommer att använda?
+\chapter{Metod och utförande}
+Här kommer vi att beskriva hur vi har gått tillväga för att nå ett resultat. Hur har vi kommit fram till vilken teknologi vi kommer att använda?
 
 Hur har vi gått till väga för att konstruera valt positioneringssystem?
 Vilka resurser har vi använt oss av?
 
 
-Förklara hur vi gått tillväga under projektets gång, vad vi gjort, varför vi gjort det, vilka "material" vi har använt.
-
-\section{Resultat}
+\chapter{Resultat}
 Vi kommer att klargöra vilka teknologi/er vi har valt för vår lösning och varför som resultat av vår konceptstudie.
 
 Beskrivning av hur, vårt nu fungerande positioneringssystem, fungerar. 
 
-
-Presentera resultatet av projektet
-
-\section{Diskussion}
-Vi ska här diskutera vårt resultat.
+\chapter{Diskussion}
 \begin{itemize}
-\item Vad gick bra vad gick som vi hade tänkt oss?
+\item Vad gick bra, vad gick som vi hade tänkt oss?
 \item Hur fungerar vårt system jämfört med andra som finns och varför?
 \item Hade det gått att använda vårt system i större skala?
 \end{itemize} 
@@ -94,7 +97,7 @@ Vi ska här diskutera vårt resultat.
 
 
 
-\section{Slutsats}
+\chapter{Slutsats}
 Vi gör här en kort summering av arbetet.
 Samt:
 Vilka slutsatser kan vi dra från resultatet och projektet i stort?
@@ -112,7 +115,7 @@ Vad har vi lärt oss?
 
 \end{thebibliography}
 
-\section{Bilagor}
+\chapter{Bilagor}
 Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hindrar läsbarheten och bara tar plats i texten.
 \end{document}
 
