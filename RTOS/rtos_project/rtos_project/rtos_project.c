@@ -5,7 +5,9 @@
  *  Author: Anton
  */ 
 
-#include "sam.h"
+#include <asf.h>
+#include "../pins/Init_Pins.h"
+#include "../delay/delayFunctions.h"
 
 /**
  * \brief Application entry point.
@@ -14,9 +16,11 @@
  */
 int main(void)
 {
-    /* Initialize the SAM system */
-    SystemInit();
-
+	sysclk_init();
+    board_init();
+	init_pins();
+	delayInit();
+	
     while (1) 
     {
         //TODO:: Please write your application code 

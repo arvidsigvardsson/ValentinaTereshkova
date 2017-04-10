@@ -29,12 +29,28 @@
  * Support and FAQ: visit <a href="http://www.atmel.com/design-support/">Atmel Support</a>
  */
 #include <asf.h>
+#include "../pins/Init_Pins.h"
+#include "../delay/delayFunctions.h"
+#include "task1.h"
 
 int main (void)
 {
+	
+	sysclk_init();
+	board_init();
+	init_pins();
+	delayInit();
+	
+	void wdt_disable(void);
+	
+	if (xTaskCreate(task_led, (const signed char * const) "task_led", TASK_LED_STACK_SIZE, NULL, TASK_LED_STACK_PRIORITY, NULL) != pdPASS) {
+		printf("Failed to create code lock task\r\n");
+	}
+	
+	vTaskStartScheduler();
+	
 	// Insert system clock initialization code here (sysclk_init()).
 
-	board_init();
 
 	// Insert application code here, after the board has been initialized.
 }
