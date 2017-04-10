@@ -1,3 +1,4 @@
+#+OPTIONS: toc:nil
 * Teknisk dagbok - Projekt VT 2017
 ** Arvid Sigvardsson
 ** Datateknik och mobil IT, MAH
@@ -34,4 +35,11 @@
     Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
 ** 2017-04-04
 *** Vi hade möte med Tommy, se [[https://github.com/arvidsigvardsson/ValentinaTereshkova/blob/master/MeetingNotes/Tommy2017-04-04.org][anteckningar]]
-#+OPTIONS: toc:nil
+** 2017-04-05
+*** Vi skrev klart planeringsdokumenten - ett Ganntdiagram, ansvarsschema och milstolpedokument
+*** Vi gjorde en preliminär backlog för projektet. Vi diskuterade fram alla de små tasks vi behöver utföra för att klara projektet. Bild av backlogg: [[./bilder/backlog2017-04-05.pdf][länk]]
+** 2017-04-07
+   - Vi återkom till planeringsdokumenten och gjorde färdigt dessa och lämnade in dem
+   - Vi började sammanställa vår research till en förstudie som ska ingå i rapporten 
+** 2017-04-10 
+   -Jag byggde ihop en liten lysdiodsrigg som vi kan använda till att testa opencv
