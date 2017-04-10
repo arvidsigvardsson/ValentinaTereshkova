@@ -73,6 +73,34 @@ Vi kommer göra en sammanställning av de vanligaste teknologierna som finns fö
 Förklara vad projektet kommer att handla om, varför projektet görs, vad målet med projektet är samt hypotes.
 
 \chapter{Teori}
+
+\section{Förstudie}
+
+För att lösa problemet med robotens position inomhus har vi titta på lite olika lösningar för så kallade inomhus positionerings system. Inomhus positioneringssystem (IPS) används för att bestämma positionen på objekt eller personer inomhus. Exempel på  tekniker som används för detta är Radiovågor(UWB), Ljud(ultraljud), WiFi/Bluetooth signalstyrkor och s.k Dead reckoning (Dödräkning med hjälp av Gyroskop / Accelerometer)
+
+
+UWB(Ultra WideBand Technology): \\
+Ultra wideband är en teknik för WPAN. Detta är en väldigt förekommande teknik för inomhus positioneringssystem på grund av att postionen blir väldigt exakt jämfört med många andra tekniker. UWB använder sig av radiovågor som rör sig i ljusets hastighet vilket betyder att man behöver väldigt exakta tidpunkter för att bestämma var objektet / personen befinner sig. För att bestämma positionen finns olika metoder, TDoA (Time Difference of Arrival) algoritmer men även vanlig triangulering fungerar.
+
+Fördelar: Bra noggrannhet, Arduino bibliotek
+Nackdelar: Lite dyrare
+
+Ultraljud: \\
+Ultraljud är ljudvågor som är över 20kHz, dvs ljud som människan ej kan höra. Fördelen med Ultraljud är att ljud rör sig i $340$ m/s jämfört med ljusets hastighet $3 \cdot 10^{8}$ m/s så borde det teoretiskt vara lättare att få lättare att få en bra noggrannhet eftersom ljud inte rör sig lika snabbt. Positionen på objektet/personen kan räknas ut olika sätt ToA, ToF, Triangulering...
+
+Dead Reckoning:\\
+Dead reckoning eller död räkning på svenska går ut på att med hjälp av en accelerometer och ett gyroskop så kan man bestämma positionen. Detta görs genom att känna till start positionen och sedan med hjälp av datan från gyroskopet (orientationen) och accelerometern (accelerationen) så kan man beräkna hur objektet / personen har rört sig och dess position. Det är en elegant lösning från den synvinkeln att det inte kräver några utomstående komponenter men problemet är att om det uppstår fel i mätdatan så kommer felet kvarstå. Detta betyder att man regelbundet skulle behöva kalibrera om för att undvika för mycket kvarstående fel.
+
+WiFi / Bluetooth signalstyrkor: \\
+
+Genom att placera ut noder t e x 3 eller 4 så kan man mäta upp RSSI (Recieved Signal Strength Indication) detta gäller både WiFi och Bluetooth och med hjälp av den uppmätta signalstyrkan till de olika noderna sedan bestämma positionen. Problemet med detta är att noggranheten är väldigt dålig, ofta handlar det om flera meter vilket är oacceptabelt om roboten skall kunna navigera fram till objekt.
+
+Fördelar: Inte svårt, mätt upp signalstyrka tidigare på labbar. 
+
+
+
+
+
 Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats. 
 
 \chapter{Metod och utförande}
