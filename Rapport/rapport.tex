@@ -80,27 +80,38 @@ För att lösa problemet med robotens position inomhus har vi titta på lite oli
 
 
 UWB(Ultra WideBand Technology): \\
-Ultra wideband är en teknik för WPAN. Detta är en väldigt förekommande teknik för inomhus positioneringssystem på grund av att postionen blir väldigt exakt jämfört med många andra tekniker. UWB använder sig av radiovågor som rör sig i ljusets hastighet vilket betyder att man behöver väldigt exakta tidpunkter för att bestämma var objektet / personen befinner sig. För att bestämma positionen finns olika metoder, TDoA (Time Difference of Arrival) algoritmer men även vanlig triangulering fungerar.%detta blev lite konstigt, för att triangulera behöver man veta avstånd vilket man tar reda på genom TDoA. Det är även skillnad på om man skickar och tar emot från samma ställe så man räknar på när signalen kommer tillbaka. För denna tekniken behöver man använda sig av fasen för att veta om det är fading som inkommer eller om det är den riktiga signalen.
+Ultra wideband är en teknik för WPAN. Detta är en väldigt förekommande teknik för inomhus positioneringssystem på grund av att postionen blir väldigt exakt jämfört med många andra tekniker. UWB använder sig av radiovågor som rör sig i ljusets hastighet vilket betyder att man behöver väldigt exakta tidpunkter för att bestämma var objektet / personen befinner sig. För att bestämma positionen används TDoA (Time Difference of Arrival) algoritmer för att ta reda på tiden det tog för signalen att komma fram. Tiden används sedan vid triangulering för att få fram positionen.
 
-Fördelar: Bra noggrannhet, Arduino bibliotek	%slänga in ett table här?
-Nackdelar: Lite dyrare
+När det kommer till sändare och mottagare kan man låta sändarna ta emot signalen som har studsat på objektet. Detta innebär att inga komponenter krävs på roboten men för att få ''rätt'' signal på mottagarsidan behöver man kolla på fasen för att kunna utesluta fading.
 
 Ultraljud: \\
-Ultraljud är ljudvågor som är över 20kHz, dvs ljud som människan ej kan höra. Fördelen med Ultraljud är att ljud rör sig i $340$ m/s jämfört med ljusets hastighet $3 \cdot 10^{8}$ m/s
-%konstigt formulerad mening
- så borde det teoretiskt vara lättare att få lättare att få en bra noggrannhet eftersom ljud inte rör sig lika snabbt. Positionen på objektet/personen kan räknas ut olika sätt ToA, ToF, Triangulering...
+Ultraljud är ljudvågor som är över 20kHz, dvs ljud som människan ej kan höra. Fördelen med Ultraljud är att ljud rör sig i $340$ m/s jämfört med ljusets hastighet $3 \cdot 10^{8}$ m/s. För att ta fram avståndet till en fyr använder man formeln
+\begin{equation}
+s = v \cdot \Delta t
+\end{equation}
+Med en mindre $v$ kan sträckan beräknas noggrannare. Positionen på objektet/personen kan sedan räknas ut med hjälp av triangulering.
 
 Dead Reckoning:\\
-Dead reckoning eller död räkning på svenska går ut på att med hjälp av en accelerometer och ett gyroskop så kan man bestämma positionen. Detta görs genom att känna till start positionen och sedan med hjälp av datan från gyroskopet (orientationen) och accelerometern (accelerationen) så kan man beräkna hur objektet / personen har rört sig och dess position. Det är en elegant lösning från den synvinkeln att det inte kräver några utomstående komponenter men problemet är att om det uppstår fel i mätdatan så kommer felet kvarstå. Detta betyder att man regelbundet skulle behöva kalibrera om för att undvika för mycket kvarstående fel.
-%Kan lägga till att man beräknar sträcka osv med hjälp av integration och felen även de integreras. Fungerar förmodligen bäst där nogrannheten inte är lika viktig, ex havet. Vår nogrannhet behöver vara < 10cm.
+Dead reckoning eller död räkning på svenska går ut på att med hjälp av en accelerometer och ett gyroskop så kan man bestämma positionen. Detta görs genom att känna till start positionen och sedan med hjälp av datan från gyroskopet (orientationen) och accelerometern (accelerationen) så kan man beräkna hur objektet / personen har rört sig genom integration och  på så sätt dess position. Det är en elegant lösning från den synvinkeln att det inte kräver några utomstående komponenter men problemet är att om det uppstår fel i mätdatan så kommer felet kvarstå. Detta betyder att man regelbundet skulle behöva kalibrera om för att undvika för mycket kvarstående fel.
 
 WiFi / Bluetooth signalstyrkor: \\
 
-Genom att placera ut noder t e x 3 eller 4 så kan man mäta upp RSSI (Recieved Signal Strength Indication) detta gäller både WiFi och Bluetooth och med hjälp av den uppmätta signalstyrkan till de olika noderna sedan bestämma positionen. Problemet med detta är att noggranheten är väldigt dålig, ofta handlar det om flera meter vilket är oacceptabelt om roboten skall kunna navigera fram till objekt.
+Genom att placera ut noder t ex 3 eller 4 så kan man mäta upp RSSI (Recieved Signal Strength Indication) detta gäller både WiFi och Bluetooth och med hjälp av den uppmätta signalstyrkan till de olika noderna sedan bestämma positionen. Problemet med detta är att noggranheten är väldigt dålig, ofta handlar det om flera meter vilket är oacceptabelt om roboten skall kunna navigera fram till objekt.
 
-Fördelar: Inte svårt, mätt upp signalstyrka tidigare på labbar. 
-Nackdelar: Dålig nogrannhet.
-
+\begin{center}
+     \begin{tabular}{l | c | c}
+  		Teknik & Fördelar & Nackdelar \\ \hline
+        Ultrawideband & Bra noggrannhet & Dyr\\
+         & Arduino bibliotek \\ \hline
+        Ultraljud & Bra noggrannhet & Inget bibliotek\\
+        & Billigt & Möjligtvis problem med resonans\\
+        & Låga krav på hårdvaran \\ \hline
+        Dead Reckoning & Enkelt & Dålig noggrannhet \\
+        & Billig & Integrerande fel \\ \hline
+        Bluetooth / WiFi & Enkelt & Dålig noggrannhet \\
+        & Använt på tidigare laborationer
+  \end{tabular}
+  \end{center}
 
 
 Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats. 
