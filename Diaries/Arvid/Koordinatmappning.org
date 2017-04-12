@@ -2,7 +2,7 @@
   Vår plan är att filma med en kamera, antingen rakt ovanifrån, eller snett uppifrån, och identifiera en lysdiod som är fäst på roboten och fastställa dess koordinater. Som referensram kommer vi att markera banans hörn och mäta upp avståndet mellan dem och se till att de ligger i räta vinklar mot varandra. En förutsättning för kommande resonemang är att vi kan få ut en koordinat från bilden för det objekt vi vill fastställa positionen på, samt att vi får ut koordinaterna för hörnen.
   - Vi skiljer på bildkoordinater, vilka är koordinaterna som fås från videobilden, och rumskoordinater, som är de fysiska koordinaterna i rummet på Niagara
   - Vi definierar golvet (i Niagara) som xy-planet, och z-planet som rakt uppåt mot taket
-  - Hörnens och kamerans relativa rumskoordinater mäts upp 
+  - Hörnens relativa rumskoordinater mäts upp 
   - Vi fastställer bildkoordinater för hörnen
   - Vi definierar hörnet till vänster närmast kameran som origo
   - Vi vill nu räkna ut en linjär transformation som omvandlar bildkoordinater för ett objekt till rumskoordinater, för objekt som ligger i xy-planet.
