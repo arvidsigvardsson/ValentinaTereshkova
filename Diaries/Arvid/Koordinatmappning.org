@@ -6,8 +6,8 @@
   - Vi fastställer bildkoordinater för hörnen
   - Vi definierar hörnet till vänster närmast kameran som origo
   - Vi vill nu räkna ut en linjär transformation som omvandlar bildkoordinater för ett objekt till rumskoordinater, för objekt som ligger i xy-planet.
-    1. Vi räknar ut translationen för att förflytta origohörnet till koordinaten (0,0)
-    2. Vi roterar kring origo så att högra hörnet närmast kameran ligger i y-axeln, för att räta upp vår bana
+    1. Vi räknar ut translationen för att förflytta origohörnet till bildkoordinaten (0,0)
+    2. Vi roterar kring origo så att högra hörnet närmast kameran ligger i x-axeln, för att räta upp vår bana
     3. Vi skalar i x-led så att avståndet mellan de två mittpunkterna mellan de vänstra och högra hörnen får ett visst definierat avstånd, t ex 100
     4. Vi skalar på liknande sätt i y-led, förslagsvis mellan mellan mittpunkterna för de närmsta respektive bortersta hörnen, alltså i mitten av bilden
     5. Vi sätter samman dessa till en transformationsmatris
