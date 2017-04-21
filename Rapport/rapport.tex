@@ -117,6 +117,50 @@ Genom att placera ut noder t ex 3 eller 4 så kan man mäta upp RSSI (Recieved S
 Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats. 
 
 \chapter{Metod och utförande}
+
+För att bestämma vilken teknologi som kommer att användas till inomhus positionering systemet måste problemet formuleras och krav måste anges. Problemet som skall lösas definieras enligt följande: \\
+
+''Vi vill hitta positionen på ett objekt i ett rum. Positionen skall faställas i ett 2D plan. Eftersom en robot skall kunna hitta till olika objekt  i ett rum behöver den känna till sin position vid given tidpunkt. Objekten kommer att vara mindre hushållsobjekt.'' \\
+
+När problemet är givet kan behov för lösningen definieras. De behov som systemet skall ha är följande:
+
+\begin{itemize}
+	\item Positionen skall kunna fastställas i realtid.
+	\item Noggrannhet skall vara tillräcklig för att armen skall kunna nå objektet.
+	\item Systemet skall kunna användas i en offentlig miljö.
+	\item Systemet skall fungera i en begränsad plan yta.
+	\item Systemet skall fungera oberoende av ljusförhållanden.
+	\item Systemet skall ha ett rimligt pris.
+	\item Systemet skall kunna kommunicera med roboten.
+	\item Systemet för ej vara skadligt.
+	\item Systemet får ej vara opålitligt.
+\end{itemize}
+
+Härnäst skapas en tabell där behoven uttrycks i egenskaper med mätbara enheter.
+
+\begin{center}
+     \begin{tabular}{l | c}
+  		Positionen skall fastställas med ett intervall & Hz \\ \hline
+        Hög noggrannhet & cm\\ \hline
+        Ofarlig & subjektiv\\ \hline
+        Möjlig att integrera & subjektiv\\ \hline
+        Områden anges med riktlinjer av något slag & subjektiv \\ \hline
+        Systemet fungerar i varierande ljusförhållanden & lm \\ \hline
+        Inom skolans budget & kr \\ \hline
+        Systemet har ett överföringsprotokoll till roboten & subjektiv
+  \end{tabular}
+\end{center}
+\cleardoublepage
+För att säkerställa att alla behoven har uppfyllts av egenskaperna skapas en behov-egenskap matris.
+
+\includegraphics[scale=0.5]{behov-egenskap-matris.PNG}\\
+fig \ref{fig:behov-egenskap} \textit{Behov-egenskap matris} %varför är det 9.1???
+
+Som man ser i matrisen uppfylls alla behoven av egenskaperna och därmed är det känt vad en lösning kommer att behöva.
+
+%Systembegrepp bild??
+
+
 Här kommer vi att beskriva hur vi har gått tillväga för att nå ett resultat. Hur har vi kommit fram till vilken teknologi vi kommer att använda?
 
 Hur har vi gått till väga för att konstruera valt positioneringssystem?
