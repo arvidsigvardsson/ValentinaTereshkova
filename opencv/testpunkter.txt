@@ -1,0 +1,17 @@
+Origo - Punkt 2 : 29,5
+
+Hörn4 - Punkt 2 Distans : 378,7 
+
+Origo - Punkt 3 : 348,9
+
+Hörn 4 -Punkt 3 : 358,5
+
+
+Origo -Punkt 4 : 539,3
+
+Hörn 4 -Punkt 4 : 483,1
+
+
+Origo - Punkt 5 :  597
+
+Hörn4 - Punkt 5 : 466
