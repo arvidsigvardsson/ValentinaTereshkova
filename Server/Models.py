@@ -1,8 +1,8 @@
-#########################
-# Används ej efter Gustaf är en hater
-#
-########################
-
+###
+# Model used for coordinates, not used atm because Gustaf is a hater
+# It's working (Confirmed) but not used because of reason above
+###
+from urllib.parse import urlencode
 import json
 
 class Coordinates(object):

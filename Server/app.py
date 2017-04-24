@@ -2,7 +2,8 @@
 # Basic RESTful API to Post and Get coordinates
 #
 from flask import Flask, jsonify, abort, make_response, request
-from flask_restful import Api, Resource, reqparse
+from flask_restful import Api, reqparse
+from api import CoordinateAPI, CoordinateListAPI, Resource
 
 app = Flask(__name__)
 api = Api(app)
@@ -20,29 +21,14 @@ coordinatelist = [
     }
 ]
 
-class CoordinateListAPI(Resource):
-    def get(self):
-        pass
 
-    def post(self):
-        pass
-
-class CoordinateAPI(Resource):
-    def get(self, id):
-        pass
-
-    def put(self, id):
-        pass
-
-    def delete(self, id):
-        pass
-
-
+#Handles 404 (not found) errors
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
 
 class CoordinateListAPI(Resource):
+    #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('x', type=str, required=True, location='json')
@@ -53,23 +39,25 @@ class CoordinateListAPI(Resource):
         return make_response(jsonify({'coordinates': coordinatelist}))
 
     def post(self):
+        #json_data = request.get_json(force=True)
         args = self.reqparse.parse_args()
         coordinate = {
             'x': args['x'],
-            'y': args['y'],
+            'y': args['y']
         }
         coordinatelist.append(coordinate)
         return make_response(jsonify({'coordinate':(coordinate)}))
 
 class CoordinateAPI(Resource):
+    #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('x', type = str, location='json')
         self.reqparse.add_argument('y', type = str, location='json')
         super(CoordinateAPI,self).__init__()
 
-
     #Useless
+    #Psut for updating coordinate, not used right now
     def put(self):
         args = self.reqparse.parse_args()
         for k, v in args.iteritems():
@@ -77,6 +65,7 @@ class CoordinateAPI(Resource):
                 coordinatelist[k] = v
         return make_response(jsonify( { 'coordinate': coordinate}))
 
+    # Get- Returns the latest coordinate
     def get(self):
         coordinate = coordinatelist[-1]
         if coordinate == None:
@@ -84,8 +73,9 @@ class CoordinateAPI(Resource):
         return make_response(jsonify({'coordinate': coordinate}))
 
 
-api.add_resource(CoordinateListAPI, '/todo/api/v1.0/coordinates', endpoint = 'coordinates')
-api.add_resource(CoordinateAPI, '/todo/api/v1.0/coordinate/getlatest', endpoint = 'coordinate')
+#add api:s
+api.add_resource(CoordinateListAPI, '/srv/coordinates', endpoint = 'coordinates')
+api.add_resource(CoordinateAPI, '/srv/coordinate/getlatest', endpoint = 'coordinate')
 
 if __name__ == '__main__':
     app.run(host ='0.0.0.0')
