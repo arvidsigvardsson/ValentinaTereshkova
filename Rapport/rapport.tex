@@ -136,7 +136,7 @@ När problemet är givet kan behov för lösningen definieras. De behov som syst
 	\item Systemet får ej vara opålitligt.
 \end{itemize}
 
-Härnäst skapas en tabell där behoven uttrycks i egenskaper med mätbara enheter.
+Härnäst skapas en tabell där behoven uttrycks i egenskaper med mätbara enheter.\\
 
 \begin{center}
      \begin{tabular}{l | c}
@@ -217,8 +217,110 @@ Vi har identifierat systemets in- och utgångar och visualiserar det i figur \re
 
 Omgivningen påverkar systemet om det är objekt i vägen då alla ingångar förutom acceleration, rotation påverkas av detta. Systemet påverkas även av störande signaler i omgivningen. Systemets påverkan på omgivningen är i många fall att den skickar ut signaler som stör andra signaler
 
+\clearpage
 
 
+\section{Huvudproblem och delfunktioner}
+
+Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i ett rum har vi formulerat om lite mer abstrakt och översiktligt till inomhusposition, eftersom det är exakt detta systemet skall uppnå. Huvudproblemet delade bröt vi sedan ned i 3 olika delfunktioner som även dem var abstrakta och översiktliga men tillsammans så bildar dem huvudproblemet fast i mindre bitar.
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{delfunktioner.png}
+		\caption{Huvudproblemet och dess delfunktioner}
+		\label{fig:huvudproblem}
+	\end{center}
+\end{figure}
+
+
+\section{Delfunktioner och lösningsprinciper}
+
+Delfunktionerna visas ovan och till dessa har vi sedan försökt hitta olika lösningsprinciper genom olika metoder så som '365'-metoden och 'sex tänkande hattar'. Eftersom vårt problem är relativt avancerat så har vi kapat bort lite lösnings principer som är för avancerade och tokiga då det måste finnas en rimlighetsfaktor. De olika delfunktionerna och de olika lösningprinciperna illusteras nedan
+
+Bilaga \ref{fig:koordinatsystem} - \ref{fig:kommunikation} illustrerar detta.
+
+\section{Funktion- och medelträd}
+
+Detta trädet illustrera huvudproblemet och underfunktionerna där underfunktionerna har kombinerats ihop med dess olika lösningsprinciper. Bilaga \ref{fig:funktionmedel} visar funktion/medel-trädet.
+
+
+\section{Ordningsprincip}
+
+Nedan är en skiss på hur huvudfunktionen ser ut när vi valt ut dem lösningsprinciper som vi anser vara 'bäst'. \\
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{Blockdiagram.png}
+		\caption{Skiss av konceptet med hjälp av olika lösningsprinciper}
+		\label{fig:blockdiagram}
+	\end{center}
+\end{figure}
+
+Bildbehandlingen är starkt beroende av att vi faktiskt mätt upp och bestämt ett koordinatsystem i rummet, annars går det ej att bestämma positionen med hjälp bildbehandlingen. Däremot är SPI kommunikationen inte tekniskt beroende av bildbehandlingen och koordinatsystemet, men för att ha någon information att skicka så kan se det som delvis beroende.
+
+Ordningen är kritiskt vilket framgår av blockschemat, skulle det göras i en annan ordning skulle det ej fungera. Var del gör sin sak i blockschemat.\\
+
+
+\section{Förflyttning och provokation metoden}
+
+Tanken med förflyttning och provokation är att skapa ännu fler möjliga lösingsprinciper genom att modifiera/invertera och skapa störningar samt extremfall utifrån blockdiagrammet som gjordes i föregående steg. 
+
+Negation:
+Vi väljer att ta bort delen “bildbehandling” och ersätter det med ett antal nya idéer:
+
+Snöre:
+Man skulle kunna ha ett snöre på en rulle som sitter på en ledad arm. Beroende på hur mycket snöre som har rullat ut och i vilken riktning det hade rullats ut så skulle man kunna beräkna positionen med hjälp av de parametrarna.
+Konceptuellt en enkel idé men kan vara svår att bygga så att den blir tillräckligt känslig.
+
+WiFi/Bluetooth: Signalstyrka
+Man har t.ex. tre sändare utplacerade på golvet och en mottagare placerad på roboten och avgör sedan positionen genom att mäta signalstyrkan till de olika sändarna. 
+Hade kunnat fungera någotsånär, men vi har märkt på laborationerna att bluetooth signalstyrkan är väldigt känslig för störningar och ger inte så exakta värden. Det samma gäller för WiFi. Med tanke på hur mycket wifi signaler som finns i Niagara så kan det bli svårt att få en bra positionering med detta system.
+
+Bildbehandling två vinkar:
+
+Originaltanken med bildbehandlingen var att ha en kamera som filmar banan ovanifrån och beräknar positionen med hjälp av detta. Ett alternativ till detta är att man istället använder två kameror från olika vinklar istället fastställer koordinaterna med hjälp av det.
+
+Radiovågor och Ultraljud:
+
+Principen med dessa tekniker är väldigt lik, att objektet har en mikron(ultraljud) / mottagare(radiovågor) för att sedan bestämma den tiden det tar för ultraljudet alternativt radiovågorna att nå objektet. Då kan man bestämma sträckan och med hjälp av triangulering även positionen.
+
+
+Inversion:
+
+Tanken vi hade med inversion var att man inverterar kommunikationen, d v s roboten kommunicerar med vårt inomhuspositionering system istället för att vi informerar roboten var den befinner sig. Då skulle roboten behöva kommunicera hur mycket den har rört sig, vilken riktning m.m för att vårt system ska kunna räkna ut var roboten befinner sig. Detta skulle faktiskt vara ett realistiskt scenario, problemet som kan uppstå är att noggrannheten blir väldigt dålig. Ett integrerande fel om ingen kalibrering utförs.
+
+Man skulle även kunna invertera bildbehandlingen till ljud, så man har någon form av ljud som säger till roboten var den befinner sig och roboten lyssnar på dessa ljuden och på så sätt vet roboten var den befinner sig. 
+
+Extremfall:
+
+I vårt fall är det svårt att avgöra vad ett extremfall skulle vara exakt. Ett extremfall kan ju t ex att positionen ska kunna fastställas i ett väldigt stort rum istället för en liten yta, då skulle många lösningsprinciper för att fastställa positionen på objekt falla bort. Eftersom vid bildbehandling så skulle det vara väldigt svårt om inte omöjligt att identifiera objekt i rummet. Då hade man istället kunnat använda olika formera av ljus, t ex radiovågor för att fastställa position, eftersom ljus rör sig vid en “viss hastighet” hade det möjligtvis varit en bra lösning.
+
+Man kan även vända på pannkakan och säga att man ska bestämma positionen på en extremt liten yta, d v s molekyl/atomnivå. Det svårt att komma på lösningsprinciper för denna typen av problem, men eventuellt hade man kanske kunnat kolla på strukturen av atomerna och molekylerna för på så sätt kunna bestämma positionen. Beroende på materialet så har ju atomerna en viss struktur/mönster vilket kanske kan omformuleras till en position på något kreativt sätt.
+
+
+Störning:
+
+Skulle vi byta plats på t.ex. bildbehandling och uppmätning med måttband och pythagoras sats så hade det inneburit att vi hade bestämmer koordinater på en bild och sedan skala om det och sätta ut de verkliga positionerna i rummet. Detta skulle möjligtvis fungera, men inte särskilt effektivt eftersom om positionen ska uppdateras dynamiskt så kommer koordinatsystemet bestämmas på nytt hela tiden. Ett nytt lösningsförslag här kan vara någon form av dynamiskt koordinatsystem som hela tiden uppdateras och nya punkter sätts ut varje gång positionen på roboten uppdateras.
+
+Byter vi plats på kommunikation och de övriga delarna så händer inte så mycket och det inspirerar inte så mycket nya lösningar eftersom den enda konsekvensen blir att systemet blir icke fungerande. Då kommunikationen måste ske sist, annars har vi ingen att kommunicera, d v s saker utförs inte “rätt” ordning.
+
+Resultat och reflektion:
+
+
+........insert text pls......
+
+
+\section{Uppdaterat funktion- och medelträd}
+
+Förflyttning och provokation genererade mycket nya möjliga idéer och lösningsprinciper utifrån blockschemadiagrammet. Därför strukturerade vi om vårt funktion- och medelträd där vi skapat underfunktioner till delfunktionerna för att kategorisera de olika lösningsprinciperna. Bilaga \ref{fig:funktionmedel2} visar det uppdaterade funktions/medel-trädet.
+
+Det nya funktion/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Detta går att se i bilaga \ref{fig:koncepttabell1}.
+
+
+\section{Morfologiska matriser}
+
+När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att dem är svåra, dåliga, dyra o s v. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Detta genererade 60 olika möjliga lösningskombinationer att välja på.
 
 \chapter{Resultat}
 Vi kommer att klargöra vilka teknologi/er vi har valt för vår lösning och varför som resultat av vår konceptstudie.
@@ -263,5 +365,84 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 		\label{fig:behov-egenskap}
 	\end{center}
 \end{figure}
-\end{document}
 
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm, height=7cm, angle=0]{faststallakoordinatsystem.png}
+		\caption{Delfunktion fastställa koordinatsystem med lösningsprinciper}
+		\label{fig:koordinatsystem}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm, height=7cm, angle=0]{objekt.PNG}
+		\caption{Delfunktion fastställa koordinater med lösningsprinciper}
+		\label{fig:objekt}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,height=7cm,angle=0]{kommunikation.png}
+		\caption{Delfunktion kommunikation med lösningsprinciper}
+		\label{fig:kommunikation}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{funktionmedel.png}
+		\caption{Delfunktion kommunikation med lösningsprinciper}
+		\label{fig:funktionmedel}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{funktionmedel2.png}
+		\caption{Nytt funktion/medel-träd}
+		\label{fig:funktionmedel2}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{konceptkombtabell.png}
+		\caption{Konceptkombinationstabell}
+		\label{fig:koncepttabell1}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{trimmadtabell.png}
+		\caption{Trimmad konceptkobinationstabell }
+		\label{fig:koncepttabell2}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [angle=0]{Losningsforslag.png}
+		\caption{Möjlig lösningskombinationer }
+		\label{fig:mojligalosningar}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{HPK.png}
+		\caption{Möjliga lösningskombinationer som uppfyller krav och huvudproblem }
+		\label{fig:hpk}
+	\end{center}
+\end{figure}
+
+
+
+\end{document}

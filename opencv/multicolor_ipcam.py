@@ -48,14 +48,8 @@ while(frameCount):
     blue = cv2.inRange(hsv, lower_blue, upper_blue)
     blue = cv2.erode(blue, None, iterations=2)
     blue = cv2.dilate(blue, None, iterations=2)
-
-
     #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, kernel)
     #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, kernel)
-
-    cX = ''
-    cY = ''
-
 
     # res1 = cv2.bitwise_and(frame, frame, mask=blue)
     # res = cv2.bitwise_and(frame, frame, mask=red)
@@ -73,7 +67,7 @@ while(frameCount):
         center_red = (int(M_red["m10"] / M_red["m00"]), int(M_red["m01"] / M_red["m00"]))
         crX = center_red[0]
         crY = center_red[1]
-        (newcX, newcY) = mapper.get_mapped((crX, crY))
+        (newcrX, newcrY) = mapper.get_mapped((crX, crY))
 
         # only proceed if the radius meets a minimum size
         if radius_red > 8:
@@ -98,7 +92,6 @@ while(frameCount):
 
         # only proceed if the radius meets a minimum size
         if radius_blue > 8:
-
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
