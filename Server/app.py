@@ -39,7 +39,7 @@ class CoordinateListAPI(Resource):
         return make_response(jsonify({'coordinates': coordinatelist}))
 
     def post(self):
-        #json_data = request.get_json(force=True)
+        json_data = request.get_json(force=True)
         args = self.reqparse.parse_args()
         coordinate = {
             'x': args['x'],
