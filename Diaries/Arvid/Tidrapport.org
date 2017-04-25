@@ -3,5 +3,5 @@
   |------------+---------+---------+---------------------------------------|
   | 2017-04-17 |    0830 |    1300 | Första Fälttest Niagara               |
   | 2017-04-17 |    1300 |    1500 | Arbete med koordinatmappning i python |
-  | 2017-04-23 |    1330 |         | Fälttest Niagara                      |
+  | 2017-04-23 |    1330 |    1715 | Fälttest Niagara                      |
   |            |         |         |                                       |
