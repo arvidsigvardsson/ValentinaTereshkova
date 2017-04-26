@@ -59,7 +59,7 @@ void loop() {
   if(WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    http.begin("http://192.168.20.145:5000/srv/coordinate/getlatest");
+    http.begin("http://192.168.20.111:5000/srv/coordinate/getlatest");
     int httpCode = http.GET();
 
     if(httpCode > 0){
@@ -92,7 +92,7 @@ void loop() {
 
   
   
-  if(rxtx.available()) {
+/*  if(rxtx.available()) {
     char c = rxtx.read();
     mess += c;
     Serial.println(mess);
@@ -106,7 +106,9 @@ void loop() {
     
     mess = "";
     
-  }
+  }*/
+  String data = xcors + "-" + ycors;
+  rxtx.print(data);
   /*
   if(rxtx.available()) {
     char c = rxtx.read();
@@ -120,7 +122,7 @@ void loop() {
     mess = "";
     
   }*/
-   delay(10);
+   delay(1000);
    
   
   
