@@ -1,9 +1,5 @@
-#+OPTIONS: toc:nil
 * Teknisk dagbok - Projekt VT 2017
-** Arvid Sigvardsson
-** Datateknik och mobil IT, MAH
-
-* Dagbok
+  /Arvid Sigvardsson/
 ** 2017-04-03
 *** Teknologier
     Vi brainstormade olika ideer till postitioneringssystem:
@@ -34,10 +30,10 @@
 *** Gå vidare
     Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
 ** 2017-04-04
-*** Vi hade möte med Tommy, se [[https://github.com/arvidsigvardsson/ValentinaTereshkova/blob/master/MeetingNotes/Tommy2017-04-04.org][anteckningar]]
+   Vi hade möte med Tommy, se [[https://github.com/arvidsigvardsson/ValentinaTereshkova/blob/master/MeetingNotes/Tommy2017-04-04.org][anteckningar]]
 ** 2017-04-05
-*** Vi skrev klart planeringsdokumenten - ett Ganntdiagram, ansvarsschema och milstolpedokument
-*** Vi gjorde en preliminär backlog för projektet. Vi diskuterade fram alla de små tasks vi behöver utföra för att klara projektet. Bild av backlogg: [[./bilder/backlog2017-04-05.pdf][länk]]
+   - Vi skrev klart planeringsdokumenten - ett Ganntdiagram, ansvarsschema och milstolpedokument
+   - Vi gjorde en preliminär backlog för projektet. Vi diskuterade fram alla de små tasks vi behöver utföra för att klara projektet. Bild av backlogg: [[./bilder/backlog2017-04-05.pdf][länk]]
 ** 2017-04-07
    - Vi återkom till planeringsdokumenten och gjorde färdigt dessa och lämnade in dem
    - Vi började sammanställa vår research till en förstudie som ska ingå i rapporten 
@@ -57,3 +53,12 @@
    Första fälttestet på Niagara. Vi mätte upp en rektangulär bana på golvet i Niagara med /perfekta/ räta vinklar, som vi fick fram genom att mäta upp 3-4-5-trianglar, samt satte ut ett antal testpunkter. Vi fotade sedan detta från två olika vinklar. Rakt ovanifrån två trappor upp i Niagara är den mest lovande vinkeln. Jag antecknade koordinaterna för testpunkterna relativt hörnen i [[./niagara2017-04-17.html][detta dokument]]. 
 ** 2017-04-22
    Egentligen inte en arbetsdag, men jag byggde en ställning eller rigg för att på ett säkert sätt kunna ha den kamera vi ska använda en bit ut från kanten två våningar upp på Niagara. Detta för att den ska komma så nära mitt över banan som möjligt. Konstruktionen är i träreglar med säkerhetslina
+** 2017-04-23
+   Fälttest på Niagara. Vi testade flera saker
+   - Om vårt opencv-program kunde identifiera en lysdiod med kameran på tredje våningen
+   - Om vi kunde ha kameran ut över kanten och ca en meter ut, för att kunna filma ner på bottenplan mer eller mindre rakt uppifrån
+   - Om vi kunde få ut koordinater live via opencv och kunna mappa dem till det koordinatsystem vi definierat på golvet med hjälp av den mappningskod jag skrivit i python
+   - Hur noggrant systemet är
+   Resultatet var genomgående lyckat, med lite justeringar kunde vi identifiera lysdioder, och även liveuppdateringen fungerade. Kameran var stabil i den rigg jag byggt. Noggrannheten var mer problematiskt - koordinater i y-led hade en felmarginal på under 3cm, men i x-led var felmarginalen upp till 20cm, vilket vi inte anser godtagbart. Vi identifierade ett skäl till detta, att om dioden är en bit över marken blir felet större, vilket är rimligt. Detta planerar jag att korrigera för med lite mer avancerad geometri, där vi identifierar kamerans position bland annat. Detta verkar dock inte lösa hela felet. Vi tror att om vi kartlägger hur stort felet är på olika platser på banan kan vi i koden kompensera för detta och komma ner under 10cm felmarginal med opencv-metoden.
+** 2017-04-24
+   Idag utvärderade vi fälttestet från igår. Annars hände ingenting

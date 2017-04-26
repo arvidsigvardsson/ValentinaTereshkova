@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Atmel Studio Solution File, Format Version 11.00
+Project("{54F91283-7BC4-4236-8FF9-10F437C3AD48}") = "ESPTest", "ESPTest\ESPTest.cproj", "{16ABE51D-2387-450F-9D17-179E8EFFF34D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Release|ARM = Release|ARM
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{16ABE51D-2387-450F-9D17-179E8EFFF34D}.Debug|ARM.ActiveCfg = Debug|ARM
+		{16ABE51D-2387-450F-9D17-179E8EFFF34D}.Debug|ARM.Build.0 = Debug|ARM
+		{16ABE51D-2387-450F-9D17-179E8EFFF34D}.Release|ARM.ActiveCfg = Release|ARM
+		{16ABE51D-2387-450F-9D17-179E8EFFF34D}.Release|ARM.Build.0 = Release|ARM
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
