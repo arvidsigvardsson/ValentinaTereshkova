@@ -4,18 +4,21 @@
 from flask import Flask, jsonify, abort, make_response, request
 from flask_restful import Api, reqparse
 from api import CoordinateAPI, CoordinateListAPI, Resource
-import json
 
 app = Flask(__name__)
 api = Api(app)
 
 coordinatelist = [
+
+
     {
+        'color':'blue',
         'x' : 100,
         'y' : 100
     },
 
     {
+        'color':'blue',
         'x' : 200,
         'y' : 200
 
@@ -32,18 +35,19 @@ class CoordinateListAPI(Resource):
     #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('color', type=str, required=True, location='json')
         self.reqparse.add_argument('x', type=str, required=True, location='json')
         self.reqparse.add_argument('y', type =str, required = True, location='json')
         super(CoordinateListAPI, self).__init__()
 
     def get(self):
-        return make_response(json.dumps(coordinatelist))
-        #return make_response(jsonify('coordinates' : coordinatelist))
+        return make_response(jsonify({'coordinates': coordinatelist}))
 
     def post(self):
         json_data = request.get_json(force=True)
         args = self.reqparse.parse_args()
         coordinate = {
+            'color': args['color']
             'x': args['x'],
             'y': args['y']
         }
@@ -54,6 +58,7 @@ class CoordinateAPI(Resource):
     #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
+        self.reqparse.add_argument('color', type = str, location='json')
         self.reqparse.add_argument('x', type = str, location='json')
         self.reqparse.add_argument('y', type = str, location='json')
         super(CoordinateAPI,self).__init__()

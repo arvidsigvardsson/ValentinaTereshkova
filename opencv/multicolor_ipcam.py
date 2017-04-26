@@ -2,6 +2,7 @@ import cv2
 import urllib
 import imutils
 import numpy as np
+import time
 from collections import deque
 from coordmapping import Mapper
 from threading import Thread
@@ -9,7 +10,12 @@ from post_request import send_request
 
 
 
+<<<<<<< Updated upstream
 url = 'http://192.168.20.145:5000/srv/coordinates'
+=======
+
+url = 'http://192.168.20.133:5000/srv/coordinates'
+>>>>>>> Stashed changes
 
 
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
@@ -19,6 +25,7 @@ mapper = Mapper((180, 461), (634,434), (603,84), (172, 107), 500, 400)
 
 
 while(frameCount):
+    startTime = int(round(time.time() * 1000))
     bytes+=stream.read(1024)
     a = bytes.find('\xff\xd8')
     b = bytes.find('\xff\xd9')
@@ -111,7 +118,9 @@ while(frameCount):
                 frameCount = 1
 
 
-
+    endTime = int(round(time.time() * 1000))
+    oneFrame = endTime - startTime
+    print('One frame time: %d', oneFrame)
     cv2.imshow('frame', frame)
     cv2.imshow('red', red)
     cv2.imshow('blue', blue)
