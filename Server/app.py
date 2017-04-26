@@ -4,6 +4,7 @@
 from flask import Flask, jsonify, abort, make_response, request
 from flask_restful import Api, reqparse
 from api import CoordinateAPI, CoordinateListAPI, Resource
+import json
 
 app = Flask(__name__)
 api = Api(app)
@@ -36,7 +37,8 @@ class CoordinateListAPI(Resource):
         super(CoordinateListAPI, self).__init__()
 
     def get(self):
-        return make_response(jsonify({'coordinates': coordinatelist}))
+        return make_response(json.dumps(coordinatelist))
+        #return make_response(jsonify('coordinates' : coordinatelist))
 
     def post(self):
         json_data = request.get_json(force=True)
