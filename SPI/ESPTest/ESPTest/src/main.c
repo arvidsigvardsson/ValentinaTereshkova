@@ -48,6 +48,7 @@ static uint32_t *const p_PIOB_CODR = (uint32_t *) (PIOB_BASE_ADDRESS+0x0034U);
 /*#define US_CR 0x4009C000U
 static uint32_t *const p_US_CR = (uint32_t *) US_CR;*/
 uint8_t c_counter = 0;
+char rx[7];
 
 int contains(char rx) {
 	for (uint8_t i = 0; i < sizeof(alphabet); i++)
@@ -236,20 +237,16 @@ void recieveRX2() {
 }
 
 void USART1_Handler() {
-	//lcdClearDisplay();
-	CONF_UART->US_CR;// |= (1 << US_CR_RSTRX);
-	lcdWrite(CONF_UART->US_RHR & US_RHR_RXCHR_Msk, HIGH);
-	/*c_counter++;
-	if(c_counter > 6) {
-		lcdClearDisplay();
+	CONF_UART->US_CR |= (1 << US_CR_RSTRX);
+	rx[c_counter++] = CONF_UART->US_RHR & US_RHR_RXCHR_Msk;
+	if (c_counter > 8)
+	{
 		c_counter = 0;
-	}*/
+	}
 	if (CONF_UART->US_CSR & (1 << US_CSR_RXBUFF))
 	{
 		lcdWrite('-', HIGH);
 	}
-	//char rx[7];
-	//usart_serial_read_packet(CONF_UART, &rx, 7);
 }
 
 int main (void)
@@ -261,47 +258,22 @@ int main (void)
 	configureConsole();
 	NVIC_EnableIRQ((IRQn_Type) ID_USART1);
 	usart_enable_interrupt(CONF_UART, UART_IER_RXRDY);
-	//uint32_t xCoordinate, yCoordinate;
-	//lcdWrite('a', HIGH);
-	//lcdWrite('b', HIGH);
-	//lcdWrite('c', HIGH);
-	//delayMicroseconds(2000000);
-	//lcdClearDisplay();
-	
+	lcdWriteAsciiString("abc");
+	delayMicroseconds(1000000);
 	while (1)
 	{
 		lcdClearDisplay();
-		//delayMicroseconds(1000000);
-		//sendTXReq();
-		//recieveRX(&xCoordinate, &yCoordinate);
-		//recieveRX2();
-		//delayMicroseconds(500000);
+		lcdWrite(rx[0], HIGH);
+		lcdWrite(rx[1], HIGH);
+		lcdWrite(rx[2], HIGH);
+		lcdWrite(rx[3], HIGH);
+		lcdWrite(0xC0, LOW);
+		lcdWrite(rx[5], HIGH);
+		lcdWrite(rx[6], HIGH);
+		lcdWrite(rx[7], HIGH);
+		lcdWrite(rx[8], HIGH);
+		delayMicroseconds(250000);
 	}
-	
-	/*
-	atCommands selection[10] = {AT_RST, AT, AT_CWMODE, AT_CWJAP, AT_CWJAP_CHECK, AT_CIPSTART, AT_STATUS, AT_CIPSEND, AT_GET};
-	uint8_t counter = 0;
-	lcdWriteAsciiString("Booting...");
-	delayMicroseconds(1000000);
-	while(1) {
-		lcdClearDisplay();
-		sendATCommand(selection[counter++]);
-		delayMicroseconds(6000000);
-		if (counter > sizeof(selection) - 1) break;
-	}
-	
-	
-	for (uint32_t i = 0; i < char_counter; i++)
-	{
-		if (contains(rx[i]))
-		{
-			lcdWrite(rx[i], HIGH);
-		}
-		
-	}
-	*/
-	while(1);
-	// Insert application code here, after the board has been initialized.
 }
 
 
