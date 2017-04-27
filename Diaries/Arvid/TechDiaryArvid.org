@@ -1,5 +1,6 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
+#+OPTIONS: num:nil
 # #+HTML_HEAD: <link rel="stylesheet" type="text/css" href=org-style.css"
 * Teknisk dagbok - Projekt VT 2017
   /Arvid Sigvardsson/
@@ -67,3 +68,5 @@
    Idag utvärderade vi fälttestet från igår. Annars hände ingenting
 ** 2017-04-25
    Föreläsning om testning på förmiddagen. På eftermiddagen hade vi gruppseminarium där vi fastställde en kravspecifikation och började skriva testfall
+** 2017-04-27
+   På förmiddagen satt jag och Anton och renskrev rapporten inför inlämning till M2. Vi har en hel del skrivet material att arbeta med, som vi framställt till största delen på seminarierna. Problemet blir att få ihop en rapport som går att läsa utan att ha tagit del av seminarieinstruktionerna. Just nu känns texten mest som ett svar på frǻgor, inte en fristående text. Jag tror inte att vi kommer hinna skriva om allt det till M2-inlämningen, det får nog vänta till slutinlämningen.
