@@ -1,3 +1,5 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
 * Mätning på Niagara
   Vi mätte upp en rektangel, 400x300cm, på golvet i bottenplan Niagara, och fotade från två vinklar, en från balustraden en trappa upp, lite snett, och från tredje våningen, ungefär rakt uppifrån. Vi märkte upp tre testpunkter, som vi satte en markör med känd höjd över (en back med klisterlapp).
 ** Koordinater för testpunkterna

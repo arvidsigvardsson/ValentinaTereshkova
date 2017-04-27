@@ -1,7 +1,15 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
 * Tidrapport Arvid Sigvardsson
-  |      Datum | Från kl | Till kl | Resultat eller kommentar              |
-  |------------+---------+---------+---------------------------------------|
-  | 2017-04-17 |    0830 |    1300 | Första Fälttest Niagara               |
-  | 2017-04-17 |    1300 |    1500 | Arbete med koordinatmappning i python |
-  | 2017-04-23 |    1330 |    1715 | Fälttest Niagara                      |
-  |            |         |         |                                       |
+  |      Datum | Aktivitet                             | Nedlagd tid | Kommentar eller resultat                       |
+  |------------+---------------------------------------+-------------+------------------------------------------------|
+  | 2017-04-03 | Brainstorming och idegenerering       |           3 | Se kronologisk journal...                      |
+  | 2017-04-03 | Research på olika metoder             |           3 |                                                |
+  | 2017-04-17 | Första Fälttest Niagara               |        4:30 | [[./niagara2017-04-17.html][anteckningar]]                                   |
+  | 2017-04-17 | Arbete med koordinatmappning i python |           2 | filen coordmapping.py i kodrepot               |
+  | 2017-04-22 | Konstruktion av kamerarigg            |           2 |                                                |
+  | 2017-04-23 | Fälttest Niagara                      |        3:45 |                                                |
+  | 2017-04-24 | Arbete med dagbok och milstolpar      |           4 |                                                |
+  | 2017-04-25 | Föreläsning om testning               |           3 |                                                |
+  | 2017-04-25 | Seminarieuppgift om testning          |           4 | Kravspecifikation och testdokument i rapporten |
+  |            |                                       |             |                                                |
