@@ -171,7 +171,7 @@ Syftet med den tekniska lösningen är att roboten skall veta var den befinner s
 
 Målet med den tekniska lösningen är positionen inte skiljer sig från robotens faktiska position.
 
-\section{Systemkrav}
+\section{Systemkrav}\label{sec:syskrav}
 För att utveckla en produkt, i vårt fall ett positioneringssystem, krävs det att innan man börjar sätter upp ett antal krav som man vill att produkten ska uppfylla. Uppgiftsbeskrivningen listar ett fåtal krav och vi har genom diskussion kommit fram till följande kravspecifikation:
 \begin{itemize}
 \item Positionen skall kunna fastställas i realtid.
@@ -311,16 +311,60 @@ Resultat och reflektion:
 ........insert text pls......
 
 
-\section{Uppdaterat funktion- och medelträd}
+\section{Uppdaterat funktions/medel-träd}
 
 Förflyttning och provokation genererade mycket nya möjliga idéer och lösningsprinciper utifrån blockschemadiagrammet. Därför strukturerade vi om vårt funktion- och medelträd där vi skapat underfunktioner till delfunktionerna för att kategorisera de olika lösningsprinciperna. Bilaga \ref{fig:funktionmedel2} visar det uppdaterade funktions/medel-trädet.
 
-Det nya funktion/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Detta går att se i bilaga \ref{fig:koncepttabell1}.
+Det nya funktions/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Detta går att se i bilaga \ref{fig:koncepttabell1}.
 
 
 \section{Morfologiska matriser}
 
-När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att dem är svåra, dåliga, dyra o s v. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Detta genererade 60 olika möjliga lösningskombinationer att välja på.
+När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att dem är svåra, dåliga, dyra o s v. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Den nya matrisen genererade 60 olika möjliga lösningskombinationer att välja på. Där de olika lösningskombinationerna bedömdes om de uppfyller huvudproblem, men även kraven på systemet. En något för kortad matris med bedömningen går att se i bilaga \ref{fig:hpk}.
+
+\section{5 mest lovande lösningsvarianter}
+
+Utifrån den morfologiska matrisen med bedömning om vilka lösningsvarianter som uppfyller huvudproblemet samt kraven så valde vi ut de 5 mest lovande lösningsvarianterna. Vilka lösningsvarianter detta är och beskrivning av dem visas i bilaga \ref{fig:5koncept}
+
+
+\section{Kriterium och viktning}
+
+
+Kriterierna är valda delvis med egna uppsatta kriterier men även kraven från uppgiftsbeskrivningen. 
+
+Noggrannhet:
+
+Detta kriterium valde vi eftersom detta är kritiskt och väger därför väldigt tungt, hamnar roboten för lång ifrån objekten som ska plockas upp på grund av dålig noggrannhet så kommer det inte fungera alls bra. Detta delades upp i två delkriterier, precision och uppdateringsfrekvens eftersom om uppdateringsfrekvensen är för långsam så kommer roboten behöva röra sig väldigt långsamt för att få bra noggrannhet, samtidigt är precisionen för dålig så kommer roboten inte kunna navigera fram objekten. Den totala vikten för noggrannhet fördelades då över dessa två delkriterier efter hur viktiga vi ansåg precision och uppdateringsfrekvens var.
+
+
+Offentlig miljö:
+
+Att systemet ska fungera i en offentlig miljö har vi tagit med eftersom vi dels har fått som krav från uppgiftsbeskrivningen att det inte ska vara farligt, och därmed inte innehålla laser. Detta kriteriet har vi också delat upp i två delkriteriet eftersom utöver att det inte ska innehålla laser, d v s ofarligt så har vi även ett till som är fungera med publik. Eftersom under demodagen så kommer det antagligen vara en liten publik som tittar på demonstrationen och detta kan påverka systemet. Båda dessa delkriterierna har fått en relativt låg viktning eftersom området kommer i någon mån vara avspärrat och fritt från människor. Men även de faktum att ingen av våra fem mest lovande lösningsvarianter involverar laser.
+
+
+Pris:
+
+Pris valde vi som ett kriterium eftersom det är väldigt relevant att lösningsvarianter inte får kosta för mycket, viss utrustning vi har kollat på är väldigt dyr och detta måste då vara med och viktas in i bedömningen om vilket teknik som är mest lämplig. Viktningen av detta kriteriet baseras på den information om kostnader vi har hittat när vi titta på de olika teknikerna. Det är endast ett fåtal tekniker som är för dyra att implementera, därför är viktningen relativt låg.
+
+
+
+Implementering:
+
+Eftersom beroende på tekniken som väljs så är dem olika svåra att implementera. Vissa tekniker är väldigt svåra att använda sig av och bör också vägas in när man bestämmer vilket koncept man skall använda sig av. Men även av den anledningen att vi enligt uppgiftsbeskrivningen i M2 skall ha ett enklare positioneringssystem klart, och sedan i M3 leverera ett mer avancerat. Genom att ändra på vikten på detta kriterium så får man en bra känsla vad som är lämpligt som är ett enklare respektive avancerat system. Detta kriteriet fick en ganska stor viktning eftersom det är väldigt begränsat med tid och därav är väldigt viktigt att vi inte ger oss på något som är för svårt.
+
+Kriteriumen och viktningen går att se i bilaga \ref{fig:kriteriumvikt}
+
+
+\section{Bedömning av kriterium}
+
+Kriteriumen har vi sedan gett en bedömningsskala som är likadan för alla kriterium. Eftersom om viktningen ska ha någon inverkan är det viktigt att samtliga kriterier bedöms med samma skala, annars är det meningslöst med viktningen.
+
+Bedömingsskalan och kriterium går att se i bilaga \ref{fig:bedomningskala}
+
+\section{Bedömning av lösningsvarianterna för varje kriterium}
+
+
+
 
 \chapter{Resultat}
 Vi kommer att klargöra vilka teknologi/er vi har valt för vår lösning och varför som resultat av vår konceptstudie.
@@ -443,6 +487,30 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 	\end{center}
 \end{figure}
 
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{5koncept.png}
+		\caption{De 5 mest lovande lösningsvarianterna }
+		\label{fig:5koncept}
+	\end{center}
+\end{figure}
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{kriteriumvikt.png}
+		\caption{Kriterium med viktning }
+		\label{fig:kriteriumvikt}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{bedomningskala.png}
+		\caption{Kriterium med bedömningsskala }
+		\label{fig:bedomningskala}
+	\end{center}
+\end{figure}
 
 
 \end{document}

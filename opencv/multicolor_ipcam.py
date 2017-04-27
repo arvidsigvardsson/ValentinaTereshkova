@@ -10,12 +10,10 @@ from post_request import send_request
 
 
 
-<<<<<<< Updated upstream
-url = 'http://192.168.20.145:5000/srv/coordinates'
-=======
 
-url = 'http://192.168.20.133:5000/srv/coordinates'
->>>>>>> Stashed changes
+url = 'http://192.168.20.111:5000/srv/coordinates'
+
+#url = 'http://192.168.20.133:5000/srv/coordinates'
 
 
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
@@ -120,7 +118,7 @@ while(frameCount):
 
     endTime = int(round(time.time() * 1000))
     oneFrame = endTime - startTime
-    print('One frame time: %d', oneFrame)
+    print('One frame time:' + str(oneFrame))
     cv2.imshow('frame', frame)
     cv2.imshow('red', red)
     cv2.imshow('blue', blue)
