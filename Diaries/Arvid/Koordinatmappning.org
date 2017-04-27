@@ -1,3 +1,5 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
 * Mappning av koordinater från kamerabild
   Vår plan är att filma med en kamera, antingen rakt ovanifrån, eller snett uppifrån, och identifiera en lysdiod som är fäst på roboten och fastställa dess koordinater. Som referensram kommer vi att markera banans hörn och mäta upp avståndet mellan dem och se till att de ligger i räta vinklar mot varandra. En förutsättning för kommande resonemang är att vi kan få ut en koordinat från bilden för det objekt vi vill fastställa positionen på, samt att vi får ut koordinaterna för hörnen.
   - Vi skiljer på bildkoordinater, vilka är koordinaterna som fås från videobilden, och rumskoordinater, som är de fysiska koordinaterna i rummet på Niagara

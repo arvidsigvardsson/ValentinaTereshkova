@@ -1,5 +1,6 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
+# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href=org-style.css"
 * Teknisk dagbok - Projekt VT 2017
   /Arvid Sigvardsson/
 ** 2017-04-03

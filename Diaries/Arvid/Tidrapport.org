@@ -1,3 +1,5 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
 * Tidrapport Arvid Sigvardsson
   |      Datum | Aktivitet                             | Nedlagd tid | Kommentar eller resultat                       |
   |------------+---------------------------------------+-------------+------------------------------------------------|
