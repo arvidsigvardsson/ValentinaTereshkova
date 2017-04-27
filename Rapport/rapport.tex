@@ -122,11 +122,11 @@ För att bestämma vilken teknologi som kommer att användas till inomhus positi
 
 ''Vi vill hitta positionen på ett objekt i ett rum. Positionen skall faställas i ett 2D plan. Eftersom en robot skall kunna hitta till olika objekt  i ett rum behöver den känna till sin position vid given tidpunkt. Objekten kommer att vara mindre hushållsobjekt.'' \\
 
-När problemet är givet kan behov för lösningen definieras. De behov som systemet skall ha är följande:
+När problemet är givet kan behov för lösningen definieras. De behov vi identifierat är:
 
 \begin{itemize}
 	\item Positionen skall kunna fastställas i realtid.
-	\item Noggrannhet skall vara tillräcklig för att armen skall kunna nå objektet.
+	\item Noggrannhet skall vara tillräcklig för att en påbyggnad på roboten ska kunna nå objektet.
 	\item Systemet skall kunna användas i en offentlig miljö.
 	\item Systemet skall fungera i en begränsad plan yta.
 	\item Systemet skall fungera oberoende av ljusförhållanden.
@@ -136,7 +136,8 @@ När problemet är givet kan behov för lösningen definieras. De behov som syst
 	\item Systemet får ej vara opålitligt.
 \end{itemize}
 
-Härnäst skapas en tabell där behoven uttrycks i egenskaper med mätbara enheter.\\
+%% Härnäst skapas en tabell där behoven uttrycks i egenskaper med mätbara enheter.\\
+Vi har gjort en tabell där behoven uttrycks i egenskaper med mätbara enheter.\\
 
 \begin{center}
      \begin{tabular}{l | c}
@@ -161,51 +162,47 @@ Som man ser i matrisen uppfylls alla behoven av egenskaperna och därmed är det
 %Systembegrepp bild??
 
 
-Här kommer vi att beskriva hur vi har gått tillväga för att nå ett resultat. Hur har vi kommit fram till vilken teknologi vi kommer att använda?
-
-Hur har vi gått till väga för att konstruera valt positioneringssystem?
-Vilka resurser har vi använt oss av?
-
 \section{Syfte och mål för vår tekniska lösning}
 Syftet med den tekniska lösningen är att roboten skall veta var den befinner sig.
 
 Målet med den tekniska lösningen är positionen inte skiljer sig från robotens faktiska position.
 
-\section{Systemkrav}\label{sec:syskrav}
-För att utveckla en produkt, i vårt fall ett positioneringssystem, krävs det att innan man börjar sätter upp ett antal krav som man vill att produkten ska uppfylla. Uppgiftsbeskrivningen listar ett fåtal krav och vi har genom diskussion kommit fram till följande kravspecifikation:
-\begin{itemize}
-\item Positionen skall kunna fastställas i realtid.
-\item Noggrannhet skall vara tillräcklig för att armen skall kunna nå objektet.
-\item Systemet skall kunna användas i en offentlig miljö.
-\item Systemet skall fungera oberoende av hur roboten är designad.
-\item Systemet skall fungera i en begränsad plan yta.
-\item Systemet skall fungera oberoende av ljusförhållanden.
-\item Systemet skall ha ett rimligt pris.
-\item Systemet skall kunna kommunicera med roboten.
+% Jag kommenterar ut nästa stycke, tror inte vi ska ha med det...
+%% \section{Systemkrav}\label{sec:syskrav}
+%% För att utveckla en produkt, i vårt fall ett positioneringssystem, krävs det att innan man börjar sätter upp ett antal krav som man vill att produkten ska uppfylla. Uppgiftsbeskrivningen listar ett fåtal krav och vi har genom diskussion kommit fram till följande kravspecifikation:
+%% \begin{itemize}
+%% \item Positionen skall kunna fastställas i realtid.
+%% \item Noggrannhet skall vara tillräcklig för att armen skall kunna nå objektet.
+%% \item Systemet skall kunna användas i en offentlig miljö.
+%% \item Systemet skall fungera oberoende av hur roboten är designad.
+%% \item Systemet skall fungera i en begränsad plan yta.
+%% \item Systemet skall fungera oberoende av ljusförhållanden.
+%% \item Systemet skall ha ett rimligt pris.
+%% \item Systemet skall kunna kommunicera med roboten.
 
-\end{itemize}
- Dessa kan sedan översättas till en lista som är är mer lämpad att arbeta utefter:
- \begin{center}
-     \begin{tabular}{ c | c}
-     	Mätbar Egenskap & Enheter  \\ \hline
-  		Positionen ska fastställas med ett visst intervall & Hz  \\ \\
-        Hög noggrannhet & cm\\ \\ 
-        Ofarlig & subj. \\ \\
-        Möjlig att integrera & subj.\\ \\
-        Områden följer förutbestämda riktlinjer & subj\\ \\
-        Systemet ska fungera i varierade ljusförhållanden & lm\\ \\
-        Kostnaden ska täckas av skolans budget & kr  \\ \\
-        Systemet har ett överföringsprotokoll till roboten & subj.\\ 
+%% \end{itemize}
+%%  Dessa kan sedan översättas till en lista som är är mer lämpad att arbeta utefter:
+%%  \begin{center}
+%%      \begin{tabular}{ c | c}
+%%      	Mätbar Egenskap & Enheter  \\ \hline
+%%   		Positionen ska fastställas med ett visst intervall & Hz  \\ \\
+%%         Hög noggrannhet & cm\\ \\ 
+%%         Ofarlig & subj. \\ \\
+%%         Möjlig att integrera & subj.\\ \\
+%%         Områden följer förutbestämda riktlinjer & subj\\ \\
+%%         Systemet ska fungera i varierade ljusförhållanden & lm\\ \\
+%%         Kostnaden ska täckas av skolans budget & kr  \\ \\
+%%         Systemet har ett överföringsprotokoll till roboten & subj.\\ 
 
-  \end{tabular}
-  \end{center}
+%%   \end{tabular}
+%%   \end{center}
 
-Vi kan nu sätta ihop dessa i en s.k. behov-egenskapsmatris som kan ses i bilaga \ref{fig:behov-egenskap}
+%% Vi kan nu sätta ihop dessa i en s.k. behov-egenskapsmatris som kan ses i bilaga \ref{fig:behov-egenskap}
 \section{Problembeskrivning}
-Vi vill hitta positionen på ett objekt i ett rum. Positionen skall fastställas i ett 2D plan. Eftersom en robot ska kunna hitta till olika objekt i ett rum behöver denna känna till sin position vid given tidpunkt. Objekten kommer att vara mindre hushållsobjekt.
+\subsection{Jämförelse med existerande system}
+Vi har i teoriavsnittet tagit upp hur liknande, fast etablerade system, fungerar. Det som skiljer de systemen från vårt är att vårt system har väldigt specifikt användningsområde. Vårt system ska t.ex. inte användas i totalt mörker. Ytan är inte heller dynamisk utan noga uträknad för att kalibrera systemet. Det är alltså inte troligt att vårt system, utan större vidareutvecklingar, hade fungerat i t.ex. ett varuhus. Vi har även endast en användare åt gången vilket förenklar positioneringen något.
 
-Vi har i teoriavsnittet tagit upp hur liknande, fast etablerade system, fungerar. Det som skiljer de systemen från vårt är att vårt system har väldigt specifikt användningsområde. Vårt system ska t.ex. inte användas i totalt mörker. Ytan är inte heller dynamisk ytan noga uträknad för att kalibrera systemet. Det är alltså inte troligt att vårt system, utan större vidareutvecklingar, hade fungerat i t.ex. ett varuhus. Vi har även endast en användare vilket förenklar positioneringen något.
-
+\subsection{Systemet och omgivningen}
 Vi har identifierat systemets in- och utgångar och visualiserar det i figur \ref{fig:system-omgivning}
 \begin{figure}[H]
 	\begin{center}
@@ -222,7 +219,7 @@ Omgivningen påverkar systemet om det är objekt i vägen då alla ingångar fö
 
 \section{Huvudproblem och delfunktioner}
 
-Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i ett rum har vi formulerat om lite mer abstrakt och översiktligt till inomhusposition, eftersom det är exakt detta systemet skall uppnå. Huvudproblemet delade bröt vi sedan ned i 3 olika delfunktioner som även dem var abstrakta och översiktliga men tillsammans så bildar dem huvudproblemet fast i mindre bitar.
+Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i ett rum, har vi formulerat om lite mer abstrakt och översiktligt till inomhusposition eftersom det är exakt detta systemet skall uppnå. Huvudproblemet bröt vi sedan ned i tre olika delfunktioner som även de var abstrakta och översiktliga.
 
 \begin{figure}[H]
 	\begin{center}
@@ -235,9 +232,7 @@ Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i e
 
 \section{Delfunktioner och lösningsprinciper}
 
-Delfunktionerna visas ovan och till dessa har vi sedan försökt hitta olika lösningsprinciper genom olika metoder så som '365'-metoden och 'sex tänkande hattar'. Eftersom vårt problem är relativt avancerat så har vi kapat bort lite lösnings principer som är för avancerade och tokiga då det måste finnas en rimlighetsfaktor. De olika delfunktionerna och de olika lösningprinciperna illusteras nedan
-
-Bilaga \ref{fig:koordinatsystem} - \ref{fig:kommunikation} illustrerar detta.
+Delfunktionerna visas ovan och till dessa har vi sedan försökt hitta olika lösningsprinciper genom olika metoder så som '365'-metoden och 'sex tänkande hattar'. Eftersom vårt problem är relativt avancerat så har vi kapat bort lite lösnings principer som är för avancerade och tokiga då det måste finnas en rimlighetsfaktor. De olika delfunktionerna och de olika lösningprinciperna illusteras i bilaga \ref{fig:koordinatsystem} - \ref{fig:kommunikation}.
 
 \section{Funktion- och medelträd}
 
@@ -257,44 +252,42 @@ Nedan är en skiss på hur huvudfunktionen ser ut när vi valt ut dem lösningsp
 	\end{center}
 \end{figure}
 
-Bildbehandlingen är starkt beroende av att vi faktiskt mätt upp och bestämt ett koordinatsystem i rummet, annars går det ej att bestämma positionen med hjälp bildbehandlingen. Däremot är SPI kommunikationen inte tekniskt beroende av bildbehandlingen och koordinatsystemet, men för att ha någon information att skicka så kan se det som delvis beroende.
+Bildbehandlingen är starkt beroende av att vi faktiskt mätt upp och bestämt ett koordinatsystem i rummet, annars går det ej att bestämma positionen med hjälp bildbehandlingen. Däremot är SPI-kommunikationen inte tekniskt beroende av bildbehandlingen och koordinatsystemet. Men utan deras bidrag har kommunikationsdelen ingen data att skicka, och därför ser vi den som beroende av de andra blocken.
 
-Ordningen är kritiskt vilket framgår av blockschemat, skulle det göras i en annan ordning skulle det ej fungera. Var del gör sin sak i blockschemat.\\
+Ordningen är kritiskt vilket framgår av blockschemat, skulle det göras i en annan ordning skulle det ej fungera. 
 
 
 \section{Förflyttning och provokation metoden}
 
-Tanken med förflyttning och provokation är att skapa ännu fler möjliga lösingsprinciper genom att modifiera/invertera och skapa störningar samt extremfall utifrån blockdiagrammet som gjordes i föregående steg. 
+Tanken med förflyttning och provokation är att skapa ännu fler möjliga lösingsprinciper genom att modifiera, invertera och skapa störningar och extremfall utifrån blockdiagrammet som gjordes i föregående steg. 
 
 Negation:
-Vi väljer att ta bort delen “bildbehandling” och ersätter det med ett antal nya idéer:
+Vi väljer att ta bort delen “bildbehandling” och ersätter den med ett antal nya idéer:
 
 Snöre:
 Man skulle kunna ha ett snöre på en rulle som sitter på en ledad arm. Beroende på hur mycket snöre som har rullat ut och i vilken riktning det hade rullats ut så skulle man kunna beräkna positionen med hjälp av de parametrarna.
 Konceptuellt en enkel idé men kan vara svår att bygga så att den blir tillräckligt känslig.
 
-WiFi/Bluetooth: Signalstyrka
+WiFi/Bluetooth: 
 Man har t.ex. tre sändare utplacerade på golvet och en mottagare placerad på roboten och avgör sedan positionen genom att mäta signalstyrkan till de olika sändarna. 
-Hade kunnat fungera någotsånär, men vi har märkt på laborationerna att bluetooth signalstyrkan är väldigt känslig för störningar och ger inte så exakta värden. Det samma gäller för WiFi. Med tanke på hur mycket wifi signaler som finns i Niagara så kan det bli svårt att få en bra positionering med detta system.
+Hade kunnat fungera någotsånär, men vi har märkt på laborationer i tidigare kurser att bluetooth signalstyrkan är väldigt känslig för störningar och ger inte så exakta värden. Det samma gäller för wifi. Med tanke på hur mycket wifi-signaler som finns i Niagara så kan det bli svårt att få en bra positionering med detta system.
 
 Bildbehandling två vinkar:
-
-Originaltanken med bildbehandlingen var att ha en kamera som filmar banan ovanifrån och beräknar positionen med hjälp av detta. Ett alternativ till detta är att man istället använder två kameror från olika vinklar istället fastställer koordinaterna med hjälp av det.
+Originaltanken med bildbehandlingen var att ha en kamera som filmar banan ovanifrån och beräknar positionen med hjälp av detta. Ett alternativ till detta är att man istället använder två kameror från olika vinklar istället fastställer koordinaterna med hjälp av triangulering.
 
 Radiovågor och Ultraljud:
-
-Principen med dessa tekniker är väldigt lik, att objektet har en mikron(ultraljud) / mottagare(radiovågor) för att sedan bestämma den tiden det tar för ultraljudet alternativt radiovågorna att nå objektet. Då kan man bestämma sträckan och med hjälp av triangulering även positionen.
+Principen för dessa tekniker är ungefär samma, att objektet har en mikrofon (ultraljud) / mottagare (radiovågor) för att sedan bestämma tiden det tar för ultraljudet alternativt radiovågorna att nå objektet. Då kan man bestämma sträckan och med hjälp av trilaterering även positionen.
 
 
 Inversion:
 
-Tanken vi hade med inversion var att man inverterar kommunikationen, d v s roboten kommunicerar med vårt inomhuspositionering system istället för att vi informerar roboten var den befinner sig. Då skulle roboten behöva kommunicera hur mycket den har rört sig, vilken riktning m.m för att vårt system ska kunna räkna ut var roboten befinner sig. Detta skulle faktiskt vara ett realistiskt scenario, problemet som kan uppstå är att noggrannheten blir väldigt dålig. Ett integrerande fel om ingen kalibrering utförs.
+Tanken vi hade med inversion var att man inverterar kommunikationen, d v s roboten kommunicerar med vårt inomhuspositionering system istället för att vi informerar roboten om var den befinner sig. Då skulle roboten behöva kommunicera hur mycket den har rört sig, vilken riktning m.m för att vårt system ska kunna räkna ut var roboten befinner sig. Detta skulle faktiskt vara ett realistiskt scenario, problemet som kan uppstå är att noggrannheten blir väldigt dålig. Ett integrerande fel om ingen kalibrering utförs.
 
 Man skulle även kunna invertera bildbehandlingen till ljud, så man har någon form av ljud som säger till roboten var den befinner sig och roboten lyssnar på dessa ljuden och på så sätt vet roboten var den befinner sig. 
 
 Extremfall:
 
-I vårt fall är det svårt att avgöra vad ett extremfall skulle vara exakt. Ett extremfall kan ju t ex att positionen ska kunna fastställas i ett väldigt stort rum istället för en liten yta, då skulle många lösningsprinciper för att fastställa positionen på objekt falla bort. Eftersom vid bildbehandling så skulle det vara väldigt svårt om inte omöjligt att identifiera objekt i rummet. Då hade man istället kunnat använda olika formera av ljus, t ex radiovågor för att fastställa position, eftersom ljus rör sig vid en “viss hastighet” hade det möjligtvis varit en bra lösning.
+I vårt fall är det svårt att avgöra vad ett extremfall skulle vara. Ett extremfall kan ju t ex vara att positionen ska kunna fastställas i ett väldigt stort rum istället för på en liten yta, då skulle många lösningsprinciper för att fastställa positionen på objekt falla bort. Exempelvis skulle lösningar med kamera inte fungera då det blir väldigt problematiskt att filma hela rummet. Lösningar med elektromagnetiska vågor, radio eller ljus t ex, blir då lämpligare, då de lätt rör sig över stora ytor.
 
 Man kan även vända på pannkakan och säga att man ska bestämma positionen på en extremt liten yta, d v s molekyl/atomnivå. Det svårt att komma på lösningsprinciper för denna typen av problem, men eventuellt hade man kanske kunnat kolla på strukturen av atomerna och molekylerna för på så sätt kunna bestämma positionen. Beroende på materialet så har ju atomerna en viss struktur/mönster vilket kanske kan omformuleras till en position på något kreativt sätt.
 
