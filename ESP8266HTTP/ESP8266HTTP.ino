@@ -16,17 +16,6 @@ String ycors = "";
 
 SoftwareSerial rxtx(12,14);
 
-/*
-String readResponse(String payload){
-  //Serial.println(payload);
-//  JsonObject& root = jsonBuffer.parseObject(payload);
-  xcor = root["coordinate"]["x"];
-  ycor = root["coordinate"]["y"];
-  Serial.println(xcor);
-  String str1 = xcor + "-" + ycor;
-  return str1;
-}*/
-
 void setup() {
   pinMode(CS, OUTPUT);
   Serial.begin(115200);
@@ -73,11 +62,28 @@ void loop() {
       xcors = String(xcor);
       ycors = String(ycor);
 
-      while(xcors.length()<3){
-        xcors = "0" + xcors;
+      //Padds xcors with 0s to contain 4characters
+      while(xcors.length()<4){
+        
+        if(xcors.charAt(0)=='-'){
+          xcors = xcors.substring(1);
+          xcors = "0" + xcors;
+          xcors = "-" + xcors;          
+        }else{
+          xcors = "0" + xcors;
+        }
+        
       }
-      while(ycors.length()<3){
-        ycors = "0" + ycors;
+      //Padds ycors with 0s to contain 4characters
+      while(ycors.length()<4){
+        
+         if(ycors.charAt(0)=='-'){
+          ycors = ycors.substring(1);
+          ycors = "0" + ycors;
+          ycors = "-" + ycors;          
+        }else{
+          ycors = "0" + ycors;
+        }
       }
       
       //Serial.println(xcor);
@@ -86,46 +92,9 @@ void loop() {
 
     }
   }
-
-    
+  rxtx.print(str1);
   
-
-  
-  
-/*  if(rxtx.available()) {
-    char c = rxtx.read();
-    mess += c;
-    Serial.println(mess);
-  }
-  
-  if (mess.indexOf("req")>=0) {
-    String data = xcors + "-" + ycors;
-    
-    Serial.println("rxtx");
-    rxtx.print(data);
-    
-    mess = "";
-    
-  }*/
-  String data = xcors + "-" + ycors;
-  rxtx.print(data);
-  /*
-  if(rxtx.available()) {
-    char c = rxtx.read();
-    mess += c;
-    //Serial.println(mess+"rxtx");
-  }
-  if (mess.indexOf("ack")>=0) {
-   
-    rxtx.flush();
-    
-    mess = "";
-    
-  }*/
-   delay(1000);
-   
-  
-  
+   delay(1000); 
 
 }
 

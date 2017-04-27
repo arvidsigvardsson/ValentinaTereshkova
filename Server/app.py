@@ -12,13 +12,13 @@ coordinatelist = [
 
 
     {
-        'color':'blue',
+        #'color':'blue',
         'x' : 100,
         'y' : 100
     },
 
     {
-        'color':'blue',
+        #'color':'blue',
         'x' : 200,
         'y' : 200
 
@@ -35,7 +35,7 @@ class CoordinateListAPI(Resource):
     #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('color', type=str, required=True, location='json')
+        #self.reqparse.add_argument('color', type=str, required=True, location='json')
         self.reqparse.add_argument('x', type=str, required=True, location='json')
         self.reqparse.add_argument('y', type =str, required = True, location='json')
         super(CoordinateListAPI, self).__init__()
@@ -47,7 +47,7 @@ class CoordinateListAPI(Resource):
         json_data = request.get_json(force=True)
         args = self.reqparse.parse_args()
         coordinate = {
-            'color': args['color']
+            #'color': args['color'],
             'x': args['x'],
             'y': args['y']
         }
@@ -58,7 +58,7 @@ class CoordinateAPI(Resource):
     #Define arguments and how to validate them
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('color', type = str, location='json')
+        #self.reqparse.add_argument('color', type = str, location='json')
         self.reqparse.add_argument('x', type = str, location='json')
         self.reqparse.add_argument('y', type = str, location='json')
         super(CoordinateAPI,self).__init__()
