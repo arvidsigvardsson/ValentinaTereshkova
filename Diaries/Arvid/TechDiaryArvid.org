@@ -1,3 +1,5 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
 * Teknisk dagbok - Projekt VT 2017
   /Arvid Sigvardsson/
 ** 2017-04-03
@@ -30,7 +32,7 @@
 *** Gå vidare
     Vi ska imorgon träffa Tommy (Andersson) och diskutera olika möjligheter. Efter detta tänker vi oss att vi kan bestämma oss för hur vi går fram.
 ** 2017-04-04
-   Vi hade möte med Tommy, se [[https://github.com/arvidsigvardsson/ValentinaTereshkova/blob/master/MeetingNotes/Tommy2017-04-04.org][anteckningar]]
+   Vi hade möte med Tommy, se [[./Tommy2017-04-04.html][anteckningar]]
 ** 2017-04-05
    - Vi skrev klart planeringsdokumenten - ett Ganntdiagram, ansvarsschema och milstolpedokument
    - Vi gjorde en preliminär backlog för projektet. Vi diskuterade fram alla de små tasks vi behöver utföra för att klara projektet. Bild av backlogg: [[./bilder/backlog2017-04-05.pdf][länk]]
@@ -62,3 +64,5 @@
    Resultatet var genomgående lyckat, med lite justeringar kunde vi identifiera lysdioder, och även liveuppdateringen fungerade. Kameran var stabil i den rigg jag byggt. Noggrannheten var mer problematiskt - koordinater i y-led hade en felmarginal på under 3cm, men i x-led var felmarginalen upp till 20cm, vilket vi inte anser godtagbart. Vi identifierade ett skäl till detta, att om dioden är en bit över marken blir felet större, vilket är rimligt. Detta planerar jag att korrigera för med lite mer avancerad geometri, där vi identifierar kamerans position bland annat. Detta verkar dock inte lösa hela felet. Vi tror att om vi kartlägger hur stort felet är på olika platser på banan kan vi i koden kompensera för detta och komma ner under 10cm felmarginal med opencv-metoden.
 ** 2017-04-24
    Idag utvärderade vi fälttestet från igår. Annars hände ingenting
+** 2017-04-25
+   Föreläsning om testning på förmiddagen. På eftermiddagen hade vi gruppseminarium där vi fastställde en kravspecifikation och började skriva testfall
