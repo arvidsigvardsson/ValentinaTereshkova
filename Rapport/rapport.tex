@@ -363,7 +363,70 @@ Bedömingsskalan och kriterium går att se i bilaga \ref{fig:bedomningskala}
 
 \section{Bedömning av lösningsvarianterna för varje kriterium}
 
+I tabellen i bilaga \ref{fig:medbedomning} är lösningsvarianterna betygsatta enligt en rad olika kriterier på en skala 1-10, summan av betygen för varje lösningsvariant framgår på sista raden. Detta gör vi som ett steg i arbetet att systematiskt utvärdera olika lösningar.
 
+\section{Poängsättningsmatris}
+
+Utifrån tabellen med bedömningen av de olika lösningvarianterna har vi sedan multiplcerat bedömningen med viktningen av de olika kriterierna. Detta gör vi för att kriterierna skall bedömas med den vikt vi anser att kriterierna har. Poängsättningsmatrisen går att se i bilaga \ref{fig:bedomningvikt}
+
+\section{Känslighetsanalys}
+
+I detta steg ändrar vi viktningen av de olika kriterierna. Det vi vill se är om samma lösningsvariant ändå ger bäst resultat, eller om en annan visar sig bäst. Vi kan på så sätt få insikt i hur robusta de olika varianterna är, och vi kan ju inte vara säkra på att bedömningen och viktningen vi gjort är korrekt. Detta ger oss mer kontext för att komma fram till bästa lösningsvarianten. I bilaga \ref{fig:rangordning} går det att se resultatet från känslighetsanalysen, där vi har gjort 3 olika varianter av viktningen och bedömning.
+
+\section{Vinnande koncept}
+
+Vi kommer att skapa 2 system, ett enklare och ett avancerat system. Därför korar vi två vinnare, LV3 och LV1. Då implementationen är viktat högt i variant A så vinner LV1, d v s detta system anser vi vara ett rimligt enklare system. Vid en senare tidpunkt när vi har ett enklare fungerande system försöker vi göra ett lite mer avancerat vilket då blir LV3.
+
+
+LV1
+
+Kameralösningen är en väldigt smidig lösning då den är relativt enkel att skapa och den ger en noggrannhet som är tillräckligt bra. Lösningen använder bara en sensor vilket då är kameran.
+Kameran kommer att skicka video till en dator som sedan behandlar bilden och tar ut positionen. Positionen skickas sedan trådlöst till en mottagare på roboten som meddelar via SPI till robotens styrsystem var den befinner sig. Systemet är väldigt energisnålt när det gäller det som går på batteri, allt som behöver drivas är en ESP8266 samt några lysdioder. Det kommer att vara publik runt om banan som kanske inte vill hamna på video, vilket kan innebär ett integritetsproblem.
+
+
+LV3
+
+Lösningsvarianten med ultraljud fungerar genom att vi sätter upp två till tre ultraljudshögtalare inom ett bestämt område. Vi monterar sedan en eller flera mikrofoner på roboten och mäter sedan hur långt ifrån roboten är från vardera högtalare genom att mäta hur lång tid det tar innan ljudet från högtalarna når roboten.
+
+Lösningen kräver som sagt två till tre ultraljudshögtalare med något stativ. Två till tre mikrofoner som ska monteras på roboten, samt två Arduino Due, en som samplar ljud monterad på roboten och en Due som skapar signalen som skickas ut genom högtalarna.
+Det som är kritiskt är att mikrofonerna måste monteras på en plats på roboten som inte skyms av armar och andra hinder på roboten.
+Det enda som behöver ström från roboten är alltså ett Arduino Due utvecklingskort.
+
+
+I de båda lösningarna så är det endast SPI kommunikation som är utgången från vårt navigeringssystem. Det är alltså endast detta som resterande grupper behöver ta hänsyn till för att lösa överföringen av koordinater till deras styrsystem.
+
+\section{Diskussion och resultat}
+
+LV1 -
+
+LV1 vann på grund av att det är lättare att implementera än en ultraljuds lösning, detta syntes tydligt när viktningen på implementering ändrades. Detta är en prioritet för inför M2 att implementationen inte är för svår. Detta är den mest utmärkande egenskapen med denna lösningen och bidrog mest till att den vann. 
+
+LV3 -
+
+LV3 vann på grund av att det är noggrannare än en kamera lösning, teoretiskt sätt kommer ultraljuds lösningen att ha en centimeter noggrannhet. Detta systemet kommer vi att skapa som det avancerade systemet och skall vara klart mot slutet av projektet.
+
+
+
+Vad var svårt, nytt och ovant?
+
+Det svåraste med den tredje delen av den tekniska problemlösningen var nog valet av bra kriterier samt viktningen av dessa. Det är ju viktigt att här välja ut bra och relevanta krav som vi tycker att systemet ska uppfylla, för att i slutändan få det bästa alternativet av de många koncept vi tidigare har genererat.
+
+
+Hur lika eller olika var bedömningen mellan gruppmedlemmarna?
+
+Som grupp var vi på samma nivå med bedömningen, vi har tittat lite på de olika teknikerna som lösningsförslagen involverar sedan tidigare och har erfarenhet av några. Bedömningen har alltså gjorts utifrån detta, på lösningsförslagen som är osäkra har vi försökt göra en rimlig bedömning tillsammans som grupp för att alla skall vara överens.
+
+Blev ni förvånade av att rangordningen blev som den blev?
+
+När vi väl hade den slutgiltliga listan på 5 utvalda koncept, så kunde man relativt lätt tänka sig ungefär vilka placeringar som var och ett av dem skulle få. Detta eftersom att vi visste att SPI skulle vara mycket lättare att implementera än I2C och att radiovågor lösningen skulle bli väldigt dyr.
+
+Hade ni några favorit lösningar och landade någon av dem på första plats?
+
+Våra favorit lösningar var kameralösning, ultraljuds lösning samt en pratande robot. Kamera lösningen och ultraljuds lösningen hamnade på första plats och de är de vi kommer att använda. De var våra favoriter eftersom båda känns rimliga att göra, kamera lösningen bör vara ganska enkel samt att ultraljuds lösningen får väldigt bra noggrannhet.
+
+Ändrade sig rangordningen under känslighetsanalysen?
+
+Som tidigare nämnts så var det bildanalyslösningen och ultraljudslösningen som skiftade plats då vi ändrade på viktningen av våra kriterier. Detta passade oss dock endast bra eftersom vi var ute efter ett lite lättare system och ett som var mer avancerat, vilket representeras bra av de båda koncepten. 
 
 
 \chapter{Resultat}
@@ -511,6 +574,31 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 		\label{fig:bedomningskala}
 	\end{center}
 \end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{bedomningavkrit.png}
+		\caption{Lösningsvarianter med bedömning}
+		\label{fig:medbedomning}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{bedomningvikt.png}
+		\caption{Lösningsvarianter med bedömning samt viktning av de olika kriterierna}
+		\label{fig:bedomningvikt}
+	\end{center}
+\end{figure}
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics [width=12cm,angle=0]{rangordning.png}
+		\caption{Känslighetsanalys varation av viktningen}
+		\label{fig:rangordning}
+	\end{center}
+\end{figure}
+
 
 
 \end{document}
