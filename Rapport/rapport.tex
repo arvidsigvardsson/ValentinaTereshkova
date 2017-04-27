@@ -422,6 +422,71 @@ Våra favorit lösningar var kameralösning, ultraljuds lösning samt en pratand
 Som tidigare nämnts så var det bildanalyslösningen och ultraljudslösningen som skiftade plats då vi ändrade på viktningen av våra kriterier. Detta passade oss dock endast bra eftersom vi var ute efter ett lite lättare system och ett som var mer avancerat, vilket representeras bra av de båda koncepten. 
 
 
+\section{Testning}
+För att se till att systemet som har utvecklats verkligen fungerar måste det testas. Sättet att gå till väga för att testa systemet är att fastställa vilka krav som ställs på systemet för att sedan se till att dessa krav uppfylls. Kraven som detta positioneringssystem har beskrivs enligt:
+
+\begin{center}
+	\begin{tabular}{c | p{13.5cm}}
+	ID & Systemkrav på högsta nivå \\ \hline
+	K1 & Systemet skall kunna fastställa position för objekt i koordinatsystem. \\
+	K2 & Fastställa ett koordinatsystem på bottenvåningen i Niagara där robotarna utför sin uppgift, som är minsta 5 x 4 m stort. \\
+	K3 & Systemet skall kommunicera den uppmätta positionen via ett givet väldefinierat elektroniskt kommunikationsprotokoll \\
+	\end{tabular}
+	\\ [0.5cm]
+\end{center}
+
+	Systemkrav på högsta nivån är krav som säger vad systemet skall kunna göra. För detta positioneringssystem är många aspekter givna i förväg såsom var det skall användas och under vilka förhållanden, därför kan väldigt specifika krav skapas.
+	
+\begin{center}
+	\begin{tabular}{c | p{13.5cm}}
+	ID & Icke funktionella krav \\ \hline
+	K4 & Systemet skall vara ofarligt \\
+	K5 & Ultraljudssystemet får inte använda frekvenser som kan störa eller störas av kringliggande utrustning såsom avståndsmätare eller PWM-signal. \\
+	K6 & Positionsdata presenteras enligt ett fördefinierat format. \\
+	\end{tabular}
+	\\ [0.5cm]
+\end{center}
+
+Icke funktionella krav är krav som inte uppfyller någon funktion, alltså inte lägger till någon ny funktion. Dessa krav är mer prestanda krav som säger hur bra systemet skall klara andra krav.
+
+\begin{center}
+	\begin{tabular}{c | p{13.5cm}}
+	ID & Funktionella systemkrav på de komponenter som ingår \\ \hline
+	K7 & Modul och python program kan kommunicera med server \\
+	K8 & Noggrannheten är högre än 30 cm / 10 cm, där noggrannheten innebär avståndet mellan faktiskt läge och det läge systemet anger. \\
+	K9 & Uppdateringsfrekvensen är minst 1 Hz. \\
+	K10 & Pixlars position kan mappas mot en fysisk position. \\
+	K11 & Kommunikation mellan Due och ESP fungerar \\	
+	\end{tabular}
+	\\ [0.5cm]
+\end{center}
+
+Funktionella systemkrav på de komponenter som ingår säger ---
+
+\begin{center}
+	\begin{tabular}{c | p{13.5cm}}
+	ID & Andra krav på komponenter \\ \hline
+	K12 & Utvecklingskortet på roboten har stöd för det valda kommunikationsprotokollet. \\
+	K13 & OpenCV programmet kan hitta koordinaterna för en lysdiod i en bild \\	
+	\end{tabular}
+	\\ [0.5cm]
+\end{center}
+
+Andra krav på komponenter är krav som ställs på komponenter i systemet och inte systemet i helhet. Dessa kan tex vara hårdvarukrav.
+
+\begin{center}
+	\begin{tabular}{c | p{13.5cm}}
+	ID & Krav på gränssnitt \\ \hline
+	K14 & Kommunikationsprotokollet skall kunna överföra ett meddelande på 8 byte. \\
+	K15 & Montering skall finnas för lysdioder samt mikrofoner på roboten med Line of Sight \\	
+	\end{tabular}
+\end{center}
+
+Krav på gränssnitt ---
+
+Med alla dessa krav kan som sagt systemet testas och det görs genom olika testfall. Varje testfall skall då testa en eller mer del i systemet genom tydliga instruktioner. Det är viktigt att testfallen är skrivna på ett sätt så att resultatet inte är subjektivt. Oavsett vilken person som testar systemet så skall resultatet på testet bli samma. De testfall som har definierats för detta system kan ses i bilaga \ref{fig:testfall}.
+
+
 \chapter{Resultat}
 Vi kommer att klargöra vilka teknologi/er vi har valt för vår lösning och varför som resultat av vår konceptstudie.
 
@@ -592,6 +657,11 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 	\end{center}
 \end{figure}
 
-
-
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=15cm]{systemkrav.PNG}
+		\caption{Testfall}
+		\label{fig:testfall}
+	\end{center}
+\end{figure}
 \end{document}
