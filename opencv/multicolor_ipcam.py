@@ -11,9 +11,9 @@ from post_request import send_request
 
 
 
-url = 'http://192.168.20.111:5000/srv/coordinates'
+url = 'http://192.168.20.145:5000/srv/coordinates'
 
-url = 'http://192.168.20.133:5000/srv/coordinates'
+#url = 'http://192.168.20.133:5000/srv/coordinates'
 
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
 frameCount = 1
@@ -102,7 +102,7 @@ while(frameCount):
             cv2.putText(frame,"BLUE_CENTER", (center_blue[0]+10,center_blue[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame,"("+str(center_blue[0])+","+str(center_blue[1])+")", (center_blue[0]+10,center_blue[1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 50):
+            if (frameCount > 10):
                 post_fields = { 'x' : int(newcbX) , 'y' : int(newcbY)}
                 send_request(url, post_fields)
                 print('Post request send succesfully!')
