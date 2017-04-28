@@ -1,5 +1,4 @@
 *.log
-Rapport/mah_logo.eps
 Rapport/mah_logo-eps-converted-to.pdf
 Rapport/rapport.aux
 Rapport/rapport.log
@@ -7,9 +6,11 @@ Rapport/rapport.synctex.gz
 Rapport/rapport.tex.bak
 Rapport/rapport.toc
 Rapport/rapport.out
+Rapport/rapport.pdf
 Diaries/Arvid/TechDiaryArvid.pdf
 Diaries/Arvid/TechDiaryArvid.tex
 Diaries/Arvid/TechDiaryArvid.html
 *.pyc
 /opencv/testniagarasunday.py
 Diaries/Arvid/arkiv.zip
+SPI/ESPTest/ESPTest.atsuo
