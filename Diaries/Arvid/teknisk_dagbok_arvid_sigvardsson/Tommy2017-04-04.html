@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-04-28 fre 11:28 -->
+<!-- 2017-04-25 tis 14:11 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -228,18 +228,42 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<div id="outline-container-org32ba61c" class="outline-2">
-<h2 id="org32ba61c"><span class="section-number-2">1</span> Teknisk dagbok, Ingenjörsprojekt åk. 2, Arvid Sigvardsson</h2>
+<div id="outline-container-org698b5f3" class="outline-2">
+<h2 id="org698b5f3"><span class="section-number-2">1</span> Möte med Tommy 2017-04-04, och sedan en plan</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Detta är startsidan för min tekniska dagbok som dokumenterar mitt arbete med ett positioneringssystem för robotar inomhus i projektkursen under årskurs 2 på programmet Datateknik och mobil IT på Malmö. Den är strukturerad som en samling länkade websidor. Notera att den fortfarande är en work in progress.
+Vi diskuterade de teknologier vi haft uppe
 </p>
 <ul class="org-ul">
-<li><a href="./TechDiaryArvid.html">Kronologisk journal</a></li>
-<li><a href="./Tidrapport.html">Tidrapport</a></li>
+<li>Tommy var positiv till triangulering med ultraljud. Han hade handlett (tror jag) ett examensarbete som inkluderade en sån lösning, som han skickade till oss. 
+<ul class="org-ul">
+<li>Det projektet skickade pulser på ett liknande sätt vi tänkt oss. Ett problem som uppstod var att pga resonans hade inledningen på pulsen lägre magnitud än resten av signalen. Detta innebar att det var lite oklart när pulsen börjar. Antagligen fanns liknande problem i slutet av signalen. Tommy trodde dock att det problemet gick att avhjälpa</li>
+<li>Ett allmänt problem när det gäller signalöverföring är att signalstyrkan avtar snabbt med avståndet. Detta ställer särskilda krav på förstärkning.</li>
+</ul></li>
+<li>Tommy tryckte lite på användning av bildbehandling, med t ex Open CV, skulle vara intressant. Vi diskuterade två möjligheter:
+<ul class="org-ul">
+<li>att filma ovanifrån och "direkt" få ut koordinater</li>
+<li>att ha två eller fler kameror i marknivå och via vinkeln få ut position</li>
+</ul></li>
+<li>Vi diskuterade även någon form av död räkning, t ex via pulsgivare på robotens hjul. Ett problem med sådana metoder är att systemet behöver omkalibreras efter hand, och att detta kunde göras t ex av sparsamt utplacerade RFID-taggar.</li>
 </ul>
 </div>
 </div>
+<div id="outline-container-orgaf79202" class="outline-2">
+<h2 id="orgaf79202"><span class="section-number-2">2</span> Vi bestämde oss för en plan med två lösningar, en enklare och en lite mer komplicerad, samt en backuplösning:</h2>
+<div class="outline-text-2" id="text-2">
+<ul class="org-ul">
+<li>Enklare lösningen är att filma från balustraden på andra våningen på Niagara ner på golvet, och utföra bildbearbetning på detta. Även om noggrannheten inte blir den bästa bedömer vi att lösningen är relativt lätt att genomföra</li>
+<li>Den mer komplicerade lösningen är den ultraljudslösning beskriven ovan.</li>
+<li>Backup om ultraljudet inte fungerar är lösningen med två kameror i marknivå. Om vi behöver gå över till den lösningen i ett sent skede borde vi ha fått värdefull erfarenhet från den enklare lösningen som hjälp</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: arvid</p>
+<p class="date">Created: 2017-04-25 tis 14:11</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
 </div>
 </body>
 </html>

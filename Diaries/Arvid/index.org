@@ -1,6 +1,6 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
 * Teknisk dagbok, Ingenjörsprojekt åk. 2, Arvid Sigvardsson
-  Detta är startsidan för min tekniska dagbok som dokumenterar mitt arbete med ett positioneringssystem för robotar inomhus i projektkursen under årskurs 2 på programmet Datateknik och mobil IT på Malmö. Den är strukturerad som en samling länkade websidor. 
+  Detta är startsidan för min tekniska dagbok som dokumenterar mitt arbete med ett positioneringssystem för robotar inomhus i projektkursen under årskurs 2 på programmet Datateknik och mobil IT på Malmö. Den är strukturerad som en samling länkade websidor. Notera att den fortfarande är en work in progress.
   - [[./TechDiaryArvid.html][Kronologisk journal]]
   - [[./Tidrapport.html][Tidrapport]]

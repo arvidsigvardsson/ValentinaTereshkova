@@ -3,7 +3,7 @@
 "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
 <head>
-<!-- 2017-04-28 fre 11:28 -->
+<!-- 2017-04-27 tor 10:17 -->
 <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title></title>
@@ -228,15 +228,26 @@ for the JavaScript code in this tag.
 </head>
 <body>
 <div id="content">
-<div id="outline-container-org32ba61c" class="outline-2">
-<h2 id="org32ba61c"><span class="section-number-2">1</span> Teknisk dagbok, Ingenjörsprojekt åk. 2, Arvid Sigvardsson</h2>
+<div id="outline-container-orgd1920d2" class="outline-2">
+<h2 id="orgd1920d2"><span class="section-number-2">1</span> Mappning av koordinater från kamerabild</h2>
 <div class="outline-text-2" id="text-1">
 <p>
-Detta är startsidan för min tekniska dagbok som dokumenterar mitt arbete med ett positioneringssystem för robotar inomhus i projektkursen under årskurs 2 på programmet Datateknik och mobil IT på Malmö. Den är strukturerad som en samling länkade websidor. Notera att den fortfarande är en work in progress.
+Vår plan är att filma med en kamera, antingen rakt ovanifrån, eller snett uppifrån, och identifiera en lysdiod som är fäst på roboten och fastställa dess koordinater. Som referensram kommer vi att markera banans hörn och mäta upp avståndet mellan dem och se till att de ligger i räta vinklar mot varandra. En förutsättning för kommande resonemang är att vi kan få ut en koordinat från bilden för det objekt vi vill fastställa positionen på, samt att vi får ut koordinaterna för hörnen.
 </p>
 <ul class="org-ul">
-<li><a href="./TechDiaryArvid.html">Kronologisk journal</a></li>
-<li><a href="./Tidrapport.html">Tidrapport</a></li>
+<li>Vi skiljer på bildkoordinater, vilka är koordinaterna som fås från videobilden, och rumskoordinater, som är de fysiska koordinaterna i rummet på Niagara</li>
+<li>Vi definierar golvet (i Niagara) som xy-planet, och z-planet som rakt uppåt mot taket</li>
+<li>Hörnens relativa rumskoordinater mäts upp</li>
+<li>Vi fastställer bildkoordinater för hörnen</li>
+<li>Vi definierar hörnet till vänster närmast kameran som origo</li>
+<li>Vi vill nu räkna ut en linjär transformation som omvandlar bildkoordinater för ett objekt till rumskoordinater, för objekt som ligger i xy-planet.
+<ol class="org-ol">
+<li>Vi räknar ut translationen för att förflytta origohörnet till bildkoordinaten (0,0)</li>
+<li>Vi roterar kring origo så att högra hörnet närmast kameran ligger i x-axeln, för att räta upp vår bana</li>
+<li>Vi skalar i x-led så att avståndet mellan de två mittpunkterna mellan de vänstra och högra hörnen får ett visst definierat avstånd, t ex 100</li>
+<li>Vi skalar på liknande sätt i y-led, förslagsvis mellan mellan mittpunkterna för de närmsta respektive bortersta hörnen, alltså i mitten av bilden</li>
+<li>Vi sätter samman dessa till en transformationsmatris</li>
+</ol></li>
 </ul>
 </div>
 </div>
