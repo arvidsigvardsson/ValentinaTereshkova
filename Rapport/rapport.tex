@@ -206,7 +206,7 @@ Vi har i teoriavsnittet tagit upp hur liknande, fast etablerade system, fungerar
 Vi har identifierat systemets in- och utgångar och visualiserar det i figur \ref{fig:system-omgivning}
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{system-omgivning.png}
+		\includegraphics [width=12cm,angle=0]{System-omgivning.PNG}
 		\caption{Illutration av systemets in- och utgångar samt dess omgivning}
 		\label{fig:system-omgivning}
 	\end{center}
@@ -223,7 +223,7 @@ Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i e
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{delfunktioner.png}
+		\includegraphics [width=12cm,angle=0]{delfunktioner.PNG}
 		\caption{Huvudproblemet och dess delfunktioner}
 		\label{fig:huvudproblem}
 	\end{center}
@@ -294,7 +294,7 @@ Man kan även vända på pannkakan och säga att man ska bestämma positionen p�
 
 Störning:
 
-Skulle vi byta plats på t.ex. bildbehandling och uppmätning med måttband och pythagoras sats så hade det inneburit att vi hade bestämmer koordinater på en bild och sedan skala om det och sätta ut de verkliga positionerna i rummet. Detta skulle möjligtvis fungera, men inte särskilt effektivt eftersom om positionen ska uppdateras dynamiskt så kommer koordinatsystemet bestämmas på nytt hela tiden. Ett nytt lösningsförslag här kan vara någon form av dynamiskt koordinatsystem som hela tiden uppdateras och nya punkter sätts ut varje gång positionen på roboten uppdateras.
+Störning i detta sammanhang innebär att man genom att ändra ordning på blocken i diagrammet ovan utvärdera om den ordning man satt upp verkligen är nödvändig, samt se om nya ideer uppstår. Den störning vi diskuterat är att ändra ordning på bildbehandlingen och uppmätning av koordinatsystemet. Då kan man tänka sig ett system där vi filmar en yta med en kamera, och för varje punkt vi är intresserade av kontrollerar vilken pixelkoordinat den har i bilden vi filmat. Detta system hade kunnat fungera, och ha den fördelen mot vår existerande ide att den inte förlitar sig på någon geometrisk omräkning, vilken kan introducera fel. Nackdelen är att vi måste hårdkoda samtliga koordinater vi är intresserade av, vilket leder till mycket jobb, ett visst mått av trial and error samt en lägre upplösning av punkter.
 
 Byter vi plats på kommunikation och de övriga delarna så händer inte så mycket och det inspirerar inte så mycket nya lösningar eftersom den enda konsekvensen blir att systemet blir icke fungerande. Då kommunikationen måste ske sist, annars har vi ingen att kommunicera, d v s saker utförs inte “rätt” ordning.
 
@@ -523,7 +523,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{behov-egenskap-matris.png}
+		\includegraphics [width=12cm,angle=0]{behov-egenskap-matris.PNG}
 		\caption{Behov-egenskapsmatris}
 		\label{fig:behov-egenskap}
 	\end{center}
@@ -532,7 +532,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm, height=7cm, angle=0]{faststallakoordinatsystem.png}
+		\includegraphics [width=12cm, height=7cm, angle=0]{faststallakoordinatsystem.PNG}
 		\caption{Delfunktion fastställa koordinatsystem med lösningsprinciper}
 		\label{fig:koordinatsystem}
 	\end{center}
@@ -549,7 +549,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,height=7cm,angle=0]{kommunikation.png}
+		\includegraphics [width=12cm,height=7cm,angle=0]{kommunikation.PNG}
 		\caption{Delfunktion kommunikation med lösningsprinciper}
 		\label{fig:kommunikation}
 	\end{center}
