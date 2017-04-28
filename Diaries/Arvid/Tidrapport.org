@@ -7,6 +7,7 @@
   | 2017-04-03 | Research på olika metoder                  |           3 |                                                |
   | 2017-04-04 | Handledningsmöte                           |           2 | [[./Tommy2017-04-04.html][mötesanteckningar]]                              |
   | 2017-04-04 | Arbete med lösningsalternativ och research |           5 |                                                |
+  | 2017-04-05 | Planering                                  |           7 | Planeringsdokument i M1                        |
   | 2017-04-17 | Första Fälttest Niagara                    |        4:30 | [[./niagara2017-04-17.html][anteckningar]]                                   |
   | 2017-04-17 | Arbete med koordinatmappning i python      |           2 | filen coordmapping.py i kodrepot               |
   | 2017-04-22 | Konstruktion av kamerarigg                 |           2 |                                                |
