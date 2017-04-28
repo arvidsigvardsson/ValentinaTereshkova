@@ -79,22 +79,25 @@ Förklara vad projektet kommer att handla om, varför projektet görs, vad måle
 För att lösa problemet med robotens position inomhus har vi titta på lite olika lösningar för så kallade inomhus positionerings system. Inomhus positioneringssystem (IPS) används för att bestämma positionen på objekt eller personer inomhus. Exempel på  tekniker som används för detta är Radiovågor(UWB), Ljud(ultraljud), WiFi/Bluetooth signalstyrkor och s.k Dead reckoning (Dödräkning med hjälp av Gyroskop / Accelerometer)
 
 
-UWB(Ultra WideBand Technology): \\
+UWB(Ultra WideBand Technology):
+
 Ultra wideband är en teknik för WPAN. Detta är en väldigt förekommande teknik för inomhus positioneringssystem på grund av att postionen blir väldigt exakt jämfört med många andra tekniker. UWB använder sig av radiovågor som rör sig i ljusets hastighet vilket betyder att man behöver väldigt exakta tidpunkter för att bestämma var objektet / personen befinner sig. För att bestämma positionen används TDoA (Time Difference of Arrival) algoritmer för att ta reda på tiden det tog för signalen att komma fram. Tiden används sedan vid triangulering för att få fram positionen.
 
 När det kommer till sändare och mottagare kan man låta sändarna ta emot signalen som har studsat på objektet. Detta innebär att inga komponenter krävs på roboten men för att få ''rätt'' signal på mottagarsidan behöver man kolla på fasen för att kunna utesluta fading.
 
-Ultraljud: \\
+Ultraljud:
+
 Ultraljud är ljudvågor som är över $20\textrm{kHz}$, dvs ljud som människan ej kan höra. Fördelen med Ultraljud är att ljud rör sig i $340\textrm{m/s}$ jämfört med ljusets hastighet $3 \cdot 10^{8}\textrm{m/s}$. För att ta fram avståndet till en fyr använder man formeln
 \begin{equation}
 s = v \cdot \Delta t
 \end{equation}
 Med en mindre $v$ kan sträckan beräknas noggrannare. Positionen på objektet/personen kan sedan räknas ut med hjälp av triangulering.
 
-Dead Reckoning:\\
+Dead Reckoning:
+
 Dead reckoning eller död räkning på svenska går ut på att med hjälp av en accelerometer och ett gyroskop så kan man bestämma positionen. Detta görs genom att känna till start positionen och sedan med hjälp av datan från gyroskopet (orientationen) och accelerometern (accelerationen) så kan man beräkna hur objektet / personen har rört sig genom integration och  på så sätt dess position. Det är en elegant lösning från den synvinkeln att det inte kräver några utomstående komponenter men problemet är att om det uppstår fel i mätdatan så kommer felet kvarstå. Detta betyder att man regelbundet skulle behöva kalibrera om för att undvika för mycket kvarstående fel.
 
-WiFi / Bluetooth signalstyrkor: \\
+WiFi / Bluetooth signalstyrkor:
 
 Genom att placera ut noder t ex 3 eller 4 så kan man mäta upp RSSI (Recieved Signal Strength Indication) detta gäller både WiFi och Bluetooth och med hjälp av den uppmätta signalstyrkan till de olika noderna sedan bestämma positionen. Problemet med detta är att noggranheten är väldigt dålig, ofta handlar det om flera meter vilket är oacceptabelt om roboten skall kunna navigera fram till objekt.
 
@@ -116,7 +119,35 @@ Genom att placera ut noder t ex 3 eller 4 så kan man mäta upp RSSI (Recieved S
 
 Vad har vi fått reda på för information när vi har undersökt problemet, vilka olika lösningar som har disskuterats. 
 
+\cleardoublepage
+
+\section{Genomförbarhetsanalys}
+
+Som grund till vår genomförbarhetsanalys har vi gjort en förstudie där vi kollat på olika tekniker och listat olika för- och nackdelar med de olika teknikerna. Men vi har även använt den erfarenhet vi har av de olika teknikerna. Vi har även samtalat med vår handledare Tommy Andersson för att få råd och vägledning om vilka tekniker som är rimliga och orimliga. Mötesanteckningar med handledaren går att se i länken nedan
+
+TODO lägg in länk
+
+
+Syftet med genomförbarhetsanalysen är att ge ett bättre perspektiv på vilka tekniker som är rimliga och passar med vårt ändamål (positioneringssystem), där olika faktorer spelar roll så som tillgänglighet, pris, svårighetsgrad och ändamål.
+
+
+\begin{figure}[H]
+	\begin{center}
+		\includegraphics[width=15cm]{genomforbarhetsanalys.PNG}
+		\caption{Tabell för genomförbarhetsanalys}
+		\label{fig:genomforbarhetsanalys}
+	\end{center}
+\end{figure}
+
+Resultat
+
+Resultatet av genomförbarhetsanalysen kombinerat med vårt ändamål visar framförallt på att bildbehandlingen och Ultraljuds lösningen är de tekniker som är mest lovande. Eftersom noggrannheten spelar en stor roll, men även tillgängligheten och priset. Till ultraljudslösningen har vi även fått underlag i form av ett exjobb från handledaren. Detta stärker Ultraljudslösningen ytterligare.
+
 \chapter{Metod och utförande}
+
+\section{Problembeskrivning}
+
+\subsection{Behov och egenskaper}
 
 För att bestämma vilken teknologi som kommer att användas till inomhus positionering systemet måste problemet formuleras och krav måste anges. Problemet som skall lösas definieras enligt följande: \\
 
@@ -162,7 +193,7 @@ Som man ser i matrisen uppfylls alla behoven av egenskaperna och därmed är det
 %Systembegrepp bild??
 
 
-\section{Syfte och mål för vår tekniska lösning}
+\subsection{Syfte och mål för vår tekniska lösning}
 Syftet med den tekniska lösningen är att roboten skall veta var den befinner sig.
 
 Målet med den tekniska lösningen är positionen inte skiljer sig från robotens faktiska position.
@@ -198,7 +229,6 @@ Målet med den tekniska lösningen är positionen inte skiljer sig från roboten
 %%   \end{center}
 
 %% Vi kan nu sätta ihop dessa i en s.k. behov-egenskapsmatris som kan ses i bilaga \ref{fig:behov-egenskap}
-\section{Problembeskrivning}
 \subsection{Jämförelse med existerande system}
 Vi har i teoriavsnittet tagit upp hur liknande, fast etablerade system, fungerar. Det som skiljer de systemen från vårt är att vårt system har väldigt specifikt användningsområde. Vårt system ska t.ex. inte användas i totalt mörker. Ytan är inte heller dynamisk utan noga uträknad för att kalibrera systemet. Det är alltså inte troligt att vårt system, utan större vidareutvecklingar, hade fungerat i t.ex. ett varuhus. Vi har även endast en användare åt gången vilket förenklar positioneringen något.
 
@@ -217,7 +247,9 @@ Omgivningen påverkar systemet om det är objekt i vägen då alla ingångar fö
 \clearpage
 
 
-\section{Huvudproblem och delfunktioner}
+\section{Hitta och generera lösningskoncept}
+
+\subsection{Huvudproblem och delfunktioner}
 
 Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i ett rum, har vi formulerat om lite mer abstrakt och översiktligt till inomhusposition eftersom det är exakt detta systemet skall uppnå. Huvudproblemet bröt vi sedan ned i tre olika delfunktioner som även de var abstrakta och översiktliga.
 
@@ -230,16 +262,16 @@ Huvudproblemet i vårt fall, att kunna fastställa positionen på ett objekt i e
 \end{figure}
 
 
-\section{Delfunktioner och lösningsprinciper}
+\subsection{Delfunktioner och lösningsprinciper}
 
 Delfunktionerna visas ovan och till dessa har vi sedan försökt hitta olika lösningsprinciper genom olika metoder så som '365'-metoden och 'sex tänkande hattar'. Eftersom vårt problem är relativt avancerat så har vi kapat bort lite lösnings principer som är för avancerade och tokiga då det måste finnas en rimlighetsfaktor. De olika delfunktionerna och de olika lösningprinciperna illusteras i bilaga \ref{fig:koordinatsystem} - \ref{fig:kommunikation}.
 
-\section{Funktion- och medelträd}
+\subsection{Funktion- och medelträd}
 
 Detta trädet illustrera huvudproblemet och underfunktionerna där underfunktionerna har kombinerats ihop med dess olika lösningsprinciper. Bilaga \ref{fig:funktionmedel} visar funktion/medel-trädet.
 
 
-\section{Ordningsprincip}
+\subsection{Ordningsprincip}
 
 Nedan är en skiss på hur huvudfunktionen ser ut när vi valt ut dem lösningsprinciper som vi anser vara 'bäst'. \\
 
@@ -257,7 +289,7 @@ Bildbehandlingen är starkt beroende av att vi faktiskt mätt upp och bestämt e
 Ordningen är kritiskt vilket framgår av blockschemat, skulle det göras i en annan ordning skulle det ej fungera. 
 
 
-\section{Förflyttning och provokation metoden}
+\subsection{Förflyttning och provokation metoden}
 
 Tanken med förflyttning och provokation är att skapa ännu fler möjliga lösingsprinciper genom att modifiera, invertera och skapa störningar och extremfall utifrån blockdiagrammet som gjordes i föregående steg. 
 
@@ -298,27 +330,26 @@ Störning i detta sammanhang innebär att man genom att ändra ordning på block
 
 Byter vi plats på kommunikation och de övriga delarna så händer inte så mycket och det inspirerar inte så mycket nya lösningar eftersom den enda konsekvensen blir att systemet blir icke fungerande. Då kommunikationen måste ske sist, annars har vi ingen att kommunicera, d v s saker utförs inte “rätt” ordning.
 
-Resultat och reflektion:
 
-
-
-\section{Uppdaterat funktions/medel-träd}
+\subsection{Uppdaterat funktions/medel-träd}
 
 Förflyttning och provokation genererade många nya möjliga idéer och lösningsprinciper utifrån blockschemadiagrammet. Därför strukturerade vi om vårt funktion- och medelträd där vi skapat underfunktioner till delfunktionerna för att kategorisera de olika lösningsprinciperna. Bilaga \ref{fig:funktionmedel2} visar det uppdaterade funktions/medel-trädet.
 
 Det nya funktions/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Tabellen finns i bilaga \ref{fig:koncepttabell1}.
 
 
-\section{Morfologiska matriser}
+\subsection{Morfologiska matriser}
 
 När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att de är svåra att genomföra, ger dåligt resultat, är dyra, etc. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Den nya matrisen genererade 60 olika möjliga lösningskombinationer att välja på. De olika lösningskombinationerna bedöms om de uppfyller huvudproblem, men även kraven på systemet. En något för kortad matris med bedömningen går att se i bilaga \ref{fig:hpk}.
 
-\section{5 mest lovande lösningsvarianter}
+\section{Utvärdering av lösningsvarianter}
+
+\subsection{5 mest lovande lösningsvarianter}
 
 Utifrån den morfologiska matrisen med bedömning om vilka lösningsvarianter som uppfyller huvudproblemet samt kraven så valde vi ut de 5 mest lovande lösningsvarianterna. Vilka lösningsvarianter detta är och beskrivning av dem visas i bilaga \ref{fig:5koncept}.
 
 
-\section{Kriterier och viktning}
+\subsection{Kriterier och viktning}
 
 Kriterierna är valda dels efter våra egna uppsatta krav, dels med kraven från uppgiftsbeskrivningen. 
 \begin{itemize}
@@ -339,36 +370,36 @@ En tabell med kriterier och viktning finns i bilaga \ref{fig:kriteriumvikt}
 
 \end{itemize}
 
-\section{Bedömning av kriterier}
+\subsection{Bedömning av kriterier}
 
 Kriterierna har vi sedan gett en bedömningsskala som är samma för alla kriterium. Om viktningen ska ha någon inverkan är det viktigt att samtliga kriterier bedöms med samma skala, annars är det meningslöst med viktningen.
 
 Bedömingsskalan och kriterier finns i bilaga \ref{fig:bedomningskala}
 
-\section{Bedömning av lösningsvarianterna för varje kriterium}
+\subsection{Bedömning av lösningsvarianterna för varje kriterium}
 
 I tabellen i bilaga \ref{fig:medbedomning} är lösningsvarianterna betygsatta enligt en rad olika kriterier på en skala 1-10, summan av betygen för varje lösningsvariant framgår på sista raden. Detta gör vi som ett steg i arbetet att systematiskt utvärdera olika lösningar.
 
-\section{Poängsättningsmatris}
+\subsection{Poängsättningsmatris}
 
 Utifrån tabellen med bedömningen av de olika lösningvarianterna har vi sedan multiplcerat bedömningen med viktningen av de olika kriterierna. Detta gör vi för att kriterierna skall bedömas med den vikt vi anser att kriterierna har. Poängsättningsmatrisen går att se i bilaga \ref{fig:bedomningvikt}
 
-\section{Känslighetsanalys}
+\subsection{Känslighetsanalys}
 
 I detta steg ändrar vi viktningen av de olika kriterierna. Det vi vill se är om samma lösningsvariant ändå ger bäst resultat, eller om en annan visar sig bäst. Vi kan på så sätt få insikt i hur robusta de olika varianterna är, och vi kan ju inte vara säkra på att bedömningen och viktningen vi gjort är korrekt. Detta ger oss mer kontext för att komma fram till bästa lösningsvarianten. I bilaga \ref{fig:rangordning} går det att se resultatet från känslighetsanalysen, där vi har gjort 3 olika varianter av viktningen och bedömning.
 
-\section{Vinnande koncept}
+\subsection{Vinnande koncept}
 
 Vi kommer att skapa två system, ett enklare och ett avancerat system. Därför korar vi två vinnare, LV3 och LV1. Då implementationen är viktat högt i variant A så vinner LV1, d v s detta system anser vi vara ett rimligt enklare system. Vid en senare tidpunkt när vi har ett enklare fungerande system försöker vi göra ett lite mer avancerat vilket då blir LV3.
 
 
-LV1
+LV1 -
 
 Kameralösningen är en väldigt smidig lösning då den är relativt enkel att skapa och den ger en noggrannhet som är tillräckligt bra. Lösningen använder bara en sensor vilket då är kameran.
 Kameran kommer att skicka video till en dator som sedan behandlar bilden och tar ut positionen. Positionen skickas sedan trådlöst till en mottagare på roboten som meddelar via SPI till robotens styrsystem var den befinner sig. Systemet är väldigt energisnålt när det gäller det som går på batteri, allt som behöver drivas är en ESP8266 samt några lysdioder. Det kommer att vara publik runt om banan som kanske inte vill hamna på video, vilket kan innebär ett integritetsproblem.
 
 
-LV3
+LV3 -
 
 Lösningsvarianten med ultraljud fungerar genom att vi sätter upp två till tre ultraljudshögtalare inom ett bestämt område. Vi monterar sedan en eller flera mikrofoner på roboten och mäter sedan hur långt ifrån roboten är från vardera högtalare genom att mäta hur lång tid det tar innan ljudet från högtalarna når roboten.
 
