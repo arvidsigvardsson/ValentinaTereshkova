@@ -304,53 +304,46 @@ Resultat och reflektion:
 
 \section{Uppdaterat funktions/medel-träd}
 
-Förflyttning och provokation genererade mycket nya möjliga idéer och lösningsprinciper utifrån blockschemadiagrammet. Därför strukturerade vi om vårt funktion- och medelträd där vi skapat underfunktioner till delfunktionerna för att kategorisera de olika lösningsprinciperna. Bilaga \ref{fig:funktionmedel2} visar det uppdaterade funktions/medel-trädet.
+Förflyttning och provokation genererade många nya möjliga idéer och lösningsprinciper utifrån blockschemadiagrammet. Därför strukturerade vi om vårt funktion- och medelträd där vi skapat underfunktioner till delfunktionerna för att kategorisera de olika lösningsprinciperna. Bilaga \ref{fig:funktionmedel2} visar det uppdaterade funktions/medel-trädet.
 
-Det nya funktions/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Detta går att se i bilaga \ref{fig:koncepttabell1}.
+Det nya funktions/medel-trädet visas även med hjälp av en konceptkombinationstabell där varje underfunktion kombineras med lösningsprinciperna som associeras till underfunktionen. Tabellen finns i bilaga \ref{fig:koncepttabell1}.
 
 
 \section{Morfologiska matriser}
 
-När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att dem är svåra, dåliga, dyra o s v. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Den nya matrisen genererade 60 olika möjliga lösningskombinationer att välja på. Där de olika lösningskombinationerna bedömdes om de uppfyller huvudproblem, men även kraven på systemet. En något för kortad matris med bedömningen går att se i bilaga \ref{fig:hpk}.
+När vi tog fram de morfologiska matriserna utgick vi från konceptkombinationstabellen som vi skapade i föregående avsnitt. Det vi gjorde var att ta bort lösningar som inte var aktuella av olika anledninger, t ex att de är svåra att genomföra, ger dåligt resultat, är dyra, etc. Detta gav oss en ny matris som går att se i bilaga \ref{fig:koncepttabell2}. Den nya matrisen genererade 60 olika möjliga lösningskombinationer att välja på. De olika lösningskombinationerna bedöms om de uppfyller huvudproblem, men även kraven på systemet. En något för kortad matris med bedömningen går att se i bilaga \ref{fig:hpk}.
 
 \section{5 mest lovande lösningsvarianter}
 
-Utifrån den morfologiska matrisen med bedömning om vilka lösningsvarianter som uppfyller huvudproblemet samt kraven så valde vi ut de 5 mest lovande lösningsvarianterna. Vilka lösningsvarianter detta är och beskrivning av dem visas i bilaga \ref{fig:5koncept}
+Utifrån den morfologiska matrisen med bedömning om vilka lösningsvarianter som uppfyller huvudproblemet samt kraven så valde vi ut de 5 mest lovande lösningsvarianterna. Vilka lösningsvarianter detta är och beskrivning av dem visas i bilaga \ref{fig:5koncept}.
 
 
-\section{Kriterium och viktning}
+\section{Kriterier och viktning}
 
+Kriterierna är valda dels efter våra egna uppsatta krav, dels med kraven från uppgiftsbeskrivningen. 
+\begin{itemize}
+\item \textbf{Noggrannhet:}
+För att klara uppgiften i projektet är det kritiskt att robotarna vet var de befinner sig, samt var vissa objekt befinner sig, inom en viss felmarginal, som gärna ska vara liten. Därför är noggrannhet ett viktigt kriterium för vår lösning. Vi har delat upp kriteriet i två delar, precision och uppdateringsfrekvens, och fördelat vikten för noggrannhet jämnt över dessa två delkriterier.
 
-Kriterierna är valda delvis med egna uppsatta kriterier men även kraven från uppgiftsbeskrivningen. 
+\item \textbf{Offentlig miljö:}
+Detta kriterium är uppdelat i två delkriterier - att systemet ska vara ofarligt för allmänheten och att systemet ska fungera med publik på plats. Vi har givit det relativt låg vikt då vi i någon mån kommer kunna kontrollera platsen för demonstrationen, samt att förutom begränsningen att vi inte ska använda laser så har vi inte haft några hälsovådliga tekniker på förslag.
 
-Noggrannhet:
-
-Detta kriterium valde vi eftersom detta är kritiskt och väger därför väldigt tungt, hamnar roboten för lång ifrån objekten som ska plockas upp på grund av dålig noggrannhet så kommer det inte fungera alls bra. Detta delades upp i två delkriterier, precision och uppdateringsfrekvens eftersom om uppdateringsfrekvensen är för långsam så kommer roboten behöva röra sig väldigt långsamt för att få bra noggrannhet, samtidigt är precisionen för dålig så kommer roboten inte kunna navigera fram objekten. Den totala vikten för noggrannhet fördelades då över dessa två delkriterier efter hur viktiga vi ansåg precision och uppdateringsfrekvens var.
-
-
-Offentlig miljö:
-
-Att systemet ska fungera i en offentlig miljö har vi tagit med eftersom vi dels har fått som krav från uppgiftsbeskrivningen att det inte ska vara farligt, och därmed inte innehålla laser. Detta kriteriet har vi också delat upp i två delkriteriet eftersom utöver att det inte ska innehålla laser, d v s ofarligt så har vi även ett till som är fungera med publik. Eftersom under demodagen så kommer det antagligen vara en liten publik som tittar på demonstrationen och detta kan påverka systemet. Båda dessa delkriterierna har fått en relativt låg viktning eftersom området kommer i någon mån vara avspärrat och fritt från människor. Men även de faktum att ingen av våra fem mest lovande lösningsvarianter involverar laser.
-
-
-Pris:
-
+\item \textbf{Pris:}
 Pris valde vi som ett kriterium eftersom det är väldigt relevant att lösningsvarianter inte får kosta för mycket, viss utrustning vi har kollat på är väldigt dyr och detta måste då vara med och viktas in i bedömningen om vilket teknik som är mest lämplig. Viktningen av detta kriteriet baseras på den information om kostnader vi har hittat när vi titta på de olika teknikerna. Det är endast ett fåtal tekniker som är för dyra att implementera, därför är viktningen relativt låg.
 
+\item \textbf{Implementering:}
+Detta kriterium avspeglar hur komplicerat det är att genomföra (implementera) olika lösningar, vilket är av vikt då tiden för projektet är begränsat.
+Genom att ändra på vikten på detta kriterium så får man en bra känsla vad som är lämpligt som ett enklare respektive avancerat system. Detta kriteriet fick en ganska stor viktning eftersom det är väldigt begränsat med tid och därav är väldigt viktigt att vi inte ger oss på något som är för svårt.
 
+En tabell med kriterier och viktning finns i bilaga \ref{fig:kriteriumvikt}
 
-Implementering:
+\end{itemize}
 
-Eftersom beroende på tekniken som väljs så är dem olika svåra att implementera. Vissa tekniker är väldigt svåra att använda sig av och bör också vägas in när man bestämmer vilket koncept man skall använda sig av. Men även av den anledningen att vi enligt uppgiftsbeskrivningen i M2 skall ha ett enklare positioneringssystem klart, och sedan i M3 leverera ett mer avancerat. Genom att ändra på vikten på detta kriterium så får man en bra känsla vad som är lämpligt som är ett enklare respektive avancerat system. Detta kriteriet fick en ganska stor viktning eftersom det är väldigt begränsat med tid och därav är väldigt viktigt att vi inte ger oss på något som är för svårt.
+\section{Bedömning av kriterier}
 
-Kriteriumen och viktningen går att se i bilaga \ref{fig:kriteriumvikt}
+Kriterierna har vi sedan gett en bedömningsskala som är samma för alla kriterium. Om viktningen ska ha någon inverkan är det viktigt att samtliga kriterier bedöms med samma skala, annars är det meningslöst med viktningen.
 
-
-\section{Bedömning av kriterium}
-
-Kriteriumen har vi sedan gett en bedömningsskala som är likadan för alla kriterium. Eftersom om viktningen ska ha någon inverkan är det viktigt att samtliga kriterier bedöms med samma skala, annars är det meningslöst med viktningen.
-
-Bedömingsskalan och kriterium går att se i bilaga \ref{fig:bedomningskala}
+Bedömingsskalan och kriterier finns i bilaga \ref{fig:bedomningskala}
 
 \section{Bedömning av lösningsvarianterna för varje kriterium}
 
@@ -366,7 +359,7 @@ I detta steg ändrar vi viktningen av de olika kriterierna. Det vi vill se är o
 
 \section{Vinnande koncept}
 
-Vi kommer att skapa 2 system, ett enklare och ett avancerat system. Därför korar vi två vinnare, LV3 och LV1. Då implementationen är viktat högt i variant A så vinner LV1, d v s detta system anser vi vara ett rimligt enklare system. Vid en senare tidpunkt när vi har ett enklare fungerande system försöker vi göra ett lite mer avancerat vilket då blir LV3.
+Vi kommer att skapa två system, ett enklare och ett avancerat system. Därför korar vi två vinnare, LV3 och LV1. Då implementationen är viktat högt i variant A så vinner LV1, d v s detta system anser vi vara ett rimligt enklare system. Vid en senare tidpunkt när vi har ett enklare fungerande system försöker vi göra ett lite mer avancerat vilket då blir LV3.
 
 
 LV1
@@ -558,7 +551,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{funktionmedel.png}
+		\includegraphics [width=12cm,angle=0]{funktionmedel.PNG}
 		\caption{Delfunktion kommunikation med lösningsprinciper}
 		\label{fig:funktionmedel}
 	\end{center}
@@ -566,7 +559,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{funktionmedel2.png}
+		\includegraphics [width=12cm,angle=0]{funktionmedel2.PNG}
 		\caption{Nytt funktion/medel-träd}
 		\label{fig:funktionmedel2}
 	\end{center}
@@ -574,7 +567,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{konceptkombtabell.png}
+		\includegraphics [width=12cm,angle=0]{konceptkombtabell.PNG}
 		\caption{Konceptkombinationstabell}
 		\label{fig:koncepttabell1}
 	\end{center}
@@ -583,7 +576,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{trimmadtabell.png}
+		\includegraphics [width=12cm,angle=0]{trimmadtabell.PNG}
 		\caption{Trimmad konceptkobinationstabell }
 		\label{fig:koncepttabell2}
 	\end{center}
@@ -591,7 +584,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [angle=0]{Losningsforslag.png}
+		\includegraphics [angle=0]{Losningsforslag.PNG}
 		\caption{Möjlig lösningskombinationer }
 		\label{fig:mojligalosningar}
 	\end{center}
@@ -600,7 +593,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{HPK.png}
+		\includegraphics [width=12cm,angle=0]{HPK.PNG}
 		\caption{Möjliga lösningskombinationer som uppfyller krav och huvudproblem }
 		\label{fig:hpk}
 	\end{center}
@@ -608,7 +601,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{5koncept.png}
+		\includegraphics [width=12cm,angle=0]{5koncept.PNG}
 		\caption{De 5 mest lovande lösningsvarianterna }
 		\label{fig:5koncept}
 	\end{center}
@@ -617,7 +610,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{kriteriumvikt.png}
+		\includegraphics [width=12cm,angle=0]{kriteriumvikt.PNG}
 		\caption{Kriterium med viktning }
 		\label{fig:kriteriumvikt}
 	\end{center}
@@ -625,7 +618,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{bedomningskala.png}
+		\includegraphics [width=12cm,angle=0]{bedomningskala.PNG}
 		\caption{Kriterium med bedömningsskala }
 		\label{fig:bedomningskala}
 	\end{center}
@@ -633,7 +626,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{bedomningavkrit.png}
+		\includegraphics [width=12cm,angle=0]{bedomningavkrit.PNG}
 		\caption{Lösningsvarianter med bedömning}
 		\label{fig:medbedomning}
 	\end{center}
@@ -641,7 +634,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{bedomningvikt.png}
+		\includegraphics [width=12cm,angle=0]{bedomningvikt.PNG}
 		\caption{Lösningsvarianter med bedömning samt viktning av de olika kriterierna}
 		\label{fig:bedomningvikt}
 	\end{center}
@@ -649,7 +642,7 @@ Vi kommer här att lägga bilder och ekvationer samt eventuella länkar som hind
 
 \begin{figure}[H]
 	\begin{center}
-		\includegraphics [width=12cm,angle=0]{rangordning.png}
+		\includegraphics [width=12cm,angle=0]{rangordning.PNG}
 		\caption{Känslighetsanalys varation av viktningen}
 		\label{fig:rangordning}
 	\end{center}
