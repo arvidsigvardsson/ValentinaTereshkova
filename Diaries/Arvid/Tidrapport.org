@@ -16,3 +16,5 @@
   | 2017-04-25 | Föreläsning om testning                    |           3 |                                                |
   | 2017-04-25 | Seminarieuppgift om testning               |           4 | Kravspecifikation och testdokument i rapporten |
   | 2017-04-27 | Arbete med rapporten                       |           3 |                                                |
+  | 2017-05-02 | Experimenterande med signalgenerering      |           7 |                                                |
+  | 2017-05-03 | Gick igenom matematiken bakom homography   |           4 |                                                |

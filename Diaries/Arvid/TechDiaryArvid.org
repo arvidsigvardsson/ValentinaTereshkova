@@ -71,3 +71,13 @@
 ** 2017-04-27
    - På förmiddagen satt jag och Anton och gick igenom rapporten inför inlämning till M2. Vi har en hel del skrivet material att arbeta med, som vi framställt till största delen på seminarierna. Problemet blir att få ihop en rapport som går att läsa utan att ha tagit del av seminarieinstruktionerna. Just nu känns texten mest som ett svar på frǻgor, inte en fristående text. Jag tror inte att vi kommer hinna skriva om allt det till M2-inlämningen, det får nog vänta till slutinlämningen.
    - På eftermiddagen renskrev jag en del av rapporten utifrån det vi gått igenom på förmiddagen. Det blev inte en stor omskrivning som jag tror krävs till en slutinlämning, utan jag fokuserade mest på att ta bort en del duplikation, städa upp lite språkligt, och klargöra vissa delar.
+** 2017-05-02
+   - Vi satte igång arbete på allvar med ultraljudspositionering. Det är många rörliga delar som måste sitta ihop. Jag och Micke började med arbetet hur vi ska generera pulser av något slag från tre olika fyrar. Vi arbetade efter följande kriterier:
+     - Pulserna genereras centralt från ett arduinokort, och vi drar (långa) sladdar till de tre fyrarna. Detta för att slippa synkronisera olika utvecklingskort
+     - Fyrarna ska i tur skicka en puls av viss längd, sedan ska vi ha någon paus, och sedan ska nästa fyr göra likadant, etc. Efter att alla fyrar skickat puls ska det vara tyst i mediet. Med denna procedur bör vi kunna identifiera vilken fyr som sänder vilken puls, och därmed kunna bestämma avstånd.
+     Vi genererade först signal från signalgenerator och använde transistorer för att switcha på de olika kanalerna (alltså fyrarna). Vid mätning med oscilloskop fick vi inte förväntat resultat. Vi diskuterade med Tommy, och han föreslog att vi inte behövde en sinusvåg och alltså inte en funktionsgenerator, utan en fyrkantsvåg genererat av digitalpinnar på utvecklingskortet borde vara bättre. Vi inledde arbetet med detta, men blev inte färdiga.
+   - Något annat som kom upp under dagen var begreppet homografi eller homography. Jag gjorde en egensnickrad koordinatmappning till vår opencvlösning, som vid första testet gav okej resultat på en del ställen av banan, men sämre under andra. Jag hittade ett bra namn på det nu, homografi alltså, och därmed blev det lätt att hitta bra källor, t ex [[http://www.learnopencv.com/homography-examples-using-opencv-python-c/][denna]] eller [[https://www.cs.ubc.ca/grads/resources/thesis/May09/Dubrofsky_Elan.pdf][denna]].
+** 2017-05-03
+   Homography...
+** 2017-05-04
+   Vad hände idag?
