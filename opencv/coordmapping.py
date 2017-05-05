@@ -18,6 +18,11 @@ class Mapper:
         c = np.array([[p3[0]], [p3[1]], [1.0]])
         d = np.array([[p4[0]], [p4[1]], [1.0]])
 
+        # sparar kamerapositionen, som även har en z-komponent
+        self.campos = np.array([[camerapos[0]], [camerapos[1]], [camerapos[2]], [1]])
+        print 'camerapos:'
+        print self.campos
+
         # matris för att sätta a till origo och vända på yaxeln, som växer positivt nedåt i bildkoordinater. Vi vill ha att den växer positivt uppåt
         flip_y_origo = np.array([[1,  0, -p1[0]],
                                  [0, -1,  p1[1]],
@@ -63,6 +68,20 @@ class Mapper:
         result = np.matmul(self.mapmtx, point)
         return (result.item(0), result.item(1))
 
+    def get_mapped_with_height(self, p, height):
+        # lägger till z-komponent till p och döper om den
+        P = np.array([[p[0]], [p[1]], [0], [1]])
+
+        # vektor mellan leds position och kamerans postition
+        v = P - self.campos
+
+        # på linjen mellan leds position och kamerans postition vill vi hitta x,y-koordinater där z-koordinaten är lika med height, genom att bestämma parametern t i linjens ekvation
+        t = (height - self.campos[2]) / v[2]
+        x = self.campos[0] + t * v[0]
+        y = self.campos[1] + t * v[1]
+
+        return (x, y)
+
 # bilateration med två kända punkter, en i origo och den andra på y-axeln med avstånd dist till origo. r1 är okända punktens avstånd till origo, r2 avstånd till andra punkten. Returnerarpositivt x-värde, även -x är giltig lösning
 def bilat(dist, r1, r2):
     y = (r1**2 - r2**2 + dist**2) / (2 * dist)
@@ -88,6 +107,10 @@ def main():
     F = (1388, 1740)
     fp = mp.get_mapped(F)
     print 'F:', fp
+
+    ppp = mp.get_mapped_with_height(F, 0.5)
+    print 'med höjd:', ppp
+
 if __name__ == '__main__':
     main()
 
