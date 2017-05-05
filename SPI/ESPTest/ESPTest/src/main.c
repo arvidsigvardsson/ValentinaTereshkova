@@ -202,7 +202,7 @@ void recieveRX(uint32_t* xCoordinate, uint32_t* yCoordinate) {
 			counter = 0;
 		}
 		delayMicroseconds(1);
-		if(counter > 50000 || char_counter > 6){		//kanske behöver mer när vi tar emot från ESP
+		if(counter > 50000 || char_counter > 6){		//kanske behï¿½ver mer nï¿½r vi tar emot frï¿½n ESP
 			counter = 0;
 			break;
 		}
@@ -242,6 +242,10 @@ void USART1_Handler() {
 	if (c_counter > 15)
 	{
 		c_counter = 0;
+		/*x1 = (rx[0] << 8) | (rx[1] << 0);
+		y1 = (rx[2] << 8) | (rx[3] << 0);
+		x2 = (rx[4] << 8) | (rx[5] << 0);
+		y2 = (rx[6] << 8) | (rx[7] << 0);*/
 	}
 	if (CONF_UART->US_CSR & (1 << US_CSR_RXBUFF))
 	{

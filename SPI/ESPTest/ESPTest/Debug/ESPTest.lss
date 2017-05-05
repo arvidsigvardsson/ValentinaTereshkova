@@ -17,6 +17,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   6 .comment      0000005b  00000000  00000000  000109d5  2**0
                   CONTENTS, READONLY
+<<<<<<< refs/remotes/origin/master
   7 .debug_info   000101a6  00000000  00000000  00010a30  2**0
                   CONTENTS, READONLY, DEBUGGING
   8 .debug_abbrev 000029d8  00000000  00000000  00020bd6  2**0
@@ -34,6 +35,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
  14 .debug_str    00061c86  00000000  00000000  000526f9  2**0
                   CONTENTS, READONLY, DEBUGGING
  15 .debug_frame  00001f08  00000000  00000000  000b4380  2**2
+=======
+  6 .debug_info   00010147  00000000  00000000  000109f8  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  7 .debug_abbrev 00002984  00000000  00000000  00020b3f  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  8 .debug_loc    00004b1a  00000000  00000000  000234c3  2**0
+                  CONTENTS, READONLY, DEBUGGING
+  9 .debug_aranges 00000ae8  00000000  00000000  00027fdd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 10 .debug_ranges 000009c0  00000000  00000000  00028ac5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 11 .debug_macro  00018a38  00000000  00000000  00029485  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 12 .debug_line   00010685  00000000  00000000  00041ebd  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_str    00061c01  00000000  00000000  00052542  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_frame  000018d8  00000000  00000000  000b4144  2**2
+>>>>>>> Ändrade i ESP kommunikation, fungerar inte
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -1584,9 +1604,19 @@ void USART1_Handler() {
    80d04:	d902      	bls.n	80d0c <USART1_Handler+0x24>
 	{
 		c_counter = 0;
+<<<<<<< refs/remotes/origin/master
    80d06:	2200      	movs	r2, #0
    80d08:	4b03      	ldr	r3, [pc, #12]	; (80d18 <USART1_Handler+0x30>)
    80d0a:	701a      	strb	r2, [r3, #0]
+=======
+   80cc6:	2200      	movs	r2, #0
+   80cc8:	4b03      	ldr	r3, [pc, #12]	; (80cd8 <USART1_Handler+0x30>)
+   80cca:	701a      	strb	r2, [r3, #0]
+		/*x1 = (rx[0] << 8) | (rx[1] << 0);
+		y1 = (rx[2] << 8) | (rx[3] << 0);
+		x2 = (rx[4] << 8) | (rx[5] << 0);
+		y2 = (rx[6] << 8) | (rx[7] << 0);*/
+>>>>>>> Ändrade i ESP kommunikation, fungerar inte
 	}
 	if (CONF_UART->US_CSR & (1 << US_CSR_RXBUFF))
    80d0c:	4b01      	ldr	r3, [pc, #4]	; (80d14 <USART1_Handler+0x2c>)
@@ -1675,6 +1705,7 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
    80d8c:	4b3e      	ldr	r3, [pc, #248]	; (80e88 <main+0x128>)
    80d8e:	4798      	blx	r3
 	delayMicroseconds(1000000);
+<<<<<<< refs/remotes/origin/master
    80d90:	483e      	ldr	r0, [pc, #248]	; (80e8c <main+0x12c>)
    80d92:	4b3f      	ldr	r3, [pc, #252]	; (80e90 <main+0x130>)
    80d94:	4798      	blx	r3
@@ -1691,6 +1722,14 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
    80da0:	f8ad 3002 	strh.w	r3, [sp, #2]
 	uint16_t x4 = 0;
    80da4:	f8ad 3000 	strh.w	r3, [sp]
+=======
+   80d0c:	481c      	ldr	r0, [pc, #112]	; (80d80 <main+0xa0>)
+   80d0e:	4b1d      	ldr	r3, [pc, #116]	; (80d84 <main+0xa4>)
+   80d10:	4798      	blx	r3
+	char sy1[3];
+	char sx2[3];
+	char sy2[3];
+>>>>>>> Ändrade i ESP kommunikation, fungerar inte
 	while (1)
 	{
 		str1[0] = rx[0];
@@ -1706,10 +1745,20 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 		stringToInt(&x3, str3);
 		stringToInt(&x4, str4);
 		lcdClearDisplay();
+<<<<<<< refs/remotes/origin/master
    80dac:	f8df 80f8 	ldr.w	r8, [pc, #248]	; 80ea8 <main+0x148>
 	uint16_t x2 = 0;
 	uint16_t x3 = 0;
 	uint16_t x4 = 0;
+=======
+   80d12:	4e1d      	ldr	r6, [pc, #116]	; (80d88 <main+0xa8>)
+		lcdWrite(rx[0], HIGH);
+   80d14:	4d1d      	ldr	r5, [pc, #116]	; (80d8c <main+0xac>)
+   80d16:	4c1e      	ldr	r4, [pc, #120]	; (80d90 <main+0xb0>)
+	char sy1[3];
+	char sx2[3];
+	char sy2[3];
+>>>>>>> Ändrade i ESP kommunikation, fungerar inte
 	while (1)
 	{
 		str1[0] = rx[0];
