@@ -20,8 +20,8 @@ class Mapper:
 
         # sparar kamerapositionen, som även har en z-komponent
         self.campos = np.array([[camerapos[0]], [camerapos[1]], [camerapos[2]], [1]])
-        print 'camerapos:'
-        print self.campos
+        # print 'camerapos:'
+        # print self.campos
 
         # matris för att sätta a till origo och vända på yaxeln, som växer positivt nedåt i bildkoordinater. Vi vill ha att den växer positivt uppåt
         flip_y_origo = np.array([[1,  0, -p1[0]],
@@ -61,7 +61,7 @@ class Mapper:
         # print A[:-1]
 
         self.mapmtx = np.matmul(h, flip_y_origo)
-        print h
+        # print h
 
     def get_mapped(self, p):
         point = np.array([[p[0]], [p[1]], [1]])
@@ -69,16 +69,22 @@ class Mapper:
         return (result.item(0), result.item(1))
 
     def get_mapped_with_height(self, p, height):
+        # mappar om p
+        pm = self.get_mapped(p)
+        # print 'pm:', pm
+
         # lägger till z-komponent till p och döper om den
-        P = np.array([[p[0]], [p[1]], [0], [1]])
+        P = np.array([[pm[0]], [pm[1]], [0], [1]])
 
         # vektor mellan leds position och kamerans postition
         v = P - self.campos
 
         # på linjen mellan leds position och kamerans postition vill vi hitta x,y-koordinater där z-koordinaten är lika med height, genom att bestämma parametern t i linjens ekvation
-        t = (height - self.campos[2]) / v[2]
-        x = self.campos[0] + t * v[0]
-        y = self.campos[1] + t * v[1]
+        t = (height - self.campos[2][0]) / v[2][0]
+        x = self.campos[0][0] + t * v[0][0]
+        y = self.campos[1][0] + t * v[1][0]
+
+        # print 't:', t
 
         return (x, y)
 
@@ -99,17 +105,21 @@ def main():
     # newpoint = mp.get_mapped(E)
     # print 'Mappad punkt:', newpoint
 
-    mp = Mapper((335, 3432), (2480, 3239), (2238, 434), (143, 555), 300.0, 400.0, (-1, -1, -1))
-    H = (480, 882)
-    newpoint = mp.get_mapped(H)
-    print 'Mappad punkt:', newpoint
+    # mp = Mapper((335, 3432), (2480, 3239), (2238, 434), (143, 555), 300.0, 400.0, (-1, -1, -1))
+    # H = (480, 882)
+    # newpoint = mp.get_mapped(H)
+    # print 'Mappad punkt:', newpoint
 
-    F = (1388, 1740)
-    fp = mp.get_mapped(F)
-    print 'F:', fp
+    # F = (1388, 1740)
+    # fp = mp.get_mapped(F)
+    # print 'F:', fp
 
-    ppp = mp.get_mapped_with_height(F, 0.5)
-    print 'med höjd:', ppp
+    # ppp = mp.get_mapped_with_height(F, 0.5)
+    # print 'med höjd:', ppp
+
+    mp = Mapper((0,0), (10, 0), (10, 10), (0, 10), 10, 10, (0,0, 5))
+    print '\nmappad punkt:'
+    print mp.get_mapped_with_height((0,10), 0.5)
 
 if __name__ == '__main__':
     main()
