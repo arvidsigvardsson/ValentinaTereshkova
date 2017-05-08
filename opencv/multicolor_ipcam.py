@@ -11,14 +11,14 @@ from post_request import send_request
 
 
 
-url = 'http://192.168.20.145:5000/srv/coordinates'
+url = 'http://192.168.20.133:5000/srv/coordinates'
 
 #url = 'http://192.168.20.133:5000/srv/coordinates'
 
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
 frameCount = 1
 bytes=''
-mapper = Mapper((180, 461), (634,434), (603,84), (172, 107), 500, 400)
+mapper = Mapper((150, 483), (656,412), (586,24), (111, 94), 500, 400, (272.8, 69.5, 801))
 
 
 while(frameCount):
@@ -39,8 +39,8 @@ while(frameCount):
     lower_red = np.array([150,100,100])
     upper_red = np.array([180,255,255])
 
-    lower_blue = np.array([105,100,100])
-    upper_blue = np.array([130,255,255])
+    lower_blue = np.array([90,100,100])
+    upper_blue = np.array([140,255,255])
 
     kernel=np.ones((5,5), np.uint8) # Not used
 
@@ -91,10 +91,10 @@ while(frameCount):
         center_blue = (int(M_blue["m10"] / M_blue["m00"]), int(M_blue["m01"] / M_blue["m00"]))
         cbX = center_blue[0]
         cbY = center_blue[1]
-        (newcbX, newcbY) = mapper.get_mapped((cbX, cbY))
+        (newcbX, newcbY) = mapper.get_mapped_with_height((cbX, cbY), 24)
 
         # only proceed if the radius meets a minimum size
-        if radius_blue > 8:
+        if radius_blue > 7:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
@@ -102,10 +102,12 @@ while(frameCount):
             cv2.putText(frame,"BLUE_CENTER", (center_blue[0]+10,center_blue[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame,"("+str(center_blue[0])+","+str(center_blue[1])+")", (center_blue[0]+10,center_blue[1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 10):
+            if (frameCount > 30):
+                print(int(newcbX))
+                print(int(newcbY))
                 post_fields = { 'x' : int(newcbX) , 'y' : int(newcbY)}
                 send_request(url, post_fields)
-                print('Post request send succesfully!')
+                #print('Post request send succesfully!')
 
                 # Uncomment to send coordinates for red_center aswell
                 #post_fields = { 'x' : crX, 'y' : crY}
@@ -116,7 +118,7 @@ while(frameCount):
 
     endTime = int(round(time.time() * 1000))
     oneFrame = endTime - startTime
-    print('One frame time:' + str(oneFrame))
+    #print('One frame time:' + str(oneFrame))
     cv2.imshow('frame', frame)
     cv2.imshow('red', red)
     cv2.imshow('blue', blue)
