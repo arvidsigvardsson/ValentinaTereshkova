@@ -13,27 +13,39 @@ int ycor = 0;
 String str1 = "";
 String xcors = "";
 String ycors = "";
-uint16_t x_1 = 0;
-uint16_t y_1 = 0;
-uint16_t x_2 = 0;
-uint16_t y_2 = 0;
+uint16_t x_1 = 200;
+uint16_t y_1 = 300;
+uint16_t x_2 = 400;
+uint16_t y_2 = 500;
+
+uint8_t byteArray[8];
 
 SoftwareSerial rxtx(12,14);
 
 void setup() {
   pinMode(CS, OUTPUT);
   Serial.begin(115200);
-  rxtx.begin(9600);
+  rxtx.begin(115200);
   delay(10);
 
   // Connect to WiFi
 
   Serial.println();
   Serial.println();
-  Serial.print("Connecting to ");
-  Serial.println(ssid);
+
+      byteArray[0] = x_1 & 0xFF00;
+      byteArray[1] = x_1 & 0x00FF;
+      byteArray[2] = y_1 & 0xFF00;
+      byteArray[3] = y_1 & 0x00FF;
+      byteArray[4] = x_2 & 0xFF00;
+      byteArray[5] = x_2 & 0x00FF;
+      byteArray[6] = y_2 & 0xFF00;
+      byteArray[7] = y_2 & 0x00FF;
   
-  WiFi.begin(ssid, password);
+  //Serial.print("Connecting to ");
+  //Serial.println(ssid);
+  
+  /*WiFi.begin(ssid, password);
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
@@ -43,16 +55,16 @@ void setup() {
   Serial.println("");
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());
+  Serial.println(WiFi.localIP());*/
   
 }
 
 void loop() {
   
-  if(WiFi.status() == WL_CONNECTED) {
+  /*if(WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
-    http.begin("http://192.168.20.145:5000/srv/coordinate/getlatest");
+    http.begin("http://192.168.20.133:5000/srv/coordinate/getlatest");
     int httpCode = http.GET();
 
     if(httpCode > 0){
@@ -73,7 +85,7 @@ void loop() {
       if(y_1 < 0) {
         y_1 = 0;
       }*/
-      x_1 = 200;
+      /*x_1 = 200;
       y_1 = 200;
       x_2 = 0;
       y_2 = 0;
@@ -119,7 +131,18 @@ void loop() {
     rxtx.print(str1);
   }
   
-   delay(1000); 
+   delay(500); */
+   while(rxtx.available()) {
+    char buf[8];
+    rxtx.readBytes(buf, 8);
+    if(String(buf) == "request!") {
+      rxtx.write(byteArray, 8);
+    }
+    else if(String(buf) == "okx") {
+      Serial.println("Success!");
+    }
+    Serial.println(String(buf));
+   }
 
 }
 
