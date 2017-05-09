@@ -7,17 +7,16 @@
 
 #include "asf.h"
 #include "task1.h"
-#include "usb_print.h"
 
 
-void task_uart(freertos_usart_if *pvParameters)
+void task_uart(freertos_uart_if *pvParameters)
 {
 	
-	const char req[] = "request!";
+	const char req[] = "00000000";
 	const char ok[] = "okx";
 	portTickType xLastWakeTime;
 	const portTickType xTimeIncrement = 500;
-	freertos_usart_if *freertos_usart = *pvParameters;
+	freertos_uart_if *freertos_usart = *pvParameters;
 	xLastWakeTime = xTaskGetTickCount();
 	uint8_t rx[8];
 	
@@ -26,11 +25,13 @@ void task_uart(freertos_usart_if *pvParameters)
 		/*freertos_usart_serial_read_packet(freertos_usart, &rx, 8, 10);
 		if (rx[1] == 200)
 		{
-			print(&rx, 8);
+			//print(&rx, 8);
 		}
 		else {
 			freertos_usart_write_packet(freertos_usart, (const uint8_t*)req, sizeof(req) - 1, 0);
 		}*/
+		
+		freertos_uart_write_packet(freertos_usart, req, sizeof(req) - 1, 10);
 		vTaskDelayUntil(&xLastWakeTime, xTimeIncrement);
 	}
 }

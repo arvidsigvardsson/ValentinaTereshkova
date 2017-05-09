@@ -75,7 +75,7 @@ void board_init(void)
 	/* Configure UART pins */
 	ioport_set_port_mode(IOPORT_PIOA, PIO_PA12A_RXD1 | PIO_PA13A_TXD1, IOPORT_MODE_MUX_A);
 	ioport_disable_port(IOPORT_PIOA, PIO_PA12A_RXD1 | PIO_PA13A_TXD1);
-	//gpio_configure_group(PINS_UART_PIO, PINS_UART, PINS_UART_FLAGS);
+	gpio_configure_group(PINS_UART_PIO, PINS_UART, PINS_UART_FLAGS);
 #endif
 
 	/* Configure ADC example pins */

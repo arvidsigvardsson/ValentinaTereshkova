@@ -12,8 +12,6 @@ src\dummyTask2.c
 
 src\task1.c
 
-src\usb_print.c
-
 src\ASF\common\services\clock\sam3x\sysclk.c
 
 src\ASF\common\services\freertos\sam\freertos_peripheral_control.c

@@ -152,8 +152,7 @@ src/main.d src/main.o: ../src/main.c ../src/asf.h \
  ../src/ASF/common/services/serial/sam_uart/uart_serial.h \
  ../src/config/conf_uart_serial.h \
  ../src/ASF/sam/drivers/pio/pio_handler.h ../src/task1.h \
- ../src/dummyTask1.h ../src/dummyTask2.h ../src/consoleFunctions.h \
- ../src/usb_print.h
+ ../src/dummyTask1.h ../src/dummyTask2.h ../src/consoleFunctions.h
 
 ../src/asf.h:
 
@@ -476,5 +475,3 @@ c:\program\ files\ (x86)\atmel\atmel\ toolchain\arm\ gcc\native\4.8.1443\arm-gnu
 ../src/dummyTask2.h:
 
 ../src/consoleFunctions.h:
-
-../src/usb_print.h:

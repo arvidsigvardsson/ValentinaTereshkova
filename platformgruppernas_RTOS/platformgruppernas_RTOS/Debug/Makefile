@@ -102,7 +102,6 @@ C_SRCS +=  \
 ../src/dummyTask1.c \
 ../src/dummyTask2.c \
 ../src/task1.c \
-../src/usb_print.c \
 ../src/ASF/common/services/clock/sam3x/sysclk.c \
 ../src/ASF/common/services/freertos/sam/freertos_peripheral_control.c \
 ../src/ASF/common/services/freertos/sam/freertos_usart_serial.c \
@@ -142,7 +141,6 @@ src/ConsoleFunctions.o \
 src/dummyTask1.o \
 src/dummyTask2.o \
 src/task1.o \
-src/usb_print.o \
 src/ASF/common/services/clock/sam3x/sysclk.o \
 src/ASF/common/services/freertos/sam/freertos_peripheral_control.o \
 src/ASF/common/services/freertos/sam/freertos_usart_serial.o \
@@ -175,7 +173,6 @@ src/ConsoleFunctions.o \
 src/dummyTask1.o \
 src/dummyTask2.o \
 src/task1.o \
-src/usb_print.o \
 src/ASF/common/services/clock/sam3x/sysclk.o \
 src/ASF/common/services/freertos/sam/freertos_peripheral_control.o \
 src/ASF/common/services/freertos/sam/freertos_usart_serial.o \
@@ -208,7 +205,6 @@ src/ConsoleFunctions.d \
 src/dummyTask1.d \
 src/dummyTask2.d \
 src/task1.d \
-src/usb_print.d \
 src/ASF/common/services/clock/sam3x/sysclk.d \
 src/ASF/common/services/freertos/sam/freertos_peripheral_control.d \
 src/ASF/common/services/freertos/sam/freertos_usart_serial.d \
@@ -241,7 +237,6 @@ src/ConsoleFunctions.d \
 src/dummyTask1.d \
 src/dummyTask2.d \
 src/task1.d \
-src/usb_print.d \
 src/ASF/common/services/clock/sam3x/sysclk.d \
 src/ASF/common/services/freertos/sam/freertos_peripheral_control.d \
 src/ASF/common/services/freertos/sam/freertos_usart_serial.d \
@@ -283,8 +278,6 @@ LINKER_SCRIPT_DEP+=  \
 
 
 # AVR32/GNU C Compiler
-
-
 
 
 
