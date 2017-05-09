@@ -70,10 +70,10 @@ while(frameCount):
         center_red = (int(M_red["m10"] / M_red["m00"]), int(M_red["m01"] / M_red["m00"]))
         crX = center_red[0]
         crY = center_red[1]
-        (newcrX, newcrY) = mapper.get_mapped((crX, crY))
+        (newcrX, newcrY) = mapper.get_mapped_with_height((crX, crY), 24)
 
         # only proceed if the radius meets a minimum size
-        if radius_red > 8:
+        if radius_red > 7:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_red), int(y_red)), int(radius_red),(0, 255, 255), 2)
@@ -102,15 +102,15 @@ while(frameCount):
             cv2.putText(frame,"BLUE_CENTER", (center_blue[0]+10,center_blue[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame,"("+str(center_blue[0])+","+str(center_blue[1])+")", (center_blue[0]+10,center_blue[1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 30):
+            if (frameCount > 5):
                 print(int(newcbX))
                 print(int(newcbY))
-                post_fields = { 'x' : int(newcbX) , 'y' : int(newcbY)}
+                post_fields = { 'x1' : int(newcbX) , 'y1' : int(newcbY), 'x2' : 0, 'y2' : 0} #Only blue center coordinates
                 send_request(url, post_fields)
                 #print('Post request send succesfully!')
 
                 # Uncomment to send coordinates for red_center aswell
-                #post_fields = { 'x' : crX, 'y' : crY}
+                #post_fields = { 'x1' : int(newcbX), 'y1' : int(newcbY), 'x2' : int(newcrX), 'y2' : int(newcrY) }
                 #send_request(url,post_fields)
 
                 frameCount = 1

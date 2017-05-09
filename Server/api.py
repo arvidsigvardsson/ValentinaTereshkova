@@ -21,3 +21,10 @@ class CoordinateAPI(Resource):
 
     def delete(self, id):
         pass
+
+class ObjectAPI(Resource):
+    def get(self):
+        pass
+
+    def post(self):
+        pass
