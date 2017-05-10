@@ -39,7 +39,7 @@ while(frameCount):
     lower_red = np.array([150,100,100])
     upper_red = np.array([180,255,255])
 
-    lower_blue = np.array([90,100,100])
+    lower_blue = np.array([95,100,100])
     upper_blue = np.array([140,255,255])
 
     kernel=np.ones((5,5), np.uint8) # Not used
@@ -49,7 +49,7 @@ while(frameCount):
     red = cv2.dilate(red, None , iterations=2)
 
     blue = cv2.inRange(hsv, lower_blue, upper_blue)
-    blue = cv2.erode(blue, None, iterations=2)
+    blue = cv2.erode(blue, None, iterations=1)
     blue = cv2.dilate(blue, None, iterations=2)
     #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, kernel)
     #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, kernel)
