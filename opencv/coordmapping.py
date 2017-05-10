@@ -5,13 +5,61 @@ import math
 import numpy as np
 import cv2
 
+# from calibration import camera_matrix, dist_coeffs
+import calibration
+
 class Mapper:
     def __init__(self, p1, p2, p3, p4, xdim, ydim, camerapos):
         self.xdim = xdim
         self.ydim = ydim
+        self.camera_matrix = calibration.camera_matrix
+        self.dist_coeffs = calibration.dist_coeffs
         self.calibrate(p1, p2, p3, p4, camerapos)
 
+    def remove_distortion(self, p):
+        # gör om p till homografiskt nparray
+        pos = np.array([[p[0]], [p[1]], [1]])
+        print 'pos'
+        print pos
+
+        # mappar om koordinaten med camera_matrix, sätter origo i optiska centret
+        # pos = np.matmul(self.camera_matrix, pos)
+        # print 'nya pos'
+        # print pos
+
+        # beräknar radien r
+        # r = (pos[0] **2 + pos[1] ** 2) ** .5
+        # print 'r:', r
+
+        # test
+        optmtx, roi = cv2.getOptimalNewCameraMatrix(self.camera_matrix, self.dist_coeffs, (800, 600), 1)
+        print 'optmtx'
+        print optmtx
+
+        newpos = cv2.undistortPoints(np.array(
+             [[[p[0], p[1]]],
+              [[p[0], p[1]]]]), self.camera_matrix, self.dist_coeffs, None, optmtx)
+        # newpos = cv2.undistortPoints(np.array(
+        #      [[[450, 350]],
+        #       [[400, 300.0]]]), self.camera_matrix, self.dist_coeffs, None, optmtx)
+        print 'mappar om punkten:'
+        print pos
+        print 'till nya postitionen:'
+        print newpos
+
+        rp = (newpos[0][0][0], newpos[0][0][1])
+        print 'rp'
+        print rp
+        return rp
+
     def calibrate(self, p1, p2, p3, p4, camerapos):
+        # tar bort distortion
+        p1 = self.remove_distortion(p1)
+        p2 = self.remove_distortion(p2)
+        p3 = self.remove_distortion(p3)
+        p4 = self.remove_distortion(p4)
+        # camerapos = self.remove_distortion(camerapos)
+
         # gör om punkterna från tuples till nparrayer
         a = np.array([[p1[0]], [p1[1]], [1.0]])
         b = np.array([[p2[0]], [p2[1]], [1.0]])
@@ -64,6 +112,8 @@ class Mapper:
         # print h
 
     def get_mapped(self, p):
+        # tar bort distortion
+        p = self.remove_distortion(p)
         point = np.array([[p[0]], [p[1]], [1]])
         result = np.matmul(self.mapmtx, point)
         return (result.item(0), result.item(1))
@@ -117,11 +167,31 @@ def main():
     # ppp = mp.get_mapped_with_height(F, 0.5)
     # print 'med höjd:', ppp
 
-    mp = Mapper((0,0), (10, 0), (10, 10), (0, 10), 10, 10, (0,0, 5))
-    print '\nmappad punkt:'
-    print mp.get_mapped_with_height((0,10), 0.5)
+    # mp = Mapper((0.0,0), (10, 0), (10, 10), (0, 10), 10, 10, (0,0, 5))
+    # print '\nmappad punkt:'
+    # print mp.get_mapped_with_height((0,10), 0.5)
+
+    # mp.remove_distortion((1.0,1.0))
+    # mp.remove_distortion((10,10))
+    # mp.remove_distortion((100,100))
+    # mp.remove_distortion((400, 300))
+
+    mp = Mapper((149.0, 483.0), (656.0, 411.0), (587.0, 24.0), (111.0, 96.0), 500, 400, (1.0, 1.0, 1.0))
+    p2 = (257.0, 274.0)
+    mapped_p2 = mp.get_mapped(p2)
+    print 'p2:', p2, 'mappad p2:', mapped_p2
+
+    p5 = (574.0, 49.0)
+    mapped_p5 = mp.get_mapped(p5)
+    print 'mappad p5:', mapped_p5
+
+    p6 = (627.0, 396.0)
+    mapped_p6 = mp.get_mapped(p6)
+    print 'mappad p6:', mapped_p6
+
+    p3 = (132.0, 107)
+    mapped_p3 = mp.get_mapped(p3)
+    print 'mappad p3:', mapped_p3
 
 if __name__ == '__main__':
     main()
-
-
