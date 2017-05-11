@@ -6,7 +6,7 @@ xlist = []
 ylist = []
 
 class FindEdge:
-    
+
     def __init__(self, colorLower, colorUpper):
         self.colorLower = colorLower
         self.colorUpper = colorUpper
@@ -14,7 +14,8 @@ class FindEdge:
 
 
     def get_edges(self, frame):
-        hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+        hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv, self.colorLower, self.colorUpper)
         mask = cv2.erode(mask, None, iterations=1)
         mask = cv2.dilate(mask, None, iterations=2)
@@ -32,12 +33,11 @@ class FindEdge:
             cv2.circle(frame, (cX, cY), 7, (255, 255, 255), -1)
             cv2.putText(frame, "center", (cX - 20, cY - 20),
             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
-            cv2.imshow("frame", frame)
-            cv2.imshow("mask", frame)
-            cv2.waitKey(0)
-            cv2.destroyAllWindows()
 
 
+        cv2.imshow("frame", frame)
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
         return xlist, ylist
 
 
