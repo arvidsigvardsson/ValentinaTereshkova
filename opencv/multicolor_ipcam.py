@@ -21,6 +21,10 @@ bytes=''
 mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
 
 
+
+
+
+
 while(frameCount):
     #startTime = int(round(time.time() * 1000))
     bytes+=stream.read(1024)
