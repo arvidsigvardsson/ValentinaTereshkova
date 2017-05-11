@@ -19,8 +19,8 @@ class Mapper:
     def remove_distortion(self, p):
         # gör om p till homografiskt nparray
         pos = np.array([[p[0]], [p[1]], [1]])
-        print 'pos'
-        print pos
+        #print 'pos'
+        #print pos
 
         # mappar om koordinaten med camera_matrix, sätter origo i optiska centret
         # pos = np.matmul(self.camera_matrix, pos)
@@ -33,8 +33,8 @@ class Mapper:
 
         # test
         optmtx, roi = cv2.getOptimalNewCameraMatrix(self.camera_matrix, self.dist_coeffs, (800, 600), 1)
-        print 'optmtx'
-        print optmtx
+        #print 'optmtx'
+        #print optmtx
 
         newpos = cv2.undistortPoints(np.array(
              [[[p[0], p[1]]],
@@ -42,14 +42,14 @@ class Mapper:
         # newpos = cv2.undistortPoints(np.array(
         #      [[[450, 350]],
         #       [[400, 300.0]]]), self.camera_matrix, self.dist_coeffs, None, optmtx)
-        print 'mappar om punkten:'
-        print pos
-        print 'till nya postitionen:'
-        print newpos
+        #print 'mappar om punkten:'
+        #print pos
+        #print 'till nya postitionen:'
+        #print newpos
 
         rp = (newpos[0][0][0], newpos[0][0][1])
-        print 'rp'
-        print rp
+        #print 'rp'
+        #print rp
         return rp
 
     def calibrate(self, p1, p2, p3, p4, camerapos):

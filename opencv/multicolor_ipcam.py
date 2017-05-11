@@ -18,11 +18,11 @@ url = 'http://192.168.20.133:5000/srv/coordinates'
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
 frameCount = 1
 bytes=''
-mapper = Mapper((150, 483), (656,412), (586,24), (111, 94), 500, 400, (272.8, 69.5, 801))
+mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
 
 
 while(frameCount):
-    startTime = int(round(time.time() * 1000))
+    #startTime = int(round(time.time() * 1000))
     bytes+=stream.read(1024)
     a = bytes.find('\xff\xd8')
     b = bytes.find('\xff\xd9')
@@ -39,18 +39,18 @@ while(frameCount):
     lower_red = np.array([150,100,100])
     upper_red = np.array([180,255,255])
 
-    lower_blue = np.array([95,100,100])
-    upper_blue = np.array([140,255,255])
+    lower_blue = np.array([110,80,100])
+    upper_blue = np.array([130,255,255])
 
-    kernel=np.ones((5,5), np.uint8) # Not used
+    kernel=np.ones((2,2), np.uint8) # Not used
 
     red = cv2.inRange(hsv, lower_red, upper_red)
     red = cv2.erode(red, None, iterations=1)
     red = cv2.dilate(red, None , iterations=2)
 
     blue = cv2.inRange(hsv, lower_blue, upper_blue)
-    blue = cv2.erode(blue, None, iterations=1)
-    blue = cv2.dilate(blue, None, iterations=2)
+    blue = cv2.erode(blue, kernel, iterations=2)
+    blue = cv2.dilate(blue, kernel, iterations=3)
     #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, kernel)
     #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, kernel)
 
@@ -67,19 +67,19 @@ while(frameCount):
         c_red = max(cnts_red, key=cv2.contourArea)
         ((x_red, y_red), radius_red) = cv2.minEnclosingCircle(c_red)
         M_red = cv2.moments(c_red)
-        center_red = (int(M_red["m10"] / M_red["m00"]), int(M_red["m01"] / M_red["m00"]))
+        center_red = (float(M_red["m10"] / M_red["m00"]), float(M_red["m01"] / M_red["m00"]))
         crX = center_red[0]
         crY = center_red[1]
-        (newcrX, newcrY) = mapper.get_mapped_with_height((crX, crY), 24)
+        (newcrX, newcrY) = mapper.get_mapped_with_height((crX, crY), 10)
 
         # only proceed if the radius meets a minimum size
-        if radius_red > 7:
+        if radius_red > 10:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_red), int(y_red)), int(radius_red),(0, 255, 255), 2)
-            cv2.circle(frame, center_red, 3, (30,200, 255), -1)
-            cv2.putText(frame,"RED_CENTER", (center_red[0]+10,center_red[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(30, 200, 255),1)
-            cv2.putText(frame,"("+str(center_red[0])+","+str(center_red[1])+")", (center_red[0]+10,center_red[1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(30, 200, 255),1)
+            cv2.circle(frame, (int(center_red[0]), int(center_red[1])), 3, (30,200, 255), -1)
+            cv2.putText(frame,"RED_CENTER", (int(center_red[0]) + 10, int(center_red[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(30, 200, 255),1)
+            cv2.putText(frame,"("+str(int(center_red[0]))+","+str(int(center_red[1]))+")", (int(center_red[0]) + 10, int(center_red[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(30, 200, 255),1)
 
     if len(cnts_blue) > 0:
         # find the largest contour in the mask, then use
@@ -88,21 +88,24 @@ while(frameCount):
         c_blue = max(cnts_blue, key=cv2.contourArea)
         ((x_blue, y_blue), radius_blue) = cv2.minEnclosingCircle(c_blue)
         M_blue = cv2.moments(c_blue)
-        center_blue = (int(M_blue["m10"] / M_blue["m00"]), int(M_blue["m01"] / M_blue["m00"]))
-        cbX = center_blue[0]
-        cbY = center_blue[1]
-        (newcbX, newcbY) = mapper.get_mapped_with_height((cbX, cbY), 24)
+        if M_blue["m00"] != 0:
+            center_blue = (float(M_blue["m10"] / M_blue["m00"]), float(M_blue["m01"] / M_blue["m00"]))
+            cbX = center_blue[0]
+            cbY = center_blue[1]
+            (newcbX, newcbY) = mapper.get_mapped_with_height((cbX, cbY), 28.5)
+            #(newcbX, newcbY) = mapper.get_mapped((cbX, cbY))
+
 
         # only proceed if the radius meets a minimum size
         if radius_blue > 7:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
-            cv2.circle(frame, center_blue, 3, (255, 0, 255), -1)
-            cv2.putText(frame,"BLUE_CENTER", (center_blue[0]+10,center_blue[1]), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
-            cv2.putText(frame,"("+str(center_blue[0])+","+str(center_blue[1])+")", (center_blue[0]+10,center_blue[1]+15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
+            cv2.circle(frame, (int(center_blue[0]), int(center_blue[1])), 3, (255, 0, 255), -1)
+            cv2.putText(frame,"BLUE_CENTER", (int(center_blue[0]) + 10, int(center_blue[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
+            cv2.putText(frame,"("+str(int(center_blue[0]))+","+str(int(center_blue[1]))+")", (int(center_blue[0]) + 10, int(center_blue[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 5):
+            if (frameCount > 10):
                 print(int(newcbX))
                 print(int(newcbY))
                 post_fields = { 'x1' : int(newcbX) , 'y1' : int(newcbY), 'x2' : 0, 'y2' : 0} #Only blue center coordinates
@@ -116,8 +119,8 @@ while(frameCount):
                 frameCount = 1
 
 
-    endTime = int(round(time.time() * 1000))
-    oneFrame = endTime - startTime
+    #endTime = int(round(time.time() * 1000))
+    #oneFrame = endTime - startTime
     #print('One frame time:' + str(oneFrame))
     cv2.imshow('frame', frame)
     cv2.imshow('red', red)
