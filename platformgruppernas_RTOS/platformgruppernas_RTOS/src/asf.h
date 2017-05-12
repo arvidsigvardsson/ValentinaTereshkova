@@ -56,15 +56,12 @@
 #include <compiler.h>
 #include <status_codes.h>
 
+// From module: Delay routines
+#include <delay.h>
+
 // From module: FreeRTOS - PDC Interface Layer
 #include <freertos_peripheral_control.h>
 #include <freertos_peripheral_control_private.h>
-
-// From module: FreeRTOS - UART Interface Layer
-#include <freertos_uart_serial.h>
-
-// From module: FreeRTOS - USART Interface Layer
-#include <freertos_usart_serial.h>
 
 // From module: FreeRTOS mini Real-Time Kernel
 #include <FreeRTOS.h>
@@ -107,6 +104,9 @@
 
 // From module: SAM3X startup code
 #include <exceptions.h>
+
+// From module: Standard serial I/O (stdio) - SAM implementation
+#include <stdio_serial.h>
 
 // From module: System Clock Control - SAM3X/A implementation
 #include <sysclk.h>

@@ -6591,14 +6591,10 @@ Discarded input sections
                 0x00000000       0xa8 src/main.o
  .text.recieveRX2
                 0x00000000       0x4c src/main.o
- .bss.y1        0x00000000        0x2 src/main.o
- .bss.y2        0x00000000        0x2 src/main.o
  .bss.cpu_irq_critical_section_counter
                 0x00000000        0x4 src/main.o
  .bss.cpu_irq_prev_interrupt_state
                 0x00000000        0x1 src/main.o
- .bss.x1        0x00000000        0x2 src/main.o
- .bss.x2        0x00000000        0x2 src/main.o
  .data.alphabet
                 0x00000000       0x4c src/main.o
  .debug_macro   0x00000000      0x874 src/main.o
@@ -7874,11 +7870,7 @@ OUTPUT(ESPTest.elf elf32-littlearm)
  .comment       0x00000000       0x5c src/LCD/LCDFunctions.o
  .comment       0x00000000       0x5c src/main.o
 
-<<<<<<< refs/remotes/origin/master
-.debug_info     0x00000000    0x101a6
-=======
-.debug_info     0x00000000    0x10147
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+.debug_info     0x00000000    0x101a9
  .debug_info    0x00000000      0x796 src/ASF/common/services/clock/sam3x/sysclk.o
  .debug_info    0x00000796      0x7c5 src/ASF/common/services/serial/usart_serial.o
  .debug_info    0x00000f5b      0x1e8 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
@@ -7898,15 +7890,9 @@ OUTPUT(ESPTest.elf elf32-littlearm)
  .debug_info    0x0000b198      0xd16 src/DelayFunctions.o
  .debug_info    0x0000beae      0xc2e src/LCD/lcdApplication.o
  .debug_info    0x0000cadc     0x1e08 src/LCD/LCDFunctions.o
-<<<<<<< refs/remotes/origin/master
- .debug_info    0x0000e8e4     0x18c2 src/main.o
+ .debug_info    0x0000e8e4     0x18c5 src/main.o
 
-.debug_abbrev   0x00000000     0x29d8
-=======
- .debug_info    0x0000e8e4     0x1863 src/main.o
-
-.debug_abbrev   0x00000000     0x2984
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+.debug_abbrev   0x00000000     0x29e7
  .debug_abbrev  0x00000000      0x227 src/ASF/common/services/clock/sam3x/sysclk.o
  .debug_abbrev  0x00000227      0x1a8 src/ASF/common/services/serial/usart_serial.o
  .debug_abbrev  0x000003cf       0xef src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
@@ -7926,11 +7912,7 @@ OUTPUT(ESPTest.elf elf32-littlearm)
  .debug_abbrev  0x00001f0e      0x1fa src/DelayFunctions.o
  .debug_abbrev  0x00002108      0x214 src/LCD/lcdApplication.o
  .debug_abbrev  0x0000231c      0x2d7 src/LCD/LCDFunctions.o
-<<<<<<< refs/remotes/origin/master
- .debug_abbrev  0x000025f3      0x3e5 src/main.o
-=======
- .debug_abbrev  0x000025f3      0x391 src/main.o
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+ .debug_abbrev  0x000025f3      0x3f4 src/main.o
 
 .debug_loc      0x00000000     0x4b60
  .debug_loc     0x00000000      0x12d src/ASF/common/services/clock/sam3x/sysclk.o
@@ -8181,11 +8163,7 @@ OUTPUT(ESPTest.elf elf32-littlearm)
  .debug_macro   0x000189ee       0x10 src/main.o
  .debug_macro   0x000189fe       0x3a src/main.o
 
-<<<<<<< refs/remotes/origin/master
 .debug_line     0x00000000    0x106fb
-=======
-.debug_line     0x00000000    0x10685
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
  .debug_line    0x00000000      0xc48 src/ASF/common/services/clock/sam3x/sysclk.o
  .debug_line    0x00000c48      0xd1b src/ASF/common/services/serial/usart_serial.o
  .debug_line    0x00001963      0xaf2 src/ASF/common/utils/interrupt/interrupt_sam_nvic.o
@@ -8205,11 +8183,7 @@ OUTPUT(ESPTest.elf elf32-littlearm)
  .debug_line    0x0000c970      0xe83 src/DelayFunctions.o
  .debug_line    0x0000d7f3      0xec6 src/LCD/lcdApplication.o
  .debug_line    0x0000e6b9      0xf8a src/LCD/LCDFunctions.o
-<<<<<<< refs/remotes/origin/master
  .debug_line    0x0000f643     0x10b8 src/main.o
-=======
- .debug_line    0x0000f643     0x1042 src/main.o
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
 
 .debug_str      0x00000000    0x61c86
  .debug_str     0x00000000    0x5c631 src/ASF/common/services/clock/sam3x/sysclk.o
@@ -8250,13 +8224,8 @@ OUTPUT(ESPTest.elf elf32-littlearm)
                               0x5d6ad (size before relaxing)
  .debug_str     0x00060b3f      0xf5b src/LCD/LCDFunctions.o
                               0x5e80e (size before relaxing)
-<<<<<<< refs/remotes/origin/master
  .debug_str     0x00061a9a      0x1ec src/main.o
-                              0x5ea15 (size before relaxing)
-=======
- .debug_str     0x00061a49      0x1b8 src/main.o
-                              0x5e9ec (size before relaxing)
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+                              0x5ea20 (size before relaxing)
 
 .debug_frame    0x00000000     0x1f08
  .debug_frame   0x00000000       0x88 src/ASF/common/services/clock/sam3x/sysclk.o
@@ -9237,7 +9206,3 @@ usart_write                                       src/ASF/sam/drivers/usart/usar
 usart_write_line                                  src/ASF/sam/drivers/usart/usart.o
 vfiprintf                                         c:/program files (x86)/atmel/atmel toolchain/arm gcc/native/4.8.1443/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-vfiprintf.o)
 wcrtomb                                           c:/program files (x86)/atmel/atmel toolchain/arm gcc/native/4.8.1443/arm-gnu-toolchain/bin/../lib/gcc/arm-none-eabi/4.8.4/../../../../arm-none-eabi/lib/armv7-m\libc.a(lib_a-wcrtomb.o)
-x1                                                src/main.o
-x2                                                src/main.o
-y1                                                src/main.o
-y2                                                src/main.o

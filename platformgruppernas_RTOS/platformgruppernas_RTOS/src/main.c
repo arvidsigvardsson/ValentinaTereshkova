@@ -34,115 +34,65 @@
 #include "dummyTask2.h"
 #include "consoleFunctions.h"
 
-#define BUFFER_SIZE 8
-#define USART_BAUD_RATE 115200
-#define CONF_UART USART1
 
-uint8_t receive_buffer[BUFFER_SIZE];
+#define CONF_UART_CONSOLE UART
+#define CONF_UART_CONSOLE_BAUDRATE 115200
+#define CONF_UART_CONSOLE_PARITY UART_MR_PAR_NO
 
-freertos_usart_if freertos_usart;
-// Configuration structure.
-freertos_peripheral_options_t driver_options = {
-	// This peripheral has full duplex asynchronous operation, so the
-	// receive_buffer value is set to a valid buffer location (declared
-	// above).
-	receive_buffer,
-	// receive_buffer_size is set to the size, in bytes, of the buffer
-	// pointed to by the receive_buffer value.
-	BUFFER_SIZE,
-	// The interrupt priority.  The FreeRTOS driver provides the interrupt
-	// service routine, and handles all interrupt interactions.  The
-	// application writer does not need to provide any interrupt handling
-	// code, but does need to specify the priority of the DMA interrupt here.
-	// IMPORTANT!!!  see <a href="http://www.freertos.org/RTOS-Cortex-M3-M4.html">how to set interrupt priorities to work with FreeRTOS</a>
-	0x0e,
-	// The operation_mode value.
-	USART_RS232,
-	// Flags set to allow access from multiple tasks, and to wait in the
-	// transmit function until the transmit is complete.  Note that other
-	// FreeRTOS tasks will execute during the wait period.
-	(USE_RX_ACCESS_MUTEX | WAIT_TX_COMPLETE)
-};
-// The RS232 configuration.  This structure, and the values used in its
-// setting, are from the standard ASF USART driver.
-const sam_usart_opt_t usart_settings =
-{
-	USART_BAUD_RATE,
-	US_MR_CHRL_8_BIT,
-	US_MR_PAR_NO,
-	US_MR_NBSTOP_1_BIT,
-	US_MR_CHMODE_NORMAL,
-	0 // Only used in IrDA mode, so all values are ignored.
-};
+//#define CONF_UART_ESP USART1
+#define CONF_UART_ESP_BAUDRATE	9600
+#define CONF_UART_ESP_PARITY	US_MR_PAR_NO
+#define CONF_UART_ESP_CHRLEN	9
+#define CONF_UART_ESP_STOP_BITS		US_MR_NBSTOP_1_BIT
 
+uint8_t rx[8];
+uint8_t c_counter = 0;
 
+void configure_console(void) {
+	const usart_serial_options_t uart_serial_options = {
+		.baudrate = CONF_UART_CONSOLE_BAUDRATE,
+		.paritytype = CONF_UART_CONSOLE_PARITY
+	};
+	sysclk_enable_peripheral_clock(CONSOLE_UART_ID);
+	stdio_serial_init(CONF_UART_CONSOLE, &uart_serial_options);
+	
+	const usart_serial_options_t uart_serial_options_esp = {
+		.baudrate = CONF_UART_ESP_BAUDRATE,
+		.paritytype = CONF_UART_ESP_PARITY,
+		.charlength = CONF_UART_ESP_CHRLEN,
+		.stopbits = CONF_UART_ESP_STOP_BITS
+	};
+	
+	sysclk_enable_peripheral_clock(BOARD_USART1_BASE);
+	usart_serial_init(CONF_UART_ESP, &uart_serial_options_esp);
+	
+	//CONF_UART_ESP->US_MR &= ~(0xF << 0);
+	//CONF_UART_ESP->US_MR |= (0x3 << 6);
+	//CONF_UART_ESP->US_MR |= (1 << 20);
+}
 
-#define BUFFER_SIZE_CONSOLE 8
-#define UART_BAUD_RATE_CONSOLE 115200
-
-uint8_t receive_buffer_console[BUFFER_SIZE_CONSOLE];
-
-freertos_usart_if freertos_uart;
-// Configuration structure.
-freertos_peripheral_options_t driver_options_console = {
-	// This peripheral has full duplex asynchronous operation, so the
-	// receive_buffer value is set to a valid buffer location (declared
-	// above).
-	receive_buffer_console,
-	// receive_buffer_size is set to the size, in bytes, of the buffer
-	// pointed to by the receive_buffer value.
-	BUFFER_SIZE_CONSOLE,
-	// The interrupt priority.  The FreeRTOS driver provides the interrupt
-	// service routine, and handles all interrupt interactions.  The
-	// application writer does not need to provide any interrupt handling
-	// code, but does need to specify the priority of the DMA interrupt here.
-	// IMPORTANT!!!  see <a href="http://www.freertos.org/RTOS-Cortex-M3-M4.html">how to set interrupt priorities to work with FreeRTOS</a>
-	0x0e,
-	// The operation_mode value.
-	UART_RS232,
-	// Flags set to allow access from multiple tasks, and to wait in the
-	// transmit function until the transmit is complete.  Note that other
-	// FreeRTOS tasks will execute during the wait period.
-	(USE_TX_ACCESS_MUTEX | USE_RX_ACCESS_MUTEX | WAIT_TX_COMPLETE)
-};
-// The RS232 configuration.  This structure, and the values used in its
-// setting, are from the standard ASF USART driver.
-const sam_usart_opt_t uart_settings_console =
-{
-	UART_BAUD_RATE_CONSOLE,
-	US_MR_CHRL_8_BIT,
-	US_MR_PAR_NO,
-	US_MR_NBSTOP_1_BIT,
-	US_MR_CHMODE_NORMAL,
-	0 // Only used in IrDA mode, so all values are ignored.
-};
-
+void USART1_Handler() {
+	CONF_UART_ESP->US_CR |= (1 << US_CR_RSTRX);
+	rx[c_counter++] = CONF_UART_ESP->US_RHR & US_RHR_RXCHR_Msk;
+	char a[1];
+	sprintf(&a, "%d", rx[c_counter]);
+	printf("%s\n", a);
+	
+	if (c_counter > 15)
+	{
+		c_counter = 0;
+	}
+}
 
 int main (void)
 {
-	// Insert system clock initialization code here (sysclk_init()).
 	sysclk_init();
 	board_init();
-	sysclk_enable_peripheral_clock(CONSOLE_UART_ID);
-	
-	// Call the USART specific FreeRTOS ASF driver initialization function,
-	// storing the return value as the driver handle.
-	//freertos_usart = freertos_usart_serial_init(CONF_UART, &usart_settings,
-	//&driver_options);
-	
-	freertos_uart = freertos_uart_serial_init(CONF_UART_CONSOLE, &uart_settings_console,
-	&driver_options_console);
-	
-	/*const sam_usart_opt_t usart_serial_options = {
-		.baudrate = CONF_UART_BAUDRATE,
-		.paritytype = CONF_UART_PARITY,
-		.charlength = CONF_UART_CHAR_LENGTH,
-		.stopbits = CONF_UART_STOP_BITS
-	};
-
-	/* Configure console UART. */
-	//sysclk_enable_peripheral_clock(BOARD_USART1_BASE);
-	//freertos_usart_serial_init(CONF_UART, &usart_serial_options)
+	delay_init();
+	configure_console();
+	/*NVIC_SetPriority((IRQn_Type) ID_USART1, 0x0e);
+	usart_enable_interrupt(CONF_UART_ESP, UART_IER_RXRDY);
+	NVIC_EnableIRQ((IRQn_Type) ID_USART1);*/
 	
 	if (xTaskCreate(task_dummy1, (const signed char * const) "task_dummy1", TASK_DUMMY1_STACK_SIZE, NULL, TASK_DUMMY1_STACK_PRIORITY, NULL) != pdPASS)
 	{
@@ -150,7 +100,7 @@ int main (void)
 	if (xTaskCreate(task_dummy2, (const signed char * const) "task_dummy2", TASK_DUMMY2_STACK_SIZE, NULL, TASK_DUMMY2_STACK_PRIORITY, NULL) != pdPASS)
 	{
 	}
-	if (xTaskCreate(task_uart, (const signed char * const) "task_uart", TASK_LED_STACK_SIZE, &freertos_uart, TASK_LED_STACK_PRIORITY, NULL) != pdPASS)
+	if (xTaskCreate(task_uart, (const signed char * const) "task_uart", TASK_LED_STACK_SIZE, NULL, TASK_LED_STACK_PRIORITY, NULL) != pdPASS)
 	{
 	}
 	vTaskStartScheduler();

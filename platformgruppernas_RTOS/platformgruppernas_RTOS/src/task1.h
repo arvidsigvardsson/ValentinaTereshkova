@@ -12,7 +12,9 @@
 #define TASK_LED_STACK_SIZE (1024/sizeof(portSTACK_TYPE))
 #define TASK_LED_STACK_PRIORITY (tskIDLE_PRIORITY)
 
-void task_uart(freertos_uart_if *pvParameters);
+#define CONF_UART_ESP UART
+
+void task_uart(void *pvParameters);
 
 
 #endif /* TASK1_H_ */

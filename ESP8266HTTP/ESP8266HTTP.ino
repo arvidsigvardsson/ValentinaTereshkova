@@ -25,7 +25,7 @@ SoftwareSerial rxtx(12,14);
 void setup() {
   pinMode(CS, OUTPUT);
   Serial.begin(115200);
-  rxtx.begin(115200);
+  rxtx.begin(9600);
   delay(10);
 
   // Connect to WiFi
@@ -61,7 +61,7 @@ void setup() {
 
 void loop() {
   
-  /*if(WiFi.status() == WL_CONNECTED) {
+  if(WiFi.status() == WL_CONNECTED) {
     HTTPClient http;
 
     http.begin("http://192.168.20.133:5000/srv/coordinate/getlatest");
@@ -77,15 +77,15 @@ void loop() {
       ycor = root["coordinate"]["y"];
       xcors = String(xcor);
       ycors = String(ycor);
-      /*x_1 = (uint16_t) int(xcor);
+      x_1 = (uint16_t) int(xcor);
       y_1 = (uint16_t) int(ycor);
       if(x_1 < 0) {
         x_1 = 0;
       }
       if(y_1 < 0) {
         y_1 = 0;
-      }*/
-      /*x_1 = 200;
+      }
+      x_1 = 200;
       y_1 = 200;
       x_2 = 0;
       y_2 = 0;
@@ -131,8 +131,8 @@ void loop() {
     rxtx.print(str1);
   }
   
-   delay(500); */
-   while(rxtx.available()) {
+   delay(500);
+   /*while(rxtx.available()) {
     char buf[8];
     rxtx.readBytes(buf, 8);
     if(String(buf) == "request!") {
@@ -142,8 +142,6 @@ void loop() {
       Serial.println("Success!");
     }
     Serial.println(String(buf));
-   }
+   }*/
 
 }
-
-

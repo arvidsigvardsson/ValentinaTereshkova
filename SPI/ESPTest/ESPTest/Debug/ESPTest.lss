@@ -17,43 +17,23 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   6 .comment      0000005b  00000000  00000000  000109d5  2**0
                   CONTENTS, READONLY
-<<<<<<< refs/remotes/origin/master
-  7 .debug_info   000101a6  00000000  00000000  00010a30  2**0
+  7 .debug_info   000101a9  00000000  00000000  00010a30  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_abbrev 000029d8  00000000  00000000  00020bd6  2**0
+  8 .debug_abbrev 000029e7  00000000  00000000  00020bd9  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_loc    00004b60  00000000  00000000  000235ae  2**0
+  9 .debug_loc    00004b60  00000000  00000000  000235c0  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_aranges 00000af0  00000000  00000000  0002810e  2**0
+ 10 .debug_aranges 00000af0  00000000  00000000  00028120  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 000009c8  00000000  00000000  00028bfe  2**0
+ 11 .debug_ranges 000009c8  00000000  00000000  00028c10  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_macro  00018a38  00000000  00000000  000295c6  2**0
+ 12 .debug_macro  00018a38  00000000  00000000  000295d8  2**0
                   CONTENTS, READONLY, DEBUGGING
- 13 .debug_line   000106fb  00000000  00000000  00041ffe  2**0
+ 13 .debug_line   000106fb  00000000  00000000  00042010  2**0
                   CONTENTS, READONLY, DEBUGGING
- 14 .debug_str    00061c86  00000000  00000000  000526f9  2**0
+ 14 .debug_str    00061c86  00000000  00000000  0005270b  2**0
                   CONTENTS, READONLY, DEBUGGING
- 15 .debug_frame  00001f08  00000000  00000000  000b4380  2**2
-=======
-  6 .debug_info   00010147  00000000  00000000  000109f8  2**0
-                  CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00002984  00000000  00000000  00020b3f  2**0
-                  CONTENTS, READONLY, DEBUGGING
-  8 .debug_loc    00004b1a  00000000  00000000  000234c3  2**0
-                  CONTENTS, READONLY, DEBUGGING
-  9 .debug_aranges 00000ae8  00000000  00000000  00027fdd  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 10 .debug_ranges 000009c0  00000000  00000000  00028ac5  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 11 .debug_macro  00018a38  00000000  00000000  00029485  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 12 .debug_line   00010685  00000000  00000000  00041ebd  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 13 .debug_str    00061c01  00000000  00000000  00052542  2**0
-                  CONTENTS, READONLY, DEBUGGING
- 14 .debug_frame  000018d8  00000000  00000000  000b4144  2**2
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+ 15 .debug_frame  00001f08  00000000  00000000  000b4394  2**2
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -154,94 +134,32 @@ Disassembly of section .text:
    80144:	00000000 	.word	0x00000000
 
 00080148 <sysclk_init>:
-	pmc_disable_udpck();
-}
-#endif // CONFIG_USBCLK_SOURCE
-
-void sysclk_init(void)
-{
    80148:	b510      	push	{r4, lr}
-	struct pll_config pllcfg;
-
-	/* Set flash wait state to max in case the below clock switching. */
-	system_init_flash(CHIP_FREQ_CPU_MAX);
    8014a:	480e      	ldr	r0, [pc, #56]	; (80184 <sysclk_init+0x3c>)
    8014c:	4b0e      	ldr	r3, [pc, #56]	; (80188 <sysclk_init+0x40>)
    8014e:	4798      	blx	r3
-		pmc_switch_mainck_to_fastrc(CKGR_MOR_MOSCRCF_12_MHz);
-		break;
-
-
-	case OSC_MAINCK_XTAL:
-		pmc_switch_mainck_to_xtal(PMC_OSC_XTAL,
    80150:	2000      	movs	r0, #0
    80152:	213e      	movs	r1, #62	; 0x3e
    80154:	4b0d      	ldr	r3, [pc, #52]	; (8018c <sysclk_init+0x44>)
    80156:	4798      	blx	r3
-	case OSC_MAINCK_4M_RC:
-	case OSC_MAINCK_8M_RC:
-	case OSC_MAINCK_12M_RC:
-	case OSC_MAINCK_XTAL:
-	case OSC_MAINCK_BYPASS:
-		return pmc_osc_is_ready_mainck();
    80158:	4c0d      	ldr	r4, [pc, #52]	; (80190 <sysclk_init+0x48>)
    8015a:	47a0      	blx	r4
- *
- * \param id A number identifying the oscillator to wait for.
- */
-static inline void osc_wait_ready(uint8_t id)
-{
-	while (!osc_is_ready(id)) {
    8015c:	2800      	cmp	r0, #0
    8015e:	d0fc      	beq.n	8015a <sysclk_init+0x12>
-static inline void pll_enable(const struct pll_config *p_cfg, uint32_t ul_pll_id)
-{
-	Assert(ul_pll_id < NR_PLLS);
-
-	if (ul_pll_id == PLLA_ID) {
-		pmc_disable_pllack(); // Always stop PLL first!
    80160:	4b0c      	ldr	r3, [pc, #48]	; (80194 <sysclk_init+0x4c>)
    80162:	4798      	blx	r3
-		PMC->CKGR_PLLAR = CKGR_PLLAR_ONE | p_cfg->ctrl;
    80164:	4a0c      	ldr	r2, [pc, #48]	; (80198 <sysclk_init+0x50>)
    80166:	4b0d      	ldr	r3, [pc, #52]	; (8019c <sysclk_init+0x54>)
    80168:	629a      	str	r2, [r3, #40]	; 0x28
-static inline uint32_t pll_is_locked(uint32_t ul_pll_id)
-{
-	Assert(ul_pll_id < NR_PLLS);
-
-	if (ul_pll_id == PLLA_ID) {
-		return pmc_is_locked_pllack();
    8016a:	4c0d      	ldr	r4, [pc, #52]	; (801a0 <sysclk_init+0x58>)
    8016c:	47a0      	blx	r4
- */
-static inline int pll_wait_for_lock(unsigned int pll_id)
-{
-	Assert(pll_id < NR_PLLS);
-
-	while (!pll_is_locked(pll_id)) {
    8016e:	2800      	cmp	r0, #0
    80170:	d0fc      	beq.n	8016c <sysclk_init+0x24>
-	else if (CONFIG_SYSCLK_SOURCE == SYSCLK_SRC_PLLACK) {
-		pll_enable_source(CONFIG_PLL0_SOURCE);
-		pll_config_defaults(&pllcfg, 0);
-		pll_enable(&pllcfg, 0);
-		pll_wait_for_lock(0);
-		pmc_switch_mck_to_pllack(CONFIG_SYSCLK_PRES);
    80172:	2010      	movs	r0, #16
    80174:	4b0b      	ldr	r3, [pc, #44]	; (801a4 <sysclk_init+0x5c>)
    80176:	4798      	blx	r3
-		pll_wait_for_lock(1);
-		pmc_switch_mck_to_upllck(CONFIG_SYSCLK_PRES);
-	}
-
-	/* Update the SystemFrequency variable */
-	SystemCoreClockUpdate();
    80178:	4b0b      	ldr	r3, [pc, #44]	; (801a8 <sysclk_init+0x60>)
    8017a:	4798      	blx	r3
-
-	/* Set a flash wait state depending on the new cpu frequency */
-	system_init_flash(sysclk_get_cpu_hz());
    8017c:	4801      	ldr	r0, [pc, #4]	; (80184 <sysclk_init+0x3c>)
    8017e:	4b02      	ldr	r3, [pc, #8]	; (80188 <sysclk_init+0x40>)
    80180:	4798      	blx	r3
@@ -258,62 +176,23 @@ static inline int pll_wait_for_lock(unsigned int pll_id)
    801a8:	00080869 	.word	0x00080869
 
 000801ac <usart_serial_read_packet>:
- * \param len    Length of data
- *
- */
-status_code_t usart_serial_read_packet(usart_if usart, uint8_t *data,
-		size_t len)
-{
    801ac:	e92d 4ff0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, lr}
    801b0:	b083      	sub	sp, #12
    801b2:	4605      	mov	r5, r0
-	while (len) {
    801b4:	4690      	mov	r8, r2
    801b6:	2a00      	cmp	r2, #0
    801b8:	d047      	beq.n	8024a <usart_serial_read_packet+0x9e>
    801ba:	1c4e      	adds	r6, r1, #1
-		while (usart_read(p_usart, &val));
-		*data = (uint8_t)(val & 0xFF);
-	}
-# endif
-# ifdef USART3
-	if (USART3 == p_usart) {
    801bc:	4f25      	ldr	r7, [pc, #148]	; (80254 <usart_serial_read_packet+0xa8>)
-		while (usart_read(p_usart, &val));
    801be:	4c26      	ldr	r4, [pc, #152]	; (80258 <usart_serial_read_packet+0xac>)
-		while (usart_read(p_usart, &val));
-		*data = (uint8_t)(val & 0xFF);
-	}
-# endif
-# ifdef USART2
-	if (USART2 == p_usart) {
    801c0:	f8df a0a8 	ldr.w	sl, [pc, #168]	; 8026c <usart_serial_read_packet+0xc0>
-	/* Avoid Cppcheck Warning */
-	UNUSED(val);
-
-#ifdef UART
-	if (UART == (Uart*)p_usart) {
-		while (uart_read((Uart*)p_usart, data));
    801c4:	f8df b094 	ldr.w	fp, [pc, #148]	; 8025c <usart_serial_read_packet+0xb0>
    801c8:	f106 39ff 	add.w	r9, r6, #4294967295
- * \param data   Data to read
- *
- */
-static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
-{
-	uint32_t val = 0;
    801cc:	2300      	movs	r3, #0
    801ce:	9301      	str	r3, [sp, #4]
-
-	/* Avoid Cppcheck Warning */
-	UNUSED(val);
-
-#ifdef UART
-	if (UART == (Uart*)p_usart) {
    801d0:	4b22      	ldr	r3, [pc, #136]	; (8025c <usart_serial_read_packet+0xb0>)
    801d2:	429d      	cmp	r5, r3
    801d4:	d106      	bne.n	801e4 <usart_serial_read_packet+0x38>
-		while (uart_read((Uart*)p_usart, data));
    801d6:	4658      	mov	r0, fp
    801d8:	4649      	mov	r1, r9
    801da:	4b21      	ldr	r3, [pc, #132]	; (80260 <usart_serial_read_packet+0xb4>)
@@ -321,84 +200,52 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    801de:	2800      	cmp	r0, #0
    801e0:	d1f9      	bne.n	801d6 <usart_serial_read_packet+0x2a>
    801e2:	e019      	b.n	80218 <usart_serial_read_packet+0x6c>
-		while (usart_read(p_usart, &val));
-		*data = (uint8_t)(val & 0xFF);
-	}
-#else
-# ifdef USART0
-	if (USART0 == p_usart) {
    801e4:	4b1f      	ldr	r3, [pc, #124]	; (80264 <usart_serial_read_packet+0xb8>)
    801e6:	429d      	cmp	r5, r3
    801e8:	d109      	bne.n	801fe <usart_serial_read_packet+0x52>
-		while (usart_read(p_usart, &val));
    801ea:	4699      	mov	r9, r3
    801ec:	4648      	mov	r0, r9
    801ee:	a901      	add	r1, sp, #4
    801f0:	47a0      	blx	r4
    801f2:	2800      	cmp	r0, #0
    801f4:	d1fa      	bne.n	801ec <usart_serial_read_packet+0x40>
-		*data = (uint8_t)(val & 0xFF);
    801f6:	9b01      	ldr	r3, [sp, #4]
    801f8:	f806 3c01 	strb.w	r3, [r6, #-1]
    801fc:	e017      	b.n	8022e <usart_serial_read_packet+0x82>
-	}
-# endif
-# ifdef USART1
-	if (USART1 == p_usart) {
    801fe:	4b1a      	ldr	r3, [pc, #104]	; (80268 <usart_serial_read_packet+0xbc>)
    80200:	429d      	cmp	r5, r3
    80202:	d109      	bne.n	80218 <usart_serial_read_packet+0x6c>
-		while (usart_read(p_usart, &val));
    80204:	4699      	mov	r9, r3
    80206:	4648      	mov	r0, r9
    80208:	a901      	add	r1, sp, #4
    8020a:	47a0      	blx	r4
    8020c:	2800      	cmp	r0, #0
    8020e:	d1fa      	bne.n	80206 <usart_serial_read_packet+0x5a>
-		*data = (uint8_t)(val & 0xFF);
    80210:	9b01      	ldr	r3, [sp, #4]
    80212:	f806 3c01 	strb.w	r3, [r6, #-1]
    80216:	e014      	b.n	80242 <usart_serial_read_packet+0x96>
-	}
-# endif
-# ifdef USART2
-	if (USART2 == p_usart) {
    80218:	4555      	cmp	r5, sl
    8021a:	d108      	bne.n	8022e <usart_serial_read_packet+0x82>
-		while (usart_read(p_usart, &val));
    8021c:	4650      	mov	r0, sl
    8021e:	a901      	add	r1, sp, #4
    80220:	47a0      	blx	r4
    80222:	2800      	cmp	r0, #0
    80224:	d1fa      	bne.n	8021c <usart_serial_read_packet+0x70>
-		*data = (uint8_t)(val & 0xFF);
    80226:	9b01      	ldr	r3, [sp, #4]
    80228:	f806 3c01 	strb.w	r3, [r6, #-1]
    8022c:	e009      	b.n	80242 <usart_serial_read_packet+0x96>
-	}
-# endif
-# ifdef USART3
-	if (USART3 == p_usart) {
    8022e:	42bd      	cmp	r5, r7
    80230:	d107      	bne.n	80242 <usart_serial_read_packet+0x96>
-		while (usart_read(p_usart, &val));
    80232:	4638      	mov	r0, r7
    80234:	a901      	add	r1, sp, #4
    80236:	47a0      	blx	r4
    80238:	2800      	cmp	r0, #0
    8023a:	d1fa      	bne.n	80232 <usart_serial_read_packet+0x86>
-		*data = (uint8_t)(val & 0xFF);
    8023c:	9b01      	ldr	r3, [sp, #4]
    8023e:	f806 3c01 	strb.w	r3, [r6, #-1]
    80242:	3601      	adds	r6, #1
    80244:	f1b8 0801 	subs.w	r8, r8, #1
    80248:	d1be      	bne.n	801c8 <usart_serial_read_packet+0x1c>
-		usart_serial_getchar(usart, data);
-		len--;
-		data++;
-	}
-	return STATUS_OK;
-}
    8024a:	2000      	movs	r0, #0
    8024c:	b003      	add	sp, #12
    8024e:	e8bd 8ff0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, fp, pc}
@@ -412,10 +259,25 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    8026c:	400a0000 	.word	0x400a0000
 
 00080270 <board_init>:
+#include "conf_board.h"
+#include "gpio.h"
+#include "ioport.h"
+
+void board_init(void)
+{
    80270:	b510      	push	{r4, lr}
+#ifndef CONF_BOARD_KEEP_WATCHDOG_AT_INIT
+	/* Disable the watchdog */
+	WDT->WDT_MR = WDT_MR_WDDIS;
    80272:	f44f 4200 	mov.w	r2, #32768	; 0x8000
    80276:	4b1a      	ldr	r3, [pc, #104]	; (802e0 <board_init+0x70>)
    80278:	605a      	str	r2, [r3, #4]
+ *
+ * \param ul_id Id (number) of the peripheral clock.
+ */
+static inline void sysclk_enable_peripheral_clock(uint32_t ul_id)
+{
+	pmc_enable_periph_clk(ul_id);
    8027a:	200b      	movs	r0, #11
    8027c:	4c19      	ldr	r4, [pc, #100]	; (802e4 <board_init+0x74>)
    8027e:	47a0      	blx	r4
@@ -425,35 +287,91 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80286:	47a0      	blx	r4
    80288:	200e      	movs	r0, #14
    8028a:	47a0      	blx	r4
+	 * In new designs IOPORT is used instead.
+	 * Here IOPORT must be initialized for others to use before setting up IO.
+	 */
+	ioport_init();
+	/* Configure LED pins */
+	gpio_configure_pin(LED0_GPIO, LED0_FLAGS);
    8028c:	203b      	movs	r0, #59	; 0x3b
    8028e:	f04f 5160 	mov.w	r1, #939524096	; 0x38000000
    80292:	4c15      	ldr	r4, [pc, #84]	; (802e8 <board_init+0x78>)
    80294:	47a0      	blx	r4
+	gpio_configure_pin(LED1_GPIO, LED1_FLAGS);
    80296:	2055      	movs	r0, #85	; 0x55
    80298:	f04f 5160 	mov.w	r1, #939524096	; 0x38000000
    8029c:	47a0      	blx	r4
+	gpio_configure_pin(LED2_GPIO, LED2_FLAGS);
    8029e:	2056      	movs	r0, #86	; 0x56
    802a0:	f04f 5160 	mov.w	r1, #939524096	; 0x38000000
    802a4:	47a0      	blx	r4
+
+	/* Configure Push Button pins */
+	gpio_configure_pin(GPIO_PUSH_BUTTON_1, GPIO_PUSH_BUTTON_1_FLAGS);
    802a6:	2068      	movs	r0, #104	; 0x68
    802a8:	4910      	ldr	r1, [pc, #64]	; (802ec <board_init+0x7c>)
    802aa:	47a0      	blx	r4
+	gpio_configure_pin(GPIO_PUSH_BUTTON_2, GPIO_PUSH_BUTTON_2_FLAGS);
    802ac:	205c      	movs	r0, #92	; 0x5c
    802ae:	4910      	ldr	r1, [pc, #64]	; (802f0 <board_init+0x80>)
    802b0:	47a0      	blx	r4
+	Pio *base = arch_ioport_port_to_base(port);
+
+	if (mode & IOPORT_MODE_PULLUP) {
+		base->PIO_PUER = mask;
+	} else {
+		base->PIO_PUDR = mask;
    802b2:	4b10      	ldr	r3, [pc, #64]	; (802f4 <board_init+0x84>)
    802b4:	f44f 5240 	mov.w	r2, #12288	; 0x3000
    802b8:	661a      	str	r2, [r3, #96]	; 0x60
+#endif
+
+	if (mode & IOPORT_MODE_OPEN_DRAIN) {
+		base->PIO_MDER = mask;
+	} else {
+		base->PIO_MDDR = mask;
    802ba:	655a      	str	r2, [r3, #84]	; 0x54
+	}
+
+	if (mode & (IOPORT_MODE_GLITCH_FILTER | IOPORT_MODE_DEBOUNCE)) {
+		base->PIO_IFER = mask;
+	} else {
+		base->PIO_IFDR = mask;
    802bc:	625a      	str	r2, [r3, #36]	; 0x24
+#else
+		base->PIO_IFSCER = mask;
+#endif
+	} else {
+#if SAM3U || SAM3XA
+		base->PIO_SCIFSR = mask;
    802be:	f8c3 2080 	str.w	r2, [r3, #128]	; 0x80
+
+#if !defined(IOPORT_MODE_MUX_BIT1)
+	if (mode & IOPORT_MODE_MUX_BIT0) {
+		base->PIO_ABSR |= mask;
+	} else {
+		base->PIO_ABSR &= ~mask;
    802c2:	6f19      	ldr	r1, [r3, #112]	; 0x70
    802c4:	f421 5140 	bic.w	r1, r1, #12288	; 0x3000
    802c8:	6719      	str	r1, [r3, #112]	; 0x70
+}
+
+__always_inline static void arch_ioport_disable_port(ioport_port_t port,
+		ioport_port_mask_t mask)
+{
+	arch_ioport_port_to_base(port)->PIO_PDR = mask;
    802ca:	605a      	str	r2, [r3, #4]
+	gpio_configure_pin(PIN_USART0_TXD_IDX, PIN_USART0_TXD_FLAGS);
+#endif
+
+#ifdef CONF_BOARD_USB_PORT
+	/* Configure USB_ID (UOTGID) pin */
+	gpio_configure_pin(USB_ID_GPIO, USB_ID_FLAGS);
    802cc:	202b      	movs	r0, #43	; 0x2b
    802ce:	f04f 6100 	mov.w	r1, #134217728	; 0x8000000
    802d2:	47a0      	blx	r4
+	/* Configure USB_VBOF (UOTGVBOF) pin */
+	gpio_configure_pin(USB_VBOF_GPIO, USB_VBOF_FLAGS);
    802d4:	202a      	movs	r0, #42	; 0x2a
    802d6:	f04f 6100 	mov.w	r1, #134217728	; 0x8000000
    802da:	47a0      	blx	r4
@@ -467,7 +385,19 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    802f4:	400e0e00 	.word	0x400e0e00
 
 000802f8 <pio_set_peripheral>:
+		const uint32_t ul_mask)
+{
+	uint32_t ul_sr;
+
+	/* Disable interrupts on the pin(s) */
+	p_pio->PIO_IDR = ul_mask;
    802f8:	6442      	str	r2, [r0, #68]	; 0x44
+	case PIO_OUTPUT_1:
+	case PIO_NOT_A_PIN:
+		return;
+	}
+#elif (SAM3XA|| SAM3U)
+	switch (ul_type) {
    802fa:	f1b1 5f80 	cmp.w	r1, #268435456	; 0x10000000
    802fe:	d016      	beq.n	8032e <pio_set_peripheral+0x36>
    80300:	d804      	bhi.n	8030c <pio_set_peripheral+0x14>
@@ -482,77 +412,207 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80318:	f1b1 5f20 	cmp.w	r1, #671088640	; 0x28000000
    8031c:	d10a      	bne.n	80334 <pio_set_peripheral+0x3c>
    8031e:	4770      	bx	lr
+	case PIO_PERIPH_A:
+		ul_sr = p_pio->PIO_ABSR;
    80320:	6f03      	ldr	r3, [r0, #112]	; 0x70
+		p_pio->PIO_ABSR &= (~ul_mask & ul_sr);
    80322:	6f01      	ldr	r1, [r0, #112]	; 0x70
    80324:	400b      	ands	r3, r1
    80326:	ea23 0302 	bic.w	r3, r3, r2
    8032a:	6703      	str	r3, [r0, #112]	; 0x70
+		break;
    8032c:	e002      	b.n	80334 <pio_set_peripheral+0x3c>
+
+	case PIO_PERIPH_B:
+		ul_sr = p_pio->PIO_ABSR;
    8032e:	6f03      	ldr	r3, [r0, #112]	; 0x70
+		p_pio->PIO_ABSR = (ul_mask | ul_sr);
    80330:	4313      	orrs	r3, r2
    80332:	6703      	str	r3, [r0, #112]	; 0x70
+#else
+#error "Unsupported device"
+#endif
+
+	/* Remove the pins from under the control of PIO */
+	p_pio->PIO_PDR = ul_mask;
    80334:	6042      	str	r2, [r0, #4]
    80336:	4770      	bx	lr
 
 00080338 <pio_set_input>:
+ * \param p_pio Pointer to a PIO instance.
+ * \param ul_mask Interrupt sources bit map.
+ */
+void pio_disable_interrupt(Pio *p_pio, const uint32_t ul_mask)
+{
+	p_pio->PIO_IDR = ul_mask;
    80338:	6441      	str	r1, [r0, #68]	; 0x44
+ */
+void pio_pull_up(Pio *p_pio, const uint32_t ul_mask,
+		const uint32_t ul_pull_up_enable)
+{
+	/* Enable the pull-up(s) if necessary */
+	if (ul_pull_up_enable) {
    8033a:	f012 0f01 	tst.w	r2, #1
+		p_pio->PIO_PUER = ul_mask;
    8033e:	bf14      	ite	ne
    80340:	6641      	strne	r1, [r0, #100]	; 0x64
+	} else {
+		p_pio->PIO_PUDR = ul_mask;
    80342:	6601      	streq	r1, [r0, #96]	; 0x60
+{
+	pio_disable_interrupt(p_pio, ul_mask);
+	pio_pull_up(p_pio, ul_mask, ul_attribute & PIO_PULLUP);
+
+	/* Enable Input Filter if necessary */
+	if (ul_attribute & (PIO_DEGLITCH | PIO_DEBOUNCE)) {
    80344:	f012 0f0a 	tst.w	r2, #10
+		p_pio->PIO_IFER = ul_mask;
    80348:	bf14      	ite	ne
    8034a:	6201      	strne	r1, [r0, #32]
+	} else {
+		p_pio->PIO_IFDR = ul_mask;
    8034c:	6241      	streq	r1, [r0, #36]	; 0x24
+			p_pio->PIO_IFSCER = ul_mask;
+		}
+	}
+#elif (SAM3XA|| SAM3U)
+	/* Enable de-glitch or de-bounce if necessary */
+	if (ul_attribute & PIO_DEGLITCH) {
    8034e:	f012 0f02 	tst.w	r2, #2
    80352:	d002      	beq.n	8035a <pio_set_input+0x22>
+		p_pio->PIO_SCIFSR = ul_mask;
    80354:	f8c0 1080 	str.w	r1, [r0, #128]	; 0x80
    80358:	e004      	b.n	80364 <pio_set_input+0x2c>
+	} else {
+		if (ul_attribute & PIO_DEBOUNCE) {
    8035a:	f012 0f08 	tst.w	r2, #8
+			p_pio->PIO_DIFSR = ul_mask;
    8035e:	bf18      	it	ne
    80360:	f8c0 1084 	strne.w	r1, [r0, #132]	; 0x84
+#else
+#error "Unsupported device"
+#endif
+
+	/* Configure pin as input */
+	p_pio->PIO_ODR = ul_mask;
    80364:	6141      	str	r1, [r0, #20]
+	p_pio->PIO_PER = ul_mask;
    80366:	6001      	str	r1, [r0, #0]
    80368:	4770      	bx	lr
    8036a:	bf00      	nop
 
 0008036c <pio_set_output>:
+ */
+void pio_set_output(Pio *p_pio, const uint32_t ul_mask,
+		const uint32_t ul_default_level,
+		const uint32_t ul_multidrive_enable,
+		const uint32_t ul_pull_up_enable)
+{
    8036c:	b410      	push	{r4}
+ * \param p_pio Pointer to a PIO instance.
+ * \param ul_mask Interrupt sources bit map.
+ */
+void pio_disable_interrupt(Pio *p_pio, const uint32_t ul_mask)
+{
+	p_pio->PIO_IDR = ul_mask;
    8036e:	6441      	str	r1, [r0, #68]	; 0x44
+ */
+void pio_pull_up(Pio *p_pio, const uint32_t ul_mask,
+		const uint32_t ul_pull_up_enable)
+{
+	/* Enable the pull-up(s) if necessary */
+	if (ul_pull_up_enable) {
    80370:	9c01      	ldr	r4, [sp, #4]
    80372:	b10c      	cbz	r4, 80378 <pio_set_output+0xc>
+		p_pio->PIO_PUER = ul_mask;
    80374:	6641      	str	r1, [r0, #100]	; 0x64
    80376:	e000      	b.n	8037a <pio_set_output+0xe>
+	} else {
+		p_pio->PIO_PUDR = ul_mask;
    80378:	6601      	str	r1, [r0, #96]	; 0x60
+{
+	pio_disable_interrupt(p_pio, ul_mask);
+	pio_pull_up(p_pio, ul_mask, ul_pull_up_enable);
+
+	/* Enable multi-drive if necessary */
+	if (ul_multidrive_enable) {
    8037a:	b10b      	cbz	r3, 80380 <pio_set_output+0x14>
+		p_pio->PIO_MDER = ul_mask;
    8037c:	6501      	str	r1, [r0, #80]	; 0x50
    8037e:	e000      	b.n	80382 <pio_set_output+0x16>
+	} else {
+		p_pio->PIO_MDDR = ul_mask;
    80380:	6541      	str	r1, [r0, #84]	; 0x54
+	}
+
+	/* Set default value */
+	if (ul_default_level) {
    80382:	b10a      	cbz	r2, 80388 <pio_set_output+0x1c>
+		p_pio->PIO_SODR = ul_mask;
    80384:	6301      	str	r1, [r0, #48]	; 0x30
    80386:	e000      	b.n	8038a <pio_set_output+0x1e>
+	} else {
+		p_pio->PIO_CODR = ul_mask;
    80388:	6341      	str	r1, [r0, #52]	; 0x34
+	}
+
+	/* Configure pin(s) as output(s) */
+	p_pio->PIO_OER = ul_mask;
    8038a:	6101      	str	r1, [r0, #16]
+	p_pio->PIO_PER = ul_mask;
    8038c:	6001      	str	r1, [r0, #0]
+}
    8038e:	f85d 4b04 	ldr.w	r4, [sp], #4
    80392:	4770      	bx	lr
 
 00080394 <pio_get_interrupt_status>:
+ *
+ * \return The interrupt status mask value.
+ */
+uint32_t pio_get_interrupt_status(const Pio *p_pio)
+{
+	return p_pio->PIO_ISR;
    80394:	6cc0      	ldr	r0, [r0, #76]	; 0x4c
+}
    80396:	4770      	bx	lr
 
 00080398 <pio_get_interrupt_mask>:
+ *
+ * \return The interrupt mask value.
+ */
+uint32_t pio_get_interrupt_mask(const Pio *p_pio)
+{
+	return p_pio->PIO_IMR;
    80398:	6c80      	ldr	r0, [r0, #72]	; 0x48
+}
    8039a:	4770      	bx	lr
 
 0008039c <pio_configure_pin>:
+ * \param ul_flags Pins attributes.
+ *
+ * \return Whether the pin(s) have been configured properly.
+ */
+uint32_t pio_configure_pin(uint32_t ul_pin, const uint32_t ul_flags)
+{
    8039c:	b570      	push	{r4, r5, r6, lr}
    8039e:	b082      	sub	sp, #8
    803a0:	460d      	mov	r5, r1
+		p_pio = PIOC;
+	} else {
+		p_pio = (Pio *)((uint32_t)PIOA + (PIO_DELTA * (ul_pin >> 5)));
+	}
+#else
+	p_pio = (Pio *)((uint32_t)PIOA + (PIO_DELTA * (ul_pin >> 5)));
    803a2:	0944      	lsrs	r4, r0, #5
    803a4:	f504 1400 	add.w	r4, r4, #2097152	; 0x200000
    803a8:	f204 7407 	addw	r4, r4, #1799	; 0x707
    803ac:	0266      	lsls	r6, r4, #9
+uint32_t pio_configure_pin(uint32_t ul_pin, const uint32_t ul_flags)
+{
+	Pio *p_pio = pio_get_pin_group(ul_pin);
+
+	/* Configure pins */
+	switch (ul_flags & PIO_TYPE_Msk) {
    803ae:	f001 44f0 	and.w	r4, r1, #2013265920	; 0x78000000
    803b2:	f1b4 5f20 	cmp.w	r4, #671088640	; 0x28000000
    803b6:	d030      	beq.n	8041a <pio_configure_pin+0x7e>
@@ -567,6 +627,8 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    803ce:	f1b4 5f60 	cmp.w	r4, #939524096	; 0x38000000
    803d2:	d02d      	beq.n	80430 <pio_configure_pin+0x94>
    803d4:	e042      	b.n	8045c <pio_configure_pin+0xc0>
+	case PIO_TYPE_PIO_PERIPH_A:
+		pio_set_peripheral(p_pio, PIO_PERIPH_A, (1 << (ul_pin & 0x1F)));
    803d6:	f000 001f 	and.w	r0, r0, #31
    803da:	2401      	movs	r4, #1
    803dc:	4084      	lsls	r4, r0
@@ -575,12 +637,33 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    803e4:	4622      	mov	r2, r4
    803e6:	4b1f      	ldr	r3, [pc, #124]	; (80464 <pio_configure_pin+0xc8>)
    803e8:	4798      	blx	r3
+ */
+void pio_pull_up(Pio *p_pio, const uint32_t ul_mask,
+		const uint32_t ul_pull_up_enable)
+{
+	/* Enable the pull-up(s) if necessary */
+	if (ul_pull_up_enable) {
    803ea:	f015 0f01 	tst.w	r5, #1
+		p_pio->PIO_PUER = ul_mask;
    803ee:	bf14      	ite	ne
    803f0:	6674      	strne	r4, [r6, #100]	; 0x64
+	} else {
+		p_pio->PIO_PUDR = ul_mask;
    803f2:	6634      	streq	r4, [r6, #96]	; 0x60
+
+	default:
+		return 0;
+	}
+
+	return 1;
    803f4:	2001      	movs	r0, #1
    803f6:	e032      	b.n	8045e <pio_configure_pin+0xc2>
+		pio_set_peripheral(p_pio, PIO_PERIPH_A, (1 << (ul_pin & 0x1F)));
+		pio_pull_up(p_pio, (1 << (ul_pin & 0x1F)),
+				(ul_flags & PIO_PULLUP));
+		break;
+	case PIO_TYPE_PIO_PERIPH_B:
+		pio_set_peripheral(p_pio, PIO_PERIPH_B, (1 << (ul_pin & 0x1F)));
    803f8:	f000 001f 	and.w	r0, r0, #31
    803fc:	2401      	movs	r4, #1
    803fe:	4084      	lsls	r4, r0
@@ -589,12 +672,33 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80406:	4622      	mov	r2, r4
    80408:	4b16      	ldr	r3, [pc, #88]	; (80464 <pio_configure_pin+0xc8>)
    8040a:	4798      	blx	r3
+ */
+void pio_pull_up(Pio *p_pio, const uint32_t ul_mask,
+		const uint32_t ul_pull_up_enable)
+{
+	/* Enable the pull-up(s) if necessary */
+	if (ul_pull_up_enable) {
    8040c:	f015 0f01 	tst.w	r5, #1
+		p_pio->PIO_PUER = ul_mask;
    80410:	bf14      	ite	ne
    80412:	6674      	strne	r4, [r6, #100]	; 0x64
+	} else {
+		p_pio->PIO_PUDR = ul_mask;
    80414:	6634      	streq	r4, [r6, #96]	; 0x60
+
+	default:
+		return 0;
+	}
+
+	return 1;
    80416:	2001      	movs	r0, #1
    80418:	e021      	b.n	8045e <pio_configure_pin+0xc2>
+				(ul_flags & PIO_PULLUP));
+		break;
+#endif
+
+	case PIO_TYPE_PIO_INPUT:
+		pio_set_input(p_pio, (1 << (ul_pin & 0x1F)), ul_flags);
    8041a:	f000 011f 	and.w	r1, r0, #31
    8041e:	2401      	movs	r4, #1
    80420:	4630      	mov	r0, r6
@@ -602,11 +706,34 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80426:	462a      	mov	r2, r5
    80428:	4b0f      	ldr	r3, [pc, #60]	; (80468 <pio_configure_pin+0xcc>)
    8042a:	4798      	blx	r3
+
+	default:
+		return 0;
+	}
+
+	return 1;
    8042c:	4620      	mov	r0, r4
+		break;
+#endif
+
+	case PIO_TYPE_PIO_INPUT:
+		pio_set_input(p_pio, (1 << (ul_pin & 0x1F)), ul_flags);
+		break;
    8042e:	e016      	b.n	8045e <pio_configure_pin+0xc2>
+
+	case PIO_TYPE_PIO_OUTPUT_0:
+	case PIO_TYPE_PIO_OUTPUT_1:
+		pio_set_output(p_pio, (1 << (ul_pin & 0x1F)),
    80430:	f000 011f 	and.w	r1, r0, #31
    80434:	2401      	movs	r4, #1
+				((ul_flags & PIO_TYPE_PIO_OUTPUT_1)
    80436:	f005 5260 	and.w	r2, r5, #939524096	; 0x38000000
+		pio_set_input(p_pio, (1 << (ul_pin & 0x1F)), ul_flags);
+		break;
+
+	case PIO_TYPE_PIO_OUTPUT_0:
+	case PIO_TYPE_PIO_OUTPUT_1:
+		pio_set_output(p_pio, (1 << (ul_pin & 0x1F)),
    8043a:	ea05 0304 	and.w	r3, r5, r4
    8043e:	9300      	str	r3, [sp, #0]
    80440:	4630      	mov	r0, r6
@@ -618,9 +745,28 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80450:	f3c5 0380 	ubfx	r3, r5, #2, #1
    80454:	4d05      	ldr	r5, [pc, #20]	; (8046c <pio_configure_pin+0xd0>)
    80456:	47a8      	blx	r5
+
+	default:
+		return 0;
+	}
+
+	return 1;
    80458:	4620      	mov	r0, r4
+		pio_set_output(p_pio, (1 << (ul_pin & 0x1F)),
+				((ul_flags & PIO_TYPE_PIO_OUTPUT_1)
+				== PIO_TYPE_PIO_OUTPUT_1) ? 1 : 0,
+				(ul_flags & PIO_OPENDRAIN) ? 1 : 0,
+				(ul_flags & PIO_PULLUP) ? 1 : 0);
+		break;
    8045a:	e000      	b.n	8045e <pio_configure_pin+0xc2>
+
+	default:
+		return 0;
    8045c:	2000      	movs	r0, #0
+	}
+
+	return 1;
+}
    8045e:	b002      	add	sp, #8
    80460:	bd70      	pop	{r4, r5, r6, pc}
    80462:	bf00      	nop
@@ -629,34 +775,69 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    8046c:	0008036d 	.word	0x0008036d
 
 00080470 <pio_handler_process>:
+ *
+ * \param p_pio PIO controller base address.
+ * \param ul_id PIO controller ID.
+ */
+void pio_handler_process(Pio *p_pio, uint32_t ul_id)
+{
    80470:	e92d 41f0 	stmdb	sp!, {r4, r5, r6, r7, r8, lr}
    80474:	4604      	mov	r4, r0
    80476:	460e      	mov	r6, r1
+	uint32_t status;
+	uint32_t i;
+
+	/* Read PIO controller status */
+	status = pio_get_interrupt_status(p_pio);
    80478:	4b10      	ldr	r3, [pc, #64]	; (804bc <pio_handler_process+0x4c>)
    8047a:	4798      	blx	r3
    8047c:	4605      	mov	r5, r0
+	status &= pio_get_interrupt_mask(p_pio);
    8047e:	4620      	mov	r0, r4
    80480:	4b0f      	ldr	r3, [pc, #60]	; (804c0 <pio_handler_process+0x50>)
    80482:	4798      	blx	r3
+
+	/* Check pending events */
+	if (status != 0) {
    80484:	4005      	ands	r5, r0
    80486:	d017      	beq.n	804b8 <pio_handler_process+0x48>
    80488:	4f0e      	ldr	r7, [pc, #56]	; (804c4 <pio_handler_process+0x54>)
    8048a:	f107 040c 	add.w	r4, r7, #12
    8048e:	376c      	adds	r7, #108	; 0x6c
+		/* Find triggering source */
+		i = 0;
+		while (status != 0) {
+			/* Source is configured on the same controller */
+			if (gs_interrupt_sources[i].id == ul_id) {
    80490:	f854 3c0c 	ldr.w	r3, [r4, #-12]
    80494:	42b3      	cmp	r3, r6
    80496:	d10a      	bne.n	804ae <pio_handler_process+0x3e>
+				/* Source has PIOs whose statuses have changed */
+				if ((status & gs_interrupt_sources[i].mask) != 0) {
    80498:	f854 1c08 	ldr.w	r1, [r4, #-8]
    8049c:	4229      	tst	r1, r5
    8049e:	d006      	beq.n	804ae <pio_handler_process+0x3e>
+					gs_interrupt_sources[i].handler(gs_interrupt_sources[i].id,
    804a0:	6823      	ldr	r3, [r4, #0]
    804a2:	4630      	mov	r0, r6
    804a4:	4798      	blx	r3
+							gs_interrupt_sources[i].mask);
+					status &= ~(gs_interrupt_sources[i].mask);
    804a6:	f854 3c08 	ldr.w	r3, [r4, #-8]
    804aa:	ea25 0503 	bic.w	r5, r5, r3
+				}
+			}
+			i++;
+			if (i >= MAX_INTERRUPT_SOURCES) {
    804ae:	42bc      	cmp	r4, r7
    804b0:	d002      	beq.n	804b8 <pio_handler_process+0x48>
    804b2:	3410      	adds	r4, #16
+
+	/* Check pending events */
+	if (status != 0) {
+		/* Find triggering source */
+		i = 0;
+		while (status != 0) {
    804b4:	2d00      	cmp	r5, #0
    804b6:	d1eb      	bne.n	80490 <pio_handler_process+0x20>
    804b8:	e8bd 81f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, pc}
@@ -665,7 +846,14 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    804c4:	200709c8 	.word	0x200709c8
 
 000804c8 <PIOA_Handler>:
+/**
+ * \brief Parallel IO Controller A interrupt handler.
+ * Redefined PIOA interrupt handler for NVIC interrupt table.
+ */
+void PIOA_Handler(void)
+{
    804c8:	b508      	push	{r3, lr}
+	pio_handler_process(PIOA, ID_PIOA);
    804ca:	4802      	ldr	r0, [pc, #8]	; (804d4 <PIOA_Handler+0xc>)
    804cc:	210b      	movs	r1, #11
    804ce:	4b02      	ldr	r3, [pc, #8]	; (804d8 <PIOA_Handler+0x10>)
@@ -675,7 +863,14 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    804d8:	00080471 	.word	0x00080471
 
 000804dc <PIOB_Handler>:
+/**
+ * \brief Parallel IO Controller B interrupt handler
+ * Redefined PIOB interrupt handler for NVIC interrupt table.
+ */
+void PIOB_Handler(void)
+{
    804dc:	b508      	push	{r3, lr}
+    pio_handler_process(PIOB, ID_PIOB);
    804de:	4802      	ldr	r0, [pc, #8]	; (804e8 <PIOB_Handler+0xc>)
    804e0:	210c      	movs	r1, #12
    804e2:	4b02      	ldr	r3, [pc, #8]	; (804ec <PIOB_Handler+0x10>)
@@ -685,7 +880,14 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    804ec:	00080471 	.word	0x00080471
 
 000804f0 <PIOC_Handler>:
+/**
+ * \brief Parallel IO Controller C interrupt handler.
+ * Redefined PIOC interrupt handler for NVIC interrupt table.
+ */
+void PIOC_Handler(void)
+{
    804f0:	b508      	push	{r3, lr}
+	pio_handler_process(PIOC, ID_PIOC);
    804f2:	4802      	ldr	r0, [pc, #8]	; (804fc <PIOC_Handler+0xc>)
    804f4:	210d      	movs	r1, #13
    804f6:	4b02      	ldr	r3, [pc, #8]	; (80500 <PIOC_Handler+0x10>)
@@ -695,7 +897,14 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80500:	00080471 	.word	0x00080471
 
 00080504 <PIOD_Handler>:
+/**
+ * \brief Parallel IO Controller D interrupt handler.
+ * Redefined PIOD interrupt handler for NVIC interrupt table.
+ */
+void PIOD_Handler(void)
+{
    80504:	b508      	push	{r3, lr}
+	pio_handler_process(PIOD, ID_PIOD);
    80506:	4802      	ldr	r0, [pc, #8]	; (80510 <PIOD_Handler+0xc>)
    80508:	210e      	movs	r1, #14
    8050a:	4b02      	ldr	r3, [pc, #8]	; (80514 <PIOD_Handler+0x10>)
@@ -705,70 +914,163 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80514:	00080471 	.word	0x00080471
 
 00080518 <pmc_switch_mck_to_pllack>:
+ */
+uint32_t pmc_switch_mck_to_pllack(uint32_t ul_pres)
+{
+	uint32_t ul_timeout;
+
+	PMC->PMC_MCKR = (PMC->PMC_MCKR & (~PMC_MCKR_PRES_Msk)) | ul_pres;
    80518:	4b17      	ldr	r3, [pc, #92]	; (80578 <pmc_switch_mck_to_pllack+0x60>)
    8051a:	6b1a      	ldr	r2, [r3, #48]	; 0x30
    8051c:	f022 0270 	bic.w	r2, r2, #112	; 0x70
    80520:	4310      	orrs	r0, r2
    80522:	6318      	str	r0, [r3, #48]	; 0x30
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
    80524:	6e9b      	ldr	r3, [r3, #104]	; 0x68
    80526:	f013 0f08 	tst.w	r3, #8
    8052a:	d109      	bne.n	80540 <pmc_switch_mck_to_pllack+0x28>
    8052c:	f44f 6300 	mov.w	r3, #2048	; 0x800
    80530:	4911      	ldr	r1, [pc, #68]	; (80578 <pmc_switch_mck_to_pllack+0x60>)
    80532:	e001      	b.n	80538 <pmc_switch_mck_to_pllack+0x20>
+			--ul_timeout) {
+		if (ul_timeout == 0) {
    80534:	3b01      	subs	r3, #1
    80536:	d019      	beq.n	8056c <pmc_switch_mck_to_pllack+0x54>
+uint32_t pmc_switch_mck_to_pllack(uint32_t ul_pres)
+{
+	uint32_t ul_timeout;
+
+	PMC->PMC_MCKR = (PMC->PMC_MCKR & (~PMC_MCKR_PRES_Msk)) | ul_pres;
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
    80538:	6e8a      	ldr	r2, [r1, #104]	; 0x68
    8053a:	f012 0f08 	tst.w	r2, #8
    8053e:	d0f9      	beq.n	80534 <pmc_switch_mck_to_pllack+0x1c>
+		if (ul_timeout == 0) {
+			return 1;
+		}
+	}
+
+	PMC->PMC_MCKR = (PMC->PMC_MCKR & (~PMC_MCKR_CSS_Msk)) |
    80540:	4b0d      	ldr	r3, [pc, #52]	; (80578 <pmc_switch_mck_to_pllack+0x60>)
    80542:	6b1a      	ldr	r2, [r3, #48]	; 0x30
    80544:	f022 0203 	bic.w	r2, r2, #3
    80548:	f042 0202 	orr.w	r2, r2, #2
    8054c:	631a      	str	r2, [r3, #48]	; 0x30
+			PMC_MCKR_CSS_PLLA_CLK;
+
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
    8054e:	6e98      	ldr	r0, [r3, #104]	; 0x68
    80550:	f010 0008 	ands.w	r0, r0, #8
    80554:	d10c      	bne.n	80570 <pmc_switch_mck_to_pllack+0x58>
    80556:	f44f 6300 	mov.w	r3, #2048	; 0x800
    8055a:	4907      	ldr	r1, [pc, #28]	; (80578 <pmc_switch_mck_to_pllack+0x60>)
    8055c:	e001      	b.n	80562 <pmc_switch_mck_to_pllack+0x4a>
+			--ul_timeout) {
+		if (ul_timeout == 0) {
    8055e:	3b01      	subs	r3, #1
    80560:	d008      	beq.n	80574 <pmc_switch_mck_to_pllack+0x5c>
+	}
+
+	PMC->PMC_MCKR = (PMC->PMC_MCKR & (~PMC_MCKR_CSS_Msk)) |
+			PMC_MCKR_CSS_PLLA_CLK;
+
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
    80562:	6e8a      	ldr	r2, [r1, #104]	; 0x68
    80564:	f012 0f08 	tst.w	r2, #8
    80568:	d0f9      	beq.n	8055e <pmc_switch_mck_to_pllack+0x46>
    8056a:	4770      	bx	lr
+
+	PMC->PMC_MCKR = (PMC->PMC_MCKR & (~PMC_MCKR_PRES_Msk)) | ul_pres;
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
+			--ul_timeout) {
+		if (ul_timeout == 0) {
+			return 1;
    8056c:	2001      	movs	r0, #1
    8056e:	4770      	bx	lr
+		if (ul_timeout == 0) {
+			return 1;
+		}
+	}
+
+	return 0;
    80570:	2000      	movs	r0, #0
    80572:	4770      	bx	lr
+			PMC_MCKR_CSS_PLLA_CLK;
+
+	for (ul_timeout = PMC_TIMEOUT; !(PMC->PMC_SR & PMC_SR_MCKRDY);
+			--ul_timeout) {
+		if (ul_timeout == 0) {
+			return 1;
    80574:	2001      	movs	r0, #1
+		}
+	}
+
+	return 0;
+}
    80576:	4770      	bx	lr
    80578:	400e0600 	.word	0x400e0600
 
 0008057c <pmc_switch_mainck_to_xtal>:
+ */
+void pmc_switch_mainck_to_xtal(uint32_t ul_bypass,
+		uint32_t ul_xtal_startup_time)
+{
+	/* Enable Main Xtal oscillator */
+	if (ul_bypass) {
    8057c:	b138      	cbz	r0, 8058e <pmc_switch_mainck_to_xtal+0x12>
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTEN) |
    8057e:	4911      	ldr	r1, [pc, #68]	; (805c4 <pmc_switch_mainck_to_xtal+0x48>)
    80580:	6a0b      	ldr	r3, [r1, #32]
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTBY |
    80582:	4a11      	ldr	r2, [pc, #68]	; (805c8 <pmc_switch_mainck_to_xtal+0x4c>)
    80584:	401a      	ands	r2, r3
    80586:	4b11      	ldr	r3, [pc, #68]	; (805cc <pmc_switch_mainck_to_xtal+0x50>)
    80588:	4313      	orrs	r3, r2
+void pmc_switch_mainck_to_xtal(uint32_t ul_bypass,
+		uint32_t ul_xtal_startup_time)
+{
+	/* Enable Main Xtal oscillator */
+	if (ul_bypass) {
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTEN) |
    8058a:	620b      	str	r3, [r1, #32]
    8058c:	4770      	bx	lr
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTBY |
+				CKGR_MOR_MOSCSEL;
+	} else {
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTBY) |
    8058e:	4a0d      	ldr	r2, [pc, #52]	; (805c4 <pmc_switch_mainck_to_xtal+0x48>)
    80590:	6a13      	ldr	r3, [r2, #32]
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN |
    80592:	f423 135c 	bic.w	r3, r3, #3604480	; 0x370000
    80596:	f023 0303 	bic.w	r3, r3, #3
    8059a:	f443 135c 	orr.w	r3, r3, #3604480	; 0x370000
    8059e:	f043 0301 	orr.w	r3, r3, #1
+				CKGR_MOR_MOSCXTST(ul_xtal_startup_time);
    805a2:	0209      	lsls	r1, r1, #8
    805a4:	b289      	uxth	r1, r1
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTEN) |
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTBY |
+				CKGR_MOR_MOSCSEL;
+	} else {
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTBY) |
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN |
    805a6:	430b      	orrs	r3, r1
+	if (ul_bypass) {
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTEN) |
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTBY |
+				CKGR_MOR_MOSCSEL;
+	} else {
+		PMC->CKGR_MOR = (PMC->CKGR_MOR & ~CKGR_MOR_MOSCXTBY) |
    805a8:	6213      	str	r3, [r2, #32]
+				CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCXTEN |
+				CKGR_MOR_MOSCXTST(ul_xtal_startup_time);
+		/* Wait the Xtal to stabilize */
+		while (!(PMC->PMC_SR & PMC_SR_MOSCXTS));
    805aa:	6e93      	ldr	r3, [r2, #104]	; 0x68
    805ac:	f013 0f01 	tst.w	r3, #1
    805b0:	d0fb      	beq.n	805aa <pmc_switch_mainck_to_xtal+0x2e>
+
+		PMC->CKGR_MOR |= CKGR_MOR_KEY_PASSWD | CKGR_MOR_MOSCSEL;
    805b2:	4a04      	ldr	r2, [pc, #16]	; (805c4 <pmc_switch_mainck_to_xtal+0x48>)
    805b4:	6a13      	ldr	r3, [r2, #32]
    805b6:	f043 739b 	orr.w	r3, r3, #20316160	; 0x1360000
@@ -781,14 +1083,27 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    805cc:	01370002 	.word	0x01370002
 
 000805d0 <pmc_osc_is_ready_mainck>:
+ * \retval 1 Xtal is ready.
+ * \retval 0 Xtal is not ready.
+ */
+uint32_t pmc_osc_is_ready_mainck(void)
+{
+	return PMC->PMC_SR & PMC_SR_MOSCSELS;
    805d0:	4b02      	ldr	r3, [pc, #8]	; (805dc <pmc_osc_is_ready_mainck+0xc>)
    805d2:	6e98      	ldr	r0, [r3, #104]	; 0x68
+}
    805d4:	f400 3080 	and.w	r0, r0, #65536	; 0x10000
    805d8:	4770      	bx	lr
    805da:	bf00      	nop
    805dc:	400e0600 	.word	0x400e0600
 
 000805e0 <pmc_disable_pllack>:
+void pmc_disable_pllack(void)
+{
+#if (SAM4C || SAM4CM || SAM4CP || SAMG)
+	PMC->CKGR_PLLAR = CKGR_PLLAR_MULA(0);
+#else
+	PMC->CKGR_PLLAR = CKGR_PLLAR_ONE | CKGR_PLLAR_MULA(0);
    805e0:	f04f 5200 	mov.w	r2, #536870912	; 0x20000000
    805e4:	4b01      	ldr	r3, [pc, #4]	; (805ec <pmc_disable_pllack+0xc>)
    805e6:	629a      	str	r2, [r3, #40]	; 0x28
@@ -797,18 +1112,36 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    805ec:	400e0600 	.word	0x400e0600
 
 000805f0 <pmc_is_locked_pllack>:
+ * \retval 0 Not locked.
+ * \retval 1 Locked.
+ */
+uint32_t pmc_is_locked_pllack(void)
+{
+	return (PMC->PMC_SR & PMC_SR_LOCKA);
    805f0:	4b02      	ldr	r3, [pc, #8]	; (805fc <pmc_is_locked_pllack+0xc>)
    805f2:	6e98      	ldr	r0, [r3, #104]	; 0x68
+}
    805f4:	f000 0002 	and.w	r0, r0, #2
    805f8:	4770      	bx	lr
    805fa:	bf00      	nop
    805fc:	400e0600 	.word	0x400e0600
 
 00080600 <pmc_enable_periph_clk>:
+ * \retval 0 Success.
+ * \retval 1 Invalid parameter.
+ */
+uint32_t pmc_enable_periph_clk(uint32_t ul_id)
+{
+	if (ul_id > MAX_PERIPH_ID) {
    80600:	282c      	cmp	r0, #44	; 0x2c
    80602:	d820      	bhi.n	80646 <pmc_enable_periph_clk+0x46>
+		return 1;
+	}
+
+	if (ul_id < 32) {
    80604:	281f      	cmp	r0, #31
    80606:	d80d      	bhi.n	80624 <pmc_enable_periph_clk+0x24>
+		if ((PMC->PMC_PCSR0 & (1u << ul_id)) != (1u << ul_id)) {
    80608:	4b12      	ldr	r3, [pc, #72]	; (80654 <pmc_enable_periph_clk+0x54>)
    8060a:	699a      	ldr	r2, [r3, #24]
    8060c:	2301      	movs	r3, #1
@@ -816,151 +1149,368 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80610:	401a      	ands	r2, r3
    80612:	4293      	cmp	r3, r2
    80614:	d019      	beq.n	8064a <pmc_enable_periph_clk+0x4a>
+			PMC->PMC_PCER0 = 1 << ul_id;
    80616:	2301      	movs	r3, #1
    80618:	fa03 f000 	lsl.w	r0, r3, r0
    8061c:	4b0d      	ldr	r3, [pc, #52]	; (80654 <pmc_enable_periph_clk+0x54>)
    8061e:	6118      	str	r0, [r3, #16]
+			PMC->PMC_PCER1 = 1 << ul_id;
+		}
+#endif
+	}
+
+	return 0;
    80620:	2000      	movs	r0, #0
    80622:	4770      	bx	lr
+			PMC->PMC_PCER0 = 1 << ul_id;
+		}
+#if (SAM3S || SAM3XA || SAM4S || SAM4E || SAM4C || SAM4CM || SAM4CP || SAMG55)
+	} else {
+		ul_id -= 32;
+		if ((PMC->PMC_PCSR1 & (1u << ul_id)) != (1u << ul_id)) {
    80624:	4b0b      	ldr	r3, [pc, #44]	; (80654 <pmc_enable_periph_clk+0x54>)
    80626:	f8d3 2108 	ldr.w	r2, [r3, #264]	; 0x108
+		if ((PMC->PMC_PCSR0 & (1u << ul_id)) != (1u << ul_id)) {
+			PMC->PMC_PCER0 = 1 << ul_id;
+		}
+#if (SAM3S || SAM3XA || SAM4S || SAM4E || SAM4C || SAM4CM || SAM4CP || SAMG55)
+	} else {
+		ul_id -= 32;
    8062a:	3820      	subs	r0, #32
+		if ((PMC->PMC_PCSR1 & (1u << ul_id)) != (1u << ul_id)) {
    8062c:	2301      	movs	r3, #1
    8062e:	4083      	lsls	r3, r0
    80630:	401a      	ands	r2, r3
    80632:	4293      	cmp	r3, r2
    80634:	d00b      	beq.n	8064e <pmc_enable_periph_clk+0x4e>
+			PMC->PMC_PCER1 = 1 << ul_id;
    80636:	2301      	movs	r3, #1
    80638:	fa03 f000 	lsl.w	r0, r3, r0
    8063c:	4b05      	ldr	r3, [pc, #20]	; (80654 <pmc_enable_periph_clk+0x54>)
    8063e:	f8c3 0100 	str.w	r0, [r3, #256]	; 0x100
+		}
+#endif
+	}
+
+	return 0;
    80642:	2000      	movs	r0, #0
    80644:	4770      	bx	lr
+ * \retval 1 Invalid parameter.
+ */
+uint32_t pmc_enable_periph_clk(uint32_t ul_id)
+{
+	if (ul_id > MAX_PERIPH_ID) {
+		return 1;
    80646:	2001      	movs	r0, #1
    80648:	4770      	bx	lr
+			PMC->PMC_PCER1 = 1 << ul_id;
+		}
+#endif
+	}
+
+	return 0;
    8064a:	2000      	movs	r0, #0
    8064c:	4770      	bx	lr
    8064e:	2000      	movs	r0, #0
+}
    80650:	4770      	bx	lr
    80652:	bf00      	nop
    80654:	400e0600 	.word	0x400e0600
 
 00080658 <tc_init>:
+ */
+void tc_init(
+		Tc *p_tc,
+		uint32_t ul_channel,
+		uint32_t ul_mode)
+{
    80658:	b410      	push	{r4}
+
+	/* Validate inputs. */
+	Assert(p_tc);
+	Assert(ul_channel <
+			(sizeof(p_tc->TC_CHANNEL) / sizeof(p_tc->TC_CHANNEL[0])));
+	tc_channel = p_tc->TC_CHANNEL + ul_channel;
    8065a:	0189      	lsls	r1, r1, #6
    8065c:	1843      	adds	r3, r0, r1
+
+	/*  Disable TC clock. */
+	tc_channel->TC_CCR = TC_CCR_CLKDIS;
    8065e:	2402      	movs	r4, #2
    80660:	5044      	str	r4, [r0, r1]
+
+	/*  Disable interrupts. */
+	tc_channel->TC_IDR = 0xFFFFFFFF;
    80662:	f04f 31ff 	mov.w	r1, #4294967295
    80666:	6299      	str	r1, [r3, #40]	; 0x28
+
+	/*  Clear status register. */
+	tc_channel->TC_SR;
    80668:	6a19      	ldr	r1, [r3, #32]
+
+	/*  Set mode. */
+	tc_channel->TC_CMR = ul_mode;
    8066a:	605a      	str	r2, [r3, #4]
+}
    8066c:	f85d 4b04 	ldr.w	r4, [sp], #4
    80670:	4770      	bx	lr
    80672:	bf00      	nop
 
 00080674 <tc_set_block_mode>:
+		uint32_t ul_blockmode)
+{
+	/* Validate inputs. */
+	Assert(p_tc);
+	
+	p_tc->TC_BMR = ul_blockmode;
    80674:	f8c0 10c4 	str.w	r1, [r0, #196]	; 0xc4
    80678:	4770      	bx	lr
    8067a:	bf00      	nop
 
 0008067c <tc_start>:
+	/* Validate inputs. */
+	Assert(p_tc);
+	Assert(ul_channel <
+			(sizeof(p_tc->TC_CHANNEL) / sizeof(p_tc->TC_CHANNEL[0])));
+
+	p_tc->TC_CHANNEL[ul_channel].TC_CCR = TC_CCR_CLKEN | TC_CCR_SWTRG;
    8067c:	0189      	lsls	r1, r1, #6
    8067e:	2305      	movs	r3, #5
    80680:	5043      	str	r3, [r0, r1]
    80682:	4770      	bx	lr
 
 00080684 <tc_stop>:
+	/* Validate inputs. */
+	Assert(p_tc);
+	Assert(ul_channel <
+			(sizeof(p_tc->TC_CHANNEL) / sizeof(p_tc->TC_CHANNEL[0])));
+
+	p_tc->TC_CHANNEL[ul_channel].TC_CCR = TC_CCR_CLKDIS;
    80684:	0189      	lsls	r1, r1, #6
    80686:	2302      	movs	r3, #2
    80688:	5043      	str	r3, [r0, r1]
    8068a:	4770      	bx	lr
 
 0008068c <tc_read_cv>:
+	/* Validate inputs. */
+	Assert(p_tc);
+	Assert(ul_channel <
+			(sizeof(p_tc->TC_CHANNEL) / sizeof(p_tc->TC_CHANNEL[0])));
+
+	return p_tc->TC_CHANNEL[ul_channel].TC_CV;
    8068c:	eb00 1181 	add.w	r1, r0, r1, lsl #6
    80690:	6908      	ldr	r0, [r1, #16]
+}
    80692:	4770      	bx	lr
 
 00080694 <uart_read>:
+ * \retval 1 I/O Failure, UART is not ready.
+ */
+uint32_t uart_read(Uart *p_uart, uint8_t *puc_data)
+{
+	/* Check if the receiver is ready */
+	if ((p_uart->UART_SR & UART_SR_RXRDY) == 0)
    80694:	6943      	ldr	r3, [r0, #20]
    80696:	f013 0f01 	tst.w	r3, #1
+		return 1;
+
+	/* Read character */
+	*puc_data = (uint8_t) p_uart->UART_RHR;
    8069a:	bf1d      	ittte	ne
    8069c:	6983      	ldrne	r3, [r0, #24]
    8069e:	700b      	strbne	r3, [r1, #0]
+	return 0;
    806a0:	2000      	movne	r0, #0
+ */
+uint32_t uart_read(Uart *p_uart, uint8_t *puc_data)
+{
+	/* Check if the receiver is ready */
+	if ((p_uart->UART_SR & UART_SR_RXRDY) == 0)
+		return 1;
    806a2:	2001      	moveq	r0, #1
+
+	/* Read character */
+	*puc_data = (uint8_t) p_uart->UART_RHR;
+	return 0;
+}
    806a4:	4770      	bx	lr
    806a6:	bf00      	nop
 
 000806a8 <usart_set_async_baudrate>:
+ * \retval 1 Baud rate set point is out of range for the given input clock
+ * frequency.
+ */
+uint32_t usart_set_async_baudrate(Usart *p_usart,
+		uint32_t baudrate, uint32_t ul_mck)
+{
    806a8:	b410      	push	{r4}
+	uint32_t cd_fp;
+	uint32_t cd;
+	uint32_t fp;
+
+	/* Calculate the receiver sampling divide of baudrate clock. */
+	if (ul_mck >= HIGH_FRQ_SAMPLE_DIV * baudrate) {
    806aa:	010b      	lsls	r3, r1, #4
    806ac:	4293      	cmp	r3, r2
    806ae:	d90d      	bls.n	806cc <usart_set_async_baudrate+0x24>
    806b0:	e01a      	b.n	806e8 <usart_set_async_baudrate+0x40>
+		return 1;
+	}
+
+	/* Configure the OVER bit in MR register. */
+	if (over == 8) {
+		p_usart->US_MR |= US_MR_OVER;
    806b2:	6841      	ldr	r1, [r0, #4]
    806b4:	f441 2100 	orr.w	r1, r1, #524288	; 0x80000
    806b8:	6041      	str	r1, [r0, #4]
+	}
+
+	/* Configure the baudrate generate register. */
+	p_usart->US_BRGR = (cd << US_BRGR_CD_Pos) | (fp << US_BRGR_FP_Pos);
    806ba:	ea42 4303 	orr.w	r3, r2, r3, lsl #16
    806be:	6203      	str	r3, [r0, #32]
+
+	return 0;
    806c0:	2000      	movs	r0, #0
    806c2:	e020      	b.n	80706 <usart_set_async_baudrate+0x5e>
+	/* Calculate clock divider according to the fraction calculated formula. */
+	cd_fp = (8 * ul_mck + (over * baudrate) / 2) / (over * baudrate);
+	cd = cd_fp >> 3;
+	fp = cd_fp & 0x07;
+	if (cd < MIN_CD_VALUE || cd > MAX_CD_VALUE) {
+		return 1;
    806c4:	2001      	movs	r0, #1
    806c6:	e01e      	b.n	80706 <usart_set_async_baudrate+0x5e>
    806c8:	2001      	movs	r0, #1
    806ca:	e01c      	b.n	80706 <usart_set_async_baudrate+0x5e>
+	} else {
+		over = LOW_FRQ_SAMPLE_DIV;
+	}
+
+	/* Calculate clock divider according to the fraction calculated formula. */
+	cd_fp = (8 * ul_mck + (over * baudrate) / 2) / (over * baudrate);
    806cc:	00d2      	lsls	r2, r2, #3
    806ce:	eb02 0253 	add.w	r2, r2, r3, lsr #1
    806d2:	fbb2 f3f3 	udiv	r3, r2, r3
+	cd = cd_fp >> 3;
    806d6:	08da      	lsrs	r2, r3, #3
+	fp = cd_fp & 0x07;
    806d8:	f003 0307 	and.w	r3, r3, #7
+	if (cd < MIN_CD_VALUE || cd > MAX_CD_VALUE) {
    806dc:	1e54      	subs	r4, r2, #1
    806de:	f64f 71fe 	movw	r1, #65534	; 0xfffe
    806e2:	428c      	cmp	r4, r1
    806e4:	d9e9      	bls.n	806ba <usart_set_async_baudrate+0x12>
    806e6:	e7ed      	b.n	806c4 <usart_set_async_baudrate+0x1c>
+	} else {
+		over = LOW_FRQ_SAMPLE_DIV;
+	}
+
+	/* Calculate clock divider according to the fraction calculated formula. */
+	cd_fp = (8 * ul_mck + (over * baudrate) / 2) / (over * baudrate);
    806e8:	00c9      	lsls	r1, r1, #3
    806ea:	00d3      	lsls	r3, r2, #3
    806ec:	eb03 0351 	add.w	r3, r3, r1, lsr #1
    806f0:	fbb3 f3f1 	udiv	r3, r3, r1
+	cd = cd_fp >> 3;
    806f4:	08da      	lsrs	r2, r3, #3
+	fp = cd_fp & 0x07;
    806f6:	f003 0307 	and.w	r3, r3, #7
+	if (cd < MIN_CD_VALUE || cd > MAX_CD_VALUE) {
    806fa:	1e54      	subs	r4, r2, #1
    806fc:	f64f 71fe 	movw	r1, #65534	; 0xfffe
    80700:	428c      	cmp	r4, r1
    80702:	d9d6      	bls.n	806b2 <usart_set_async_baudrate+0xa>
    80704:	e7e0      	b.n	806c8 <usart_set_async_baudrate+0x20>
+
+	/* Configure the baudrate generate register. */
+	p_usart->US_BRGR = (cd << US_BRGR_CD_Pos) | (fp << US_BRGR_FP_Pos);
+
+	return 0;
+}
    80706:	f85d 4b04 	ldr.w	r4, [sp], #4
    8070a:	4770      	bx	lr
 
 0008070c <usart_reset>:
+ *
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_disable_writeprotect(Usart *p_usart)
+{
+	p_usart->US_WPMR = US_WPMR_WPKEY_PASSWD;
    8070c:	4b08      	ldr	r3, [pc, #32]	; (80730 <usart_reset+0x24>)
    8070e:	f8c0 30e4 	str.w	r3, [r0, #228]	; 0xe4
+{
+	/* Disable the Write Protect. */
+	usart_disable_writeprotect(p_usart);
+
+	/* Reset registers that could cause unpredictable behavior after reset. */
+	p_usart->US_MR = 0;
    80712:	2300      	movs	r3, #0
    80714:	6043      	str	r3, [r0, #4]
+	p_usart->US_RTOR = 0;
    80716:	6243      	str	r3, [r0, #36]	; 0x24
+	p_usart->US_TTGR = 0;
    80718:	6283      	str	r3, [r0, #40]	; 0x28
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_reset_tx(Usart *p_usart)
+{
+	/* Reset transmitter */
+	p_usart->US_CR = US_CR_RSTTX | US_CR_TXDIS;
    8071a:	2388      	movs	r3, #136	; 0x88
    8071c:	6003      	str	r3, [r0, #0]
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_reset_rx(Usart *p_usart)
+{
+	/* Reset Receiver */
+	p_usart->US_CR = US_CR_RSTRX | US_CR_RXDIS;
    8071e:	2324      	movs	r3, #36	; 0x24
    80720:	6003      	str	r3, [r0, #0]
+ *
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_reset_status(Usart *p_usart)
+{
+	p_usart->US_CR = US_CR_RSTSTA;
    80722:	f44f 7380 	mov.w	r3, #256	; 0x100
    80726:	6003      	str	r3, [r0, #0]
+ *
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_drive_RTS_pin_high(Usart *p_usart)
+{
+	p_usart->US_CR = US_CR_RTSDIS;
    80728:	f44f 2300 	mov.w	r3, #524288	; 0x80000
    8072c:	6003      	str	r3, [r0, #0]
    8072e:	4770      	bx	lr
    80730:	55534100 	.word	0x55534100
 
 00080734 <usart_init_rs232>:
+ * \retval 0 on success.
+ * \retval 1 on failure.
+ */
+uint32_t usart_init_rs232(Usart *p_usart,
+		const sam_usart_opt_t *p_usart_opt, uint32_t ul_mck)
+{
    80734:	b570      	push	{r4, r5, r6, lr}
    80736:	4605      	mov	r5, r0
    80738:	460c      	mov	r4, r1
    8073a:	4616      	mov	r6, r2
+	static uint32_t ul_reg_val;
+
+	/* Reset the USART and shut down TX and RX. */
+	usart_reset(p_usart);
    8073c:	4b0f      	ldr	r3, [pc, #60]	; (8077c <usart_init_rs232+0x48>)
    8073e:	4798      	blx	r3
+
+	ul_reg_val = 0;
    80740:	2100      	movs	r1, #0
    80742:	4b0f      	ldr	r3, [pc, #60]	; (80780 <usart_init_rs232+0x4c>)
    80744:	6019      	str	r1, [r3, #0]
+	/* Check whether the input values are legal. */
+	if (!p_usart_opt || usart_set_async_baudrate(p_usart,
    80746:	b19c      	cbz	r4, 80770 <usart_init_rs232+0x3c>
    80748:	4628      	mov	r0, r5
    8074a:	6821      	ldr	r1, [r4, #0]
@@ -969,22 +1519,55 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80750:	4798      	blx	r3
    80752:	4603      	mov	r3, r0
    80754:	b970      	cbnz	r0, 80774 <usart_init_rs232+0x40>
+			p_usart_opt->baudrate, ul_mck)) {
+		return 1;
+	}
+
+	/* Configure the USART option. */
+	ul_reg_val |= p_usart_opt->char_length | p_usart_opt->parity_type |
    80756:	68a1      	ldr	r1, [r4, #8]
    80758:	6862      	ldr	r2, [r4, #4]
    8075a:	430a      	orrs	r2, r1
    8075c:	6921      	ldr	r1, [r4, #16]
    8075e:	430a      	orrs	r2, r1
+			p_usart_opt->channel_mode | p_usart_opt->stop_bits;
    80760:	68e0      	ldr	r0, [r4, #12]
    80762:	4302      	orrs	r2, r0
+			p_usart_opt->baudrate, ul_mck)) {
+		return 1;
+	}
+
+	/* Configure the USART option. */
+	ul_reg_val |= p_usart_opt->char_length | p_usart_opt->parity_type |
    80764:	4906      	ldr	r1, [pc, #24]	; (80780 <usart_init_rs232+0x4c>)
    80766:	600a      	str	r2, [r1, #0]
+			p_usart_opt->channel_mode | p_usart_opt->stop_bits;
+
+	/* Configure the USART mode as normal mode. */
+	ul_reg_val |= US_MR_USART_MODE_NORMAL;
+
+	p_usart->US_MR |= ul_reg_val;
    80768:	6869      	ldr	r1, [r5, #4]
    8076a:	430a      	orrs	r2, r1
    8076c:	606a      	str	r2, [r5, #4]
+
+	return 0;
    8076e:	e002      	b.n	80776 <usart_init_rs232+0x42>
+
+	ul_reg_val = 0;
+	/* Check whether the input values are legal. */
+	if (!p_usart_opt || usart_set_async_baudrate(p_usart,
+			p_usart_opt->baudrate, ul_mck)) {
+		return 1;
    80770:	2301      	movs	r3, #1
    80772:	e000      	b.n	80776 <usart_init_rs232+0x42>
    80774:	2301      	movs	r3, #1
+	ul_reg_val |= US_MR_USART_MODE_NORMAL;
+
+	p_usart->US_MR |= ul_reg_val;
+
+	return 0;
+}
    80776:	4618      	mov	r0, r3
    80778:	bd70      	pop	{r4, r5, r6, pc}
    8077a:	bf00      	nop
@@ -993,47 +1576,115 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80784:	000806a9 	.word	0x000806a9
 
 00080788 <usart_enable_tx>:
+ *
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_enable_tx(Usart *p_usart)
+{
+	p_usart->US_CR = US_CR_TXEN;
    80788:	2340      	movs	r3, #64	; 0x40
    8078a:	6003      	str	r3, [r0, #0]
    8078c:	4770      	bx	lr
    8078e:	bf00      	nop
 
 00080790 <usart_enable_rx>:
+ *
+ * \param p_usart Pointer to a USART instance.
+ */
+void usart_enable_rx(Usart *p_usart)
+{
+	p_usart->US_CR = US_CR_RXEN;
    80790:	2310      	movs	r3, #16
    80792:	6003      	str	r3, [r0, #0]
    80794:	4770      	bx	lr
    80796:	bf00      	nop
 
 00080798 <usart_enable_interrupt>:
+ * \param p_usart Pointer to a USART peripheral.
+ * \param ul_sources Interrupt sources bit map.
+ */
+void usart_enable_interrupt(Usart *p_usart, uint32_t ul_sources)
+{
+	p_usart->US_IER = ul_sources;
    80798:	6081      	str	r1, [r0, #8]
    8079a:	4770      	bx	lr
 
 0008079c <usart_read>:
+ * \retval 0 on success.
+ * \retval 1 if no data is available or errors.
+ */
+uint32_t usart_read(Usart *p_usart, uint32_t *c)
+{
+	if (!(p_usart->US_CSR & US_CSR_RXRDY)) {
    8079c:	6943      	ldr	r3, [r0, #20]
    8079e:	f013 0f01 	tst.w	r3, #1
    807a2:	d005      	beq.n	807b0 <usart_read+0x14>
+		return 1;
+	}
+
+	/* Read character */
+	*c = p_usart->US_RHR & US_RHR_RXCHR_Msk;
    807a4:	6983      	ldr	r3, [r0, #24]
    807a6:	f3c3 0308 	ubfx	r3, r3, #0, #9
    807aa:	600b      	str	r3, [r1, #0]
+
+	return 0;
    807ac:	2000      	movs	r0, #0
    807ae:	4770      	bx	lr
+ * \retval 1 if no data is available or errors.
+ */
+uint32_t usart_read(Usart *p_usart, uint32_t *c)
+{
+	if (!(p_usart->US_CSR & US_CSR_RXRDY)) {
+		return 1;
    807b0:	2001      	movs	r0, #1
+
+	/* Read character */
+	*c = p_usart->US_RHR & US_RHR_RXCHR_Msk;
+
+	return 0;
+}
    807b2:	4770      	bx	lr
 
 000807b4 <Dummy_Handler>:
+
+/**
+ * \brief Default interrupt handler for unused IRQs.
+ */
+void Dummy_Handler(void)
+{
    807b4:	e7fe      	b.n	807b4 <Dummy_Handler>
    807b6:	bf00      	nop
 
 000807b8 <Reset_Handler>:
+/**
+ * \brief This is the code that gets called on processor reset.
+ * To initialize the device, and call the main() routine.
+ */
+void Reset_Handler(void)
+{
    807b8:	b510      	push	{r4, lr}
+
+	/* Initialize the relocate segment */
+	pSrc = &_etext;
+	pDest = &_srelocate;
+
+	if (pSrc != pDest) {
    807ba:	4b1e      	ldr	r3, [pc, #120]	; (80834 <Reset_Handler+0x7c>)
    807bc:	4a1e      	ldr	r2, [pc, #120]	; (80838 <Reset_Handler+0x80>)
    807be:	429a      	cmp	r2, r3
    807c0:	d003      	beq.n	807ca <Reset_Handler+0x12>
+		for (; pDest < &_erelocate;) {
    807c2:	4b1e      	ldr	r3, [pc, #120]	; (8083c <Reset_Handler+0x84>)
    807c4:	4a1b      	ldr	r2, [pc, #108]	; (80834 <Reset_Handler+0x7c>)
    807c6:	429a      	cmp	r2, r3
    807c8:	d304      	bcc.n	807d4 <Reset_Handler+0x1c>
+			*pDest++ = *pSrc++;
+		}
+	}
+
+	/* Clear the zero segment */
+	for (pDest = &_szero; pDest < &_ezero;) {
    807ca:	4b1d      	ldr	r3, [pc, #116]	; (80840 <Reset_Handler+0x88>)
    807cc:	4a1d      	ldr	r2, [pc, #116]	; (80844 <Reset_Handler+0x8c>)
    807ce:	429a      	cmp	r2, r3
@@ -1044,12 +1695,25 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    807d8:	1ae4      	subs	r4, r4, r3
    807da:	f024 0403 	bic.w	r4, r4, #3
    807de:	3404      	adds	r4, #4
+	/* Initialize the relocate segment */
+	pSrc = &_etext;
+	pDest = &_srelocate;
+
+	if (pSrc != pDest) {
+		for (; pDest < &_erelocate;) {
    807e0:	2300      	movs	r3, #0
+			*pDest++ = *pSrc++;
    807e2:	4814      	ldr	r0, [pc, #80]	; (80834 <Reset_Handler+0x7c>)
    807e4:	4914      	ldr	r1, [pc, #80]	; (80838 <Reset_Handler+0x80>)
    807e6:	585a      	ldr	r2, [r3, r1]
    807e8:	501a      	str	r2, [r3, r0]
    807ea:	3304      	adds	r3, #4
+	/* Initialize the relocate segment */
+	pSrc = &_etext;
+	pDest = &_srelocate;
+
+	if (pSrc != pDest) {
+		for (; pDest < &_erelocate;) {
    807ec:	42a3      	cmp	r3, r4
    807ee:	d1fa      	bne.n	807e6 <Reset_Handler+0x2e>
    807f0:	e7eb      	b.n	807ca <Reset_Handler+0x12>
@@ -1059,23 +1723,51 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    807f8:	f021 0103 	bic.w	r1, r1, #3
    807fc:	1d1a      	adds	r2, r3, #4
    807fe:	4411      	add	r1, r2
+		}
+	}
+
+	/* Clear the zero segment */
+	for (pDest = &_szero; pDest < &_ezero;) {
+		*pDest++ = 0;
    80800:	2200      	movs	r2, #0
    80802:	f843 2f04 	str.w	r2, [r3, #4]!
+			*pDest++ = *pSrc++;
+		}
+	}
+
+	/* Clear the zero segment */
+	for (pDest = &_szero; pDest < &_ezero;) {
    80806:	428b      	cmp	r3, r1
    80808:	d1fb      	bne.n	80802 <Reset_Handler+0x4a>
+		*pDest++ = 0;
+	}
+
+	/* Set the vector table base address */
+	pSrc = (uint32_t *) & _sfixed;
+	SCB->VTOR = ((uint32_t) pSrc & SCB_VTOR_TBLOFF_Msk);
    8080a:	4a13      	ldr	r2, [pc, #76]	; (80858 <Reset_Handler+0xa0>)
    8080c:	f022 4360 	bic.w	r3, r2, #3758096384	; 0xe0000000
    80810:	f023 037f 	bic.w	r3, r3, #127	; 0x7f
    80814:	4911      	ldr	r1, [pc, #68]	; (8085c <Reset_Handler+0xa4>)
    80816:	608b      	str	r3, [r1, #8]
+
+	if (((uint32_t) pSrc >= IRAM0_ADDR) && ((uint32_t) pSrc < NFC_RAM_ADDR)) {
    80818:	f102 4260 	add.w	r2, r2, #3758096384	; 0xe0000000
    8081c:	f5b2 1f80 	cmp.w	r2, #1048576	; 0x100000
    80820:	d203      	bcs.n	8082a <Reset_Handler+0x72>
+		SCB->VTOR |= 1 << SCB_VTOR_TBLBASE_Pos;
    80822:	688a      	ldr	r2, [r1, #8]
    80824:	f042 5200 	orr.w	r2, r2, #536870912	; 0x20000000
    80828:	608a      	str	r2, [r1, #8]
+	}
+
+	/* Initialize the C library */
+	__libc_init_array();
    8082a:	4b0d      	ldr	r3, [pc, #52]	; (80860 <Reset_Handler+0xa8>)
    8082c:	4798      	blx	r3
+
+	/* Branch to main function */
+	main();
    8082e:	4b0d      	ldr	r3, [pc, #52]	; (80864 <Reset_Handler+0xac>)
    80830:	4798      	blx	r3
    80832:	e7fe      	b.n	80832 <Reset_Handler+0x7a>
@@ -1094,6 +1786,12 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80864:	00080d61 	.word	0x00080d61
 
 00080868 <SystemCoreClockUpdate>:
+}
+
+void SystemCoreClockUpdate(void)
+{
+	/* Determine clock frequency according to clock register values */
+	switch (PMC->PMC_MCKR & PMC_MCKR_CSS_Msk) {
    80868:	4b3e      	ldr	r3, [pc, #248]	; (80964 <SystemCoreClockUpdate+0xfc>)
    8086a:	6b1b      	ldr	r3, [r3, #48]	; 0x30
    8086c:	f003 0303 	and.w	r3, r3, #3
@@ -1101,26 +1799,40 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80872:	d85f      	bhi.n	80934 <SystemCoreClockUpdate+0xcc>
    80874:	e8df f003 	tbb	[pc, r3]
    80878:	2b2b0e02 	.word	0x2b2b0e02
+	case PMC_MCKR_CSS_SLOW_CLK:	/* Slow clock */
+		if (SUPC->SUPC_SR & SUPC_SR_OSCSEL) {
    8087c:	4b3a      	ldr	r3, [pc, #232]	; (80968 <SystemCoreClockUpdate+0x100>)
    8087e:	695b      	ldr	r3, [r3, #20]
    80880:	f013 0f80 	tst.w	r3, #128	; 0x80
+			SystemCoreClock = CHIP_FREQ_XTAL_32K;
    80884:	bf14      	ite	ne
    80886:	f44f 4200 	movne.w	r2, #32768	; 0x8000
+		} else {
+			SystemCoreClock = CHIP_FREQ_SLCK_RC;
    8088a:	f44f 42fa 	moveq.w	r2, #32000	; 0x7d00
    8088e:	4b37      	ldr	r3, [pc, #220]	; (8096c <SystemCoreClockUpdate+0x104>)
    80890:	601a      	str	r2, [r3, #0]
    80892:	e04f      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+		}
+		break;
+	case PMC_MCKR_CSS_MAIN_CLK:	/* Main clock */
+		if (PMC->CKGR_MOR & CKGR_MOR_MOSCSEL) {
    80894:	4b33      	ldr	r3, [pc, #204]	; (80964 <SystemCoreClockUpdate+0xfc>)
    80896:	6a1b      	ldr	r3, [r3, #32]
    80898:	f013 7f80 	tst.w	r3, #16777216	; 0x1000000
    8089c:	d003      	beq.n	808a6 <SystemCoreClockUpdate+0x3e>
+			SystemCoreClock = CHIP_FREQ_XTAL_12M;
    8089e:	4a34      	ldr	r2, [pc, #208]	; (80970 <SystemCoreClockUpdate+0x108>)
    808a0:	4b32      	ldr	r3, [pc, #200]	; (8096c <SystemCoreClockUpdate+0x104>)
    808a2:	601a      	str	r2, [r3, #0]
    808a4:	e046      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+		} else {
+			SystemCoreClock = CHIP_FREQ_MAINCK_RC_4MHZ;
    808a6:	4a33      	ldr	r2, [pc, #204]	; (80974 <SystemCoreClockUpdate+0x10c>)
    808a8:	4b30      	ldr	r3, [pc, #192]	; (8096c <SystemCoreClockUpdate+0x104>)
    808aa:	601a      	str	r2, [r3, #0]
+
+			switch (PMC->CKGR_MOR & CKGR_MOR_MOSCRCF_Msk) {
    808ac:	4b2d      	ldr	r3, [pc, #180]	; (80964 <SystemCoreClockUpdate+0xfc>)
    808ae:	6a1b      	ldr	r3, [r3, #32]
    808b0:	f003 0370 	and.w	r3, r3, #112	; 0x70
@@ -1129,25 +1841,44 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    808b8:	2b20      	cmp	r3, #32
    808ba:	d004      	beq.n	808c6 <SystemCoreClockUpdate+0x5e>
    808bc:	e03a      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+			case CKGR_MOR_MOSCRCF_4_MHz:
+				break;
+			case CKGR_MOR_MOSCRCF_8_MHz:
+				SystemCoreClock *= 2U;
    808be:	4a2e      	ldr	r2, [pc, #184]	; (80978 <SystemCoreClockUpdate+0x110>)
    808c0:	4b2a      	ldr	r3, [pc, #168]	; (8096c <SystemCoreClockUpdate+0x104>)
    808c2:	601a      	str	r2, [r3, #0]
+				break;
    808c4:	e036      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+			case CKGR_MOR_MOSCRCF_12_MHz:
+				SystemCoreClock *= 3U;
    808c6:	4a2a      	ldr	r2, [pc, #168]	; (80970 <SystemCoreClockUpdate+0x108>)
    808c8:	4b28      	ldr	r3, [pc, #160]	; (8096c <SystemCoreClockUpdate+0x104>)
    808ca:	601a      	str	r2, [r3, #0]
+				break;
    808cc:	e032      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+			}
+		}
+		break;
+	case PMC_MCKR_CSS_PLLA_CLK:	/* PLLA clock */
+	case PMC_MCKR_CSS_UPLL_CLK:	/* UPLL clock */
+		if (PMC->CKGR_MOR & CKGR_MOR_MOSCSEL) {
    808ce:	4b25      	ldr	r3, [pc, #148]	; (80964 <SystemCoreClockUpdate+0xfc>)
    808d0:	6a1b      	ldr	r3, [r3, #32]
    808d2:	f013 7f80 	tst.w	r3, #16777216	; 0x1000000
    808d6:	d003      	beq.n	808e0 <SystemCoreClockUpdate+0x78>
+			SystemCoreClock = CHIP_FREQ_XTAL_12M;
    808d8:	4a25      	ldr	r2, [pc, #148]	; (80970 <SystemCoreClockUpdate+0x108>)
    808da:	4b24      	ldr	r3, [pc, #144]	; (8096c <SystemCoreClockUpdate+0x104>)
    808dc:	601a      	str	r2, [r3, #0]
    808de:	e012      	b.n	80906 <SystemCoreClockUpdate+0x9e>
+		} else {
+			SystemCoreClock = CHIP_FREQ_MAINCK_RC_4MHZ;
    808e0:	4a24      	ldr	r2, [pc, #144]	; (80974 <SystemCoreClockUpdate+0x10c>)
    808e2:	4b22      	ldr	r3, [pc, #136]	; (8096c <SystemCoreClockUpdate+0x104>)
    808e4:	601a      	str	r2, [r3, #0]
+
+			switch (PMC->CKGR_MOR & CKGR_MOR_MOSCRCF_Msk) {
    808e6:	4b1f      	ldr	r3, [pc, #124]	; (80964 <SystemCoreClockUpdate+0xfc>)
    808e8:	6a1b      	ldr	r3, [r3, #32]
    808ea:	f003 0370 	and.w	r3, r3, #112	; 0x70
@@ -1156,37 +1887,70 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    808f2:	2b20      	cmp	r3, #32
    808f4:	d004      	beq.n	80900 <SystemCoreClockUpdate+0x98>
    808f6:	e006      	b.n	80906 <SystemCoreClockUpdate+0x9e>
+			case CKGR_MOR_MOSCRCF_4_MHz:
+				break;
+			case CKGR_MOR_MOSCRCF_8_MHz:
+				SystemCoreClock *= 2U;
    808f8:	4a1f      	ldr	r2, [pc, #124]	; (80978 <SystemCoreClockUpdate+0x110>)
    808fa:	4b1c      	ldr	r3, [pc, #112]	; (8096c <SystemCoreClockUpdate+0x104>)
    808fc:	601a      	str	r2, [r3, #0]
+				break;
    808fe:	e002      	b.n	80906 <SystemCoreClockUpdate+0x9e>
+			case CKGR_MOR_MOSCRCF_12_MHz:
+				SystemCoreClock *= 3U;
    80900:	4a1b      	ldr	r2, [pc, #108]	; (80970 <SystemCoreClockUpdate+0x108>)
    80902:	4b1a      	ldr	r3, [pc, #104]	; (8096c <SystemCoreClockUpdate+0x104>)
    80904:	601a      	str	r2, [r3, #0]
+				break;
+			default:
+				break;
+			}
+		}
+		if ((PMC->PMC_MCKR & PMC_MCKR_CSS_Msk) == PMC_MCKR_CSS_PLLA_CLK) {
    80906:	4b17      	ldr	r3, [pc, #92]	; (80964 <SystemCoreClockUpdate+0xfc>)
    80908:	6b1b      	ldr	r3, [r3, #48]	; 0x30
    8090a:	f003 0303 	and.w	r3, r3, #3
    8090e:	2b02      	cmp	r3, #2
    80910:	d10d      	bne.n	8092e <SystemCoreClockUpdate+0xc6>
+			SystemCoreClock *= ((((PMC->CKGR_PLLAR) & CKGR_PLLAR_MULA_Msk) >> 
    80912:	4b14      	ldr	r3, [pc, #80]	; (80964 <SystemCoreClockUpdate+0xfc>)
    80914:	6a98      	ldr	r0, [r3, #40]	; 0x28
+				                            CKGR_PLLAR_MULA_Pos) + 1U);
+			SystemCoreClock /= ((((PMC->CKGR_PLLAR) & CKGR_PLLAR_DIVA_Msk) >> 
    80916:	6a99      	ldr	r1, [r3, #40]	; 0x28
    80918:	4b14      	ldr	r3, [pc, #80]	; (8096c <SystemCoreClockUpdate+0x104>)
+			default:
+				break;
+			}
+		}
+		if ((PMC->PMC_MCKR & PMC_MCKR_CSS_Msk) == PMC_MCKR_CSS_PLLA_CLK) {
+			SystemCoreClock *= ((((PMC->CKGR_PLLAR) & CKGR_PLLAR_MULA_Msk) >> 
    8091a:	f3c0 400a 	ubfx	r0, r0, #16, #11
    8091e:	681a      	ldr	r2, [r3, #0]
    80920:	fb00 2202 	mla	r2, r0, r2, r2
+				                            CKGR_PLLAR_MULA_Pos) + 1U);
+			SystemCoreClock /= ((((PMC->CKGR_PLLAR) & CKGR_PLLAR_DIVA_Msk) >> 
    80924:	b2c9      	uxtb	r1, r1
    80926:	fbb2 f2f1 	udiv	r2, r2, r1
    8092a:	601a      	str	r2, [r3, #0]
    8092c:	e002      	b.n	80934 <SystemCoreClockUpdate+0xcc>
+				                             CKGR_PLLAR_DIVA_Pos));
+		} else {
+			SystemCoreClock = SYS_UTMIPLL / 2U;
    8092e:	4a13      	ldr	r2, [pc, #76]	; (8097c <SystemCoreClockUpdate+0x114>)
    80930:	4b0e      	ldr	r3, [pc, #56]	; (8096c <SystemCoreClockUpdate+0x104>)
    80932:	601a      	str	r2, [r3, #0]
+		}
+		break;
+	}
+
+	if ((PMC->PMC_MCKR & PMC_MCKR_PRES_Msk) == PMC_MCKR_PRES_CLK_3) {
    80934:	4b0b      	ldr	r3, [pc, #44]	; (80964 <SystemCoreClockUpdate+0xfc>)
    80936:	6b1b      	ldr	r3, [r3, #48]	; 0x30
    80938:	f003 0370 	and.w	r3, r3, #112	; 0x70
    8093c:	2b70      	cmp	r3, #112	; 0x70
    8093e:	d107      	bne.n	80950 <SystemCoreClockUpdate+0xe8>
+		SystemCoreClock /= 3U;
    80940:	4b0a      	ldr	r3, [pc, #40]	; (8096c <SystemCoreClockUpdate+0x104>)
    80942:	681a      	ldr	r2, [r3, #0]
    80944:	490e      	ldr	r1, [pc, #56]	; (80980 <SystemCoreClockUpdate+0x118>)
@@ -1194,6 +1958,8 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    8094a:	0852      	lsrs	r2, r2, #1
    8094c:	601a      	str	r2, [r3, #0]
    8094e:	4770      	bx	lr
+	} else {
+		SystemCoreClock >>= ((PMC->PMC_MCKR & PMC_MCKR_PRES_Msk) >> 
    80950:	4b04      	ldr	r3, [pc, #16]	; (80964 <SystemCoreClockUpdate+0xfc>)
    80952:	6b19      	ldr	r1, [r3, #48]	; 0x30
    80954:	4b05      	ldr	r3, [pc, #20]	; (8096c <SystemCoreClockUpdate+0x104>)
@@ -1213,65 +1979,144 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80980:	aaaaaaab 	.word	0xaaaaaaab
 
 00080984 <_sbrk>:
+{
+	static unsigned char *heap = NULL;
+	unsigned char *prev_heap;
+	int ramend = (int)&__ram_end__;
+
+	if (heap == NULL) {
    80984:	4b09      	ldr	r3, [pc, #36]	; (809ac <_sbrk+0x28>)
    80986:	681b      	ldr	r3, [r3, #0]
    80988:	b913      	cbnz	r3, 80990 <_sbrk+0xc>
+		heap = (unsigned char *)&_end;
    8098a:	4a09      	ldr	r2, [pc, #36]	; (809b0 <_sbrk+0x2c>)
    8098c:	4b07      	ldr	r3, [pc, #28]	; (809ac <_sbrk+0x28>)
    8098e:	601a      	str	r2, [r3, #0]
+	}
+	prev_heap = heap;
    80990:	4b06      	ldr	r3, [pc, #24]	; (809ac <_sbrk+0x28>)
    80992:	681b      	ldr	r3, [r3, #0]
+
+	if (((int)prev_heap + incr) > ramend) {
    80994:	181a      	adds	r2, r3, r0
    80996:	4907      	ldr	r1, [pc, #28]	; (809b4 <_sbrk+0x30>)
    80998:	4291      	cmp	r1, r2
    8099a:	db04      	blt.n	809a6 <_sbrk+0x22>
+		return (caddr_t) -1;	
+	}
+
+	heap += incr;
    8099c:	4610      	mov	r0, r2
    8099e:	4a03      	ldr	r2, [pc, #12]	; (809ac <_sbrk+0x28>)
    809a0:	6010      	str	r0, [r2, #0]
+
+	return (caddr_t) prev_heap;
    809a2:	4618      	mov	r0, r3
    809a4:	4770      	bx	lr
+		heap = (unsigned char *)&_end;
+	}
+	prev_heap = heap;
+
+	if (((int)prev_heap + incr) > ramend) {
+		return (caddr_t) -1;	
    809a6:	f04f 30ff 	mov.w	r0, #4294967295
+	}
+
+	heap += incr;
+
+	return (caddr_t) prev_heap;
+}
    809aa:	4770      	bx	lr
    809ac:	20070a3c 	.word	0x20070a3c
    809b0:	20072b28 	.word	0x20072b28
    809b4:	20087ffc 	.word	0x20087ffc
 
 000809b8 <USART0_Handler>:
+#if SAMD || SAMR21
+void USART_HOST_ISR_VECT(uint8_t instance)
+#else
+USART_HOST_ISR_VECT()
+#endif
+{
    809b8:	b500      	push	{lr}
    809ba:	b083      	sub	sp, #12
+	uint8_t temp;
+#if SAMD || SAMR21
+	usart_serial_read_packet(&host_uart_module, &temp, 1);
+#else
+	usart_serial_read_packet(USART_HOST, &temp, 1);
    809bc:	4813      	ldr	r0, [pc, #76]	; (80a0c <USART0_Handler+0x54>)
    809be:	f10d 0107 	add.w	r1, sp, #7
    809c2:	2201      	movs	r2, #1
    809c4:	4b12      	ldr	r3, [pc, #72]	; (80a10 <USART0_Handler+0x58>)
    809c6:	4798      	blx	r3
+  This function disables IRQ interrupts by setting the I-bit in the CPSR.
+  Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __disable_irq(void)
+{
+  __ASM volatile ("cpsid i");
    809c8:	b672      	cpsid	i
+    This function ensures the apparent order of the explicit memory operations before
+    and after the instruction, without ensuring their completion.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __DMB(void)
+{
+  __ASM volatile ("dmb");
    809ca:	f3bf 8f5f 	dmb	sy
+#endif
+
+	/* Introducing critical section to avoid buffer corruption. */
+	cpu_irq_disable();
    809ce:	2200      	movs	r2, #0
    809d0:	4b10      	ldr	r3, [pc, #64]	; (80a14 <USART0_Handler+0x5c>)
    809d2:	701a      	strb	r2, [r3, #0]
+
+	/* The number of data in the receive buffer is incremented and the
+	 * buffer is updated. */
+	serial_rx_count++;
    809d4:	4b10      	ldr	r3, [pc, #64]	; (80a18 <USART0_Handler+0x60>)
    809d6:	781a      	ldrb	r2, [r3, #0]
    809d8:	3201      	adds	r2, #1
    809da:	701a      	strb	r2, [r3, #0]
+
+	serial_rx_buf[serial_rx_buf_tail] = temp;
    809dc:	4b0f      	ldr	r3, [pc, #60]	; (80a1c <USART0_Handler+0x64>)
    809de:	781b      	ldrb	r3, [r3, #0]
    809e0:	f89d 1007 	ldrb.w	r1, [sp, #7]
    809e4:	4a0e      	ldr	r2, [pc, #56]	; (80a20 <USART0_Handler+0x68>)
    809e6:	54d1      	strb	r1, [r2, r3]
+
+	if ((SERIAL_RX_BUF_SIZE_HOST - 1) == serial_rx_buf_tail) {
    809e8:	2b9b      	cmp	r3, #155	; 0x9b
    809ea:	d103      	bne.n	809f4 <USART0_Handler+0x3c>
+		/* Reached the end of buffer, revert back to beginning of
+		 * buffer. */
+		serial_rx_buf_tail = 0x00;
    809ec:	2200      	movs	r2, #0
    809ee:	4b0b      	ldr	r3, [pc, #44]	; (80a1c <USART0_Handler+0x64>)
    809f0:	701a      	strb	r2, [r3, #0]
    809f2:	e002      	b.n	809fa <USART0_Handler+0x42>
+	} else {
+		serial_rx_buf_tail++;
    809f4:	3301      	adds	r3, #1
    809f6:	4a09      	ldr	r2, [pc, #36]	; (80a1c <USART0_Handler+0x64>)
    809f8:	7013      	strb	r3, [r2, #0]
+	}
+
+	cpu_irq_enable();
    809fa:	2201      	movs	r2, #1
    809fc:	4b05      	ldr	r3, [pc, #20]	; (80a14 <USART0_Handler+0x5c>)
    809fe:	701a      	strb	r2, [r3, #0]
    80a00:	f3bf 8f5f 	dmb	sy
+  This function enables IRQ interrupts by clearing the I-bit in the CPSR.
+  Can only be executed in Privileged modes.
+ */
+__attribute__( ( always_inline ) ) __STATIC_INLINE void __enable_irq(void)
+{
+  __ASM volatile ("cpsie i");
    80a04:	b662      	cpsie	i
+}
    80a06:	b003      	add	sp, #12
    80a08:	f85d fb04 	ldr.w	pc, [sp], #4
    80a0c:	40098000 	.word	0x40098000
@@ -1282,34 +2127,68 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80a20:	20070a40 	.word	0x20070a40
 
 00080a24 <configureConsole>:
+#include "consoleFunctions.h"
+
+void configureConsole(void)
+/* Enables feedback through the USB-cable back to terminal within Atmel Studio */
+/* Note that  the baudrate, parity and other parameters must be set in conf/conf_uart_serial.h */
+{
    80a24:	b530      	push	{r4, r5, lr}
    80a26:	b087      	sub	sp, #28
    80a28:	4c0e      	ldr	r4, [pc, #56]	; (80a64 <configureConsole+0x40>)
    80a2a:	4620      	mov	r0, r4
    80a2c:	4d0e      	ldr	r5, [pc, #56]	; (80a68 <configureConsole+0x44>)
    80a2e:	47a8      	blx	r5
+	uart_settings.ul_baudrate = opt->baudrate;
+	uart_settings.ul_mode = opt->paritytype;
+#endif
+
+	sam_usart_opt_t usart_settings;
+	usart_settings.baudrate = opt->baudrate;
    80a30:	f44f 5316 	mov.w	r3, #9600	; 0x2580
    80a34:	9300      	str	r3, [sp, #0]
+	usart_settings.char_length = opt->charlength;
    80a36:	23c0      	movs	r3, #192	; 0xc0
    80a38:	9301      	str	r3, [sp, #4]
+	usart_settings.parity_type = opt->paritytype;
    80a3a:	f44f 6300 	mov.w	r3, #2048	; 0x800
    80a3e:	9302      	str	r3, [sp, #8]
+	usart_settings.stop_bits= opt->stopbits;
    80a40:	2300      	movs	r3, #0
    80a42:	9303      	str	r3, [sp, #12]
+	usart_settings.channel_mode= US_MR_CHMODE_NORMAL;
    80a44:	9304      	str	r3, [sp, #16]
    80a46:	2012      	movs	r0, #18
    80a48:	47a8      	blx	r5
+		flexcom_set_opmode(FLEXCOM1, FLEXCOM_USART);
+#else
+		sysclk_enable_peripheral_clock(ID_USART1);
+#endif
+		/* Configure USART */
+		usart_init_rs232(p_usart, &usart_settings,
    80a4a:	4620      	mov	r0, r4
    80a4c:	4669      	mov	r1, sp
    80a4e:	4a07      	ldr	r2, [pc, #28]	; (80a6c <configureConsole+0x48>)
    80a50:	4b07      	ldr	r3, [pc, #28]	; (80a70 <configureConsole+0x4c>)
    80a52:	4798      	blx	r3
+		/* Configure USART */
+		usart_init_rs232(p_usart, &usart_settings,
+				sysclk_get_peripheral_bus_hz(p_usart));
+#endif
+		/* Enable the receiver and transmitter. */
+		usart_enable_tx(p_usart);
    80a54:	4620      	mov	r0, r4
    80a56:	4b07      	ldr	r3, [pc, #28]	; (80a74 <configureConsole+0x50>)
    80a58:	4798      	blx	r3
+		usart_enable_rx(p_usart);
    80a5a:	4620      	mov	r0, r4
    80a5c:	4b06      	ldr	r3, [pc, #24]	; (80a78 <configureConsole+0x54>)
    80a5e:	4798      	blx	r3
+	};
+
+	/* Configure console UART. */
+	sysclk_enable_peripheral_clock(BOARD_USART1_BASE);
+	usart_serial_init(CONF_UART, &uart_serial_options);
    80a60:	b007      	add	sp, #28
    80a62:	bd30      	pop	{r4, r5, pc}
    80a64:	4009c000 	.word	0x4009c000
@@ -1320,24 +2199,36 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80a78:	00080791 	.word	0x00080791
 
 00080a7c <delayInit>:
+
+#include "asf.h"
+#include "DelayFunctions.h"
+
+int delayInit(void)		/* Initializes the timer used for delays */
+{
    80a7c:	b510      	push	{r4, lr}
+	pmc_enable_periph_clk(ID_TC0);	/* power on the peripheral clock for timers */
    80a7e:	201b      	movs	r0, #27
    80a80:	4b08      	ldr	r3, [pc, #32]	; (80aa4 <delayInit+0x28>)
    80a82:	4798      	blx	r3
+	tc_init(TC0,0,0);				/* TC0, channel 0, TCLK1 och capturemode */
    80a84:	4c08      	ldr	r4, [pc, #32]	; (80aa8 <delayInit+0x2c>)
    80a86:	4620      	mov	r0, r4
    80a88:	2100      	movs	r1, #0
    80a8a:	460a      	mov	r2, r1
    80a8c:	4b07      	ldr	r3, [pc, #28]	; (80aac <delayInit+0x30>)
    80a8e:	4798      	blx	r3
+	tc_set_block_mode(TC0,0);
    80a90:	4620      	mov	r0, r4
    80a92:	2100      	movs	r1, #0
    80a94:	4b06      	ldr	r3, [pc, #24]	; (80ab0 <delayInit+0x34>)
    80a96:	4798      	blx	r3
+	tc_stop(TC0,0);					/* making sure the timer does not run  */
    80a98:	4620      	mov	r0, r4
    80a9a:	2100      	movs	r1, #0
    80a9c:	4b05      	ldr	r3, [pc, #20]	; (80ab4 <delayInit+0x38>)
    80a9e:	4798      	blx	r3
+	return 0;						/* evertyhing is ok, typical response */
+}
    80aa0:	2000      	movs	r0, #0
    80aa2:	bd10      	pop	{r4, pc}
    80aa4:	00080601 	.word	0x00080601
@@ -1347,12 +2238,18 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80ab4:	00080685 	.word	0x00080685
 
 00080ab8 <delayMicroseconds>:
+
+
+void delayMicroseconds(uint32_t us)		/* A simple implementation for a delay in us (not calibrated) */
+{
    80ab8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
    80aba:	4604      	mov	r4, r0
+	tc_start(TC0,0);
    80abc:	4809      	ldr	r0, [pc, #36]	; (80ae4 <delayMicroseconds+0x2c>)
    80abe:	2100      	movs	r1, #0
    80ac0:	4b09      	ldr	r3, [pc, #36]	; (80ae8 <delayMicroseconds+0x30>)
    80ac2:	4798      	blx	r3
+	while (tc_read_cv(TC0,0) < us*42);
    80ac4:	272a      	movs	r7, #42	; 0x2a
    80ac6:	fb07 f704 	mul.w	r7, r7, r4
    80aca:	4e06      	ldr	r6, [pc, #24]	; (80ae4 <delayMicroseconds+0x2c>)
@@ -1363,6 +2260,7 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80ad4:	47a0      	blx	r4
    80ad6:	42b8      	cmp	r0, r7
    80ad8:	d3fa      	bcc.n	80ad0 <delayMicroseconds+0x18>
+	tc_stop(TC0,0);
    80ada:	4802      	ldr	r0, [pc, #8]	; (80ae4 <delayMicroseconds+0x2c>)
    80adc:	2100      	movs	r1, #0
    80ade:	4b04      	ldr	r3, [pc, #16]	; (80af0 <delayMicroseconds+0x38>)
@@ -1374,27 +2272,58 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80af0:	00080685 	.word	0x00080685
 
 00080af4 <lcdWrite4DigitNumber>:
+#include "lcdApplication.h"
+#include "LCDFunctions.h"
+#include "buttons.h"	/* to get the buttontype definiton */
+
+int lcdWrite4DigitNumber(int number)
+{
    80af4:	b570      	push	{r4, r5, r6, lr}
    80af6:	b082      	sub	sp, #8
    80af8:	4602      	mov	r2, r0
+	char toWrite[5];	/*define a char array to store number in*/
+	sprintf(toWrite, "%d", number);	/*convert integer to char array*/
    80afa:	4668      	mov	r0, sp
    80afc:	490a      	ldr	r1, [pc, #40]	; (80b28 <lcdWrite4DigitNumber+0x34>)
    80afe:	4b0b      	ldr	r3, [pc, #44]	; (80b2c <lcdWrite4DigitNumber+0x38>)
    80b00:	4798      	blx	r3
+	uint8_t i = 0;
+	while(toWrite[i] != '\0')	/*write all chars to display*/
    80b02:	f89d 0000 	ldrb.w	r0, [sp]
    80b06:	b160      	cbz	r0, 80b22 <lcdWrite4DigitNumber+0x2e>
+
+int lcdWrite4DigitNumber(int number)
+{
+	char toWrite[5];	/*define a char array to store number in*/
+	sprintf(toWrite, "%d", number);	/*convert integer to char array*/
+	uint8_t i = 0;
    80b08:	2400      	movs	r4, #0
+	while(toWrite[i] != '\0')	/*write all chars to display*/
+	{
+		lcdWrite(toWrite[i++], HIGH);
    80b0a:	2601      	movs	r6, #1
    80b0c:	4d08      	ldr	r5, [pc, #32]	; (80b30 <lcdWrite4DigitNumber+0x3c>)
    80b0e:	3401      	adds	r4, #1
    80b10:	b2e4      	uxtb	r4, r4
    80b12:	4631      	mov	r1, r6
    80b14:	47a8      	blx	r5
+int lcdWrite4DigitNumber(int number)
+{
+	char toWrite[5];	/*define a char array to store number in*/
+	sprintf(toWrite, "%d", number);	/*convert integer to char array*/
+	uint8_t i = 0;
+	while(toWrite[i] != '\0')	/*write all chars to display*/
    80b16:	ab02      	add	r3, sp, #8
    80b18:	4423      	add	r3, r4
    80b1a:	f813 0c08 	ldrb.w	r0, [r3, #-8]
    80b1e:	2800      	cmp	r0, #0
    80b20:	d1f5      	bne.n	80b0e <lcdWrite4DigitNumber+0x1a>
+	{
+		lcdWrite(toWrite[i++], HIGH);
+	}
+	
+	return 0;	/* Assuming everything went ok */
+}
    80b22:	2000      	movs	r0, #0
    80b24:	b002      	add	sp, #8
    80b26:	bd70      	pop	{r4, r5, r6, pc}
@@ -1403,26 +2332,53 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80b30:	00080b55 	.word	0x00080b55
 
 00080b34 <lcdWriteAsciiString>:
+
+int lcdWriteAsciiString(const char *string)
+/* writes an ascii string up to 40 characters on the LCD display */
+{	
    80b34:	b570      	push	{r4, r5, r6, lr}
    80b36:	4604      	mov	r4, r0
+	while (*string != '\0')
    80b38:	7800      	ldrb	r0, [r0, #0]
    80b3a:	b138      	cbz	r0, 80b4c <lcdWriteAsciiString+0x18>
+	{
+		lcdWrite(*string, HIGH);	/*write the char the pointer points at*/
    80b3c:	2601      	movs	r6, #1
    80b3e:	4d04      	ldr	r5, [pc, #16]	; (80b50 <lcdWriteAsciiString+0x1c>)
    80b40:	4631      	mov	r1, r6
    80b42:	47a8      	blx	r5
+}
+
+int lcdWriteAsciiString(const char *string)
+/* writes an ascii string up to 40 characters on the LCD display */
+{	
+	while (*string != '\0')
    80b44:	f814 0f01 	ldrb.w	r0, [r4, #1]!
    80b48:	2800      	cmp	r0, #0
    80b4a:	d1f9      	bne.n	80b40 <lcdWriteAsciiString+0xc>
+	{
+		lcdWrite(*string, HIGH);	/*write the char the pointer points at*/
+		string++;	/*point at the next char*/
+	}	
+	return 0;	/* Assuming everything went ok */
+}
    80b4c:	2000      	movs	r0, #0
    80b4e:	bd70      	pop	{r4, r5, r6, pc}
    80b50:	00080b55 	.word	0x00080b55
 
 00080b54 <lcdWrite>:
+/*
+ *	writes the byte (8 bits) to the LCD display as two consecutive 4 bits 
+ *	type = 0 controls the display
+ *	type = 1 writes the content of the byte (usually interpreted as ASCII-code) to the display
+ */
+{
    80b54:	b5f0      	push	{r4, r5, r6, r7, lr}
    80b56:	b085      	sub	sp, #20
    80b58:	4607      	mov	r7, r0
    80b5a:	460d      	mov	r5, r1
+	/* In it's infinite wisdom the shield has the data pins in mirrored order compared to the Due board */
+	uint8_t mirror_pin[16]={0b0000,0b1000,0b0100,0b1100,0b0010,0b1010,0b0110,0b1110,0b0001,0b1001,0b0101,0b1101,0b0011,0b1011,0b0111,0b1111};
    80b5c:	4b1e      	ldr	r3, [pc, #120]	; (80bd8 <lcdWrite+0x84>)
    80b5e:	466c      	mov	r4, sp
    80b60:	6818      	ldr	r0, [r3, #0]
@@ -1430,47 +2386,118 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80b64:	689a      	ldr	r2, [r3, #8]
    80b66:	68db      	ldr	r3, [r3, #12]
    80b68:	c40f      	stmia	r4!, {r0, r1, r2, r3}
+
+	byte_orig = byte;
+
+	/* write the first 4 bits to the shield. */
+	byte = byte>>4;
+	byte = mirror_pin[byte];
    80b6a:	eb04 1317 	add.w	r3, r4, r7, lsr #4
+	byte32 = (uint32_t)byte << 23;
    80b6e:	f813 3c10 	ldrb.w	r3, [r3, #-16]
    80b72:	05db      	lsls	r3, r3, #23
+__always_inline static void arch_ioport_set_pin_level(ioport_pin_t pin,
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
    80b74:	b125      	cbz	r5, 80b80 <lcdWrite+0x2c>
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80b76:	f44f 0180 	mov.w	r1, #4194304	; 0x400000
    80b7a:	4a18      	ldr	r2, [pc, #96]	; (80bdc <lcdWrite+0x88>)
    80b7c:	6311      	str	r1, [r2, #48]	; 0x30
    80b7e:	e003      	b.n	80b88 <lcdWrite+0x34>
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80b80:	f44f 0180 	mov.w	r1, #4194304	; 0x400000
    80b84:	4a15      	ldr	r2, [pc, #84]	; (80bdc <lcdWrite+0x88>)
    80b86:	6351      	str	r1, [r2, #52]	; 0x34
+__always_inline static void arch_ioport_set_port_level(ioport_port_t port,
+		ioport_port_mask_t mask, ioport_port_mask_t level)
+{
+	Pio *base = arch_ioport_port_to_base(port);
+
+	base->PIO_SODR = mask & level;
    80b88:	f003 62f0 	and.w	r2, r3, #125829120	; 0x7800000
    80b8c:	4c13      	ldr	r4, [pc, #76]	; (80bdc <lcdWrite+0x88>)
    80b8e:	6322      	str	r2, [r4, #48]	; 0x30
+	base->PIO_CODR = mask & ~level;
    80b90:	43db      	mvns	r3, r3
    80b92:	f003 63f0 	and.w	r3, r3, #125829120	; 0x7800000
    80b96:	6363      	str	r3, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80b98:	f44f 1600 	mov.w	r6, #2097152	; 0x200000
    80b9c:	6326      	str	r6, [r4, #48]	; 0x30
+	mirrored_output = byte<<4;
+	
+	ioport_set_pin_level(LCD_RS, type); 
+	ioport_set_port_level(IOPORT_PIOC, LCD_mask_D4_D7, byte32);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);
    80b9e:	2001      	movs	r0, #1
    80ba0:	4d0f      	ldr	r5, [pc, #60]	; (80be0 <lcdWrite+0x8c>)
    80ba2:	47a8      	blx	r5
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80ba4:	6366      	str	r6, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);
+	
+	delayMicroseconds(100);
    80ba6:	2064      	movs	r0, #100	; 0x64
    80ba8:	47a8      	blx	r5
+	
+	/* write the second 4 bits to the shield. */
+	byte = byte_orig;
+	byte = byte & 0x0f;
+	byte = mirror_pin[byte];
    80baa:	f007 070f 	and.w	r7, r7, #15
    80bae:	ab04      	add	r3, sp, #16
    80bb0:	441f      	add	r7, r3
+	byte32 = (uint32_t)byte<<23;
    80bb2:	f817 3c10 	ldrb.w	r3, [r7, #-16]
    80bb6:	05db      	lsls	r3, r3, #23
+__always_inline static void arch_ioport_set_port_level(ioport_port_t port,
+		ioport_port_mask_t mask, ioport_port_mask_t level)
+{
+	Pio *base = arch_ioport_port_to_base(port);
+
+	base->PIO_SODR = mask & level;
    80bb8:	f003 62f0 	and.w	r2, r3, #125829120	; 0x7800000
    80bbc:	6322      	str	r2, [r4, #48]	; 0x30
+	base->PIO_CODR = mask & ~level;
    80bbe:	43db      	mvns	r3, r3
    80bc0:	f003 63f0 	and.w	r3, r3, #125829120	; 0x7800000
    80bc4:	6363      	str	r3, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80bc6:	6326      	str	r6, [r4, #48]	; 0x30
+	mirrored_output = mirrored_output + byte;
+
+	ioport_set_port_level(IOPORT_PIOC, LCD_mask_D4_D7, byte32);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);
    80bc8:	2001      	movs	r0, #1
    80bca:	47a8      	blx	r5
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80bcc:	6366      	str	r6, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);
+	delayMicroseconds(100);
    80bce:	2064      	movs	r0, #100	; 0x64
    80bd0:	47a8      	blx	r5
+	
+	return 0;
+}
    80bd2:	2000      	movs	r0, #0
    80bd4:	b005      	add	sp, #20
    80bd6:	bdf0      	pop	{r4, r5, r6, r7, pc}
@@ -1479,84 +2506,241 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80be0:	00080ab9 	.word	0x00080ab9
 
 00080be4 <lcdInit>:
+#include "lcdFunctions.h"
+#include "delayFunctions.h"	/* The sam3x8e microcontroller can write faster than the LCD controller can handle its inputs */
+#include "buttons.h"
+
+int lcdInit(void)		/* Initializes the display on the LCD shield, returns 1 if everything is ok */
+{
    80be4:	e92d 47f0 	stmdb	sp!, {r4, r5, r6, r7, r8, r9, sl, lr}
+		enum ioport_direction dir)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (dir == IOPORT_DIR_OUTPUT) {
+		base->PIO_OER = arch_ioport_pin_to_mask(pin);
    80be8:	4c34      	ldr	r4, [pc, #208]	; (80cbc <lcdInit+0xd8>)
    80bea:	f44f 0780 	mov.w	r7, #4194304	; 0x400000
    80bee:	6127      	str	r7, [r4, #16]
+	} else if (dir == IOPORT_DIR_INPUT) {
+		base->PIO_ODR = arch_ioport_pin_to_mask(pin);
+	}
+
+	base->PIO_OWER = arch_ioport_pin_to_mask(pin);
    80bf0:	f8c4 70a0 	str.w	r7, [r4, #160]	; 0xa0
+		enum ioport_direction dir)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (dir == IOPORT_DIR_OUTPUT) {
+		base->PIO_OER = arch_ioport_pin_to_mask(pin);
    80bf4:	f44f 1500 	mov.w	r5, #2097152	; 0x200000
    80bf8:	6125      	str	r5, [r4, #16]
+	} else if (dir == IOPORT_DIR_INPUT) {
+		base->PIO_ODR = arch_ioport_pin_to_mask(pin);
+	}
+
+	base->PIO_OWER = arch_ioport_pin_to_mask(pin);
    80bfa:	f8c4 50a0 	str.w	r5, [r4, #160]	; 0xa0
+		ioport_port_mask_t mask, enum ioport_direction group_direction)
+{
+	Pio *base = arch_ioport_port_to_base(port);
+
+	if (group_direction == IOPORT_DIR_OUTPUT) {
+		base->PIO_OER = mask;
    80bfe:	f04f 63f0 	mov.w	r3, #125829120	; 0x7800000
    80c02:	6123      	str	r3, [r4, #16]
+	} else if (group_direction == IOPORT_DIR_INPUT) {
+		base->PIO_ODR = mask;
+	}
+
+	base->PIO_OWER = mask;
    80c04:	f8c4 30a0 	str.w	r3, [r4, #160]	; 0xa0
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c08:	6365      	str	r5, [r4, #52]	; 0x34
+	/* At power on */
+	ioport_set_pin_dir(LCD_RS, IOPORT_DIR_OUTPUT);
+	ioport_set_pin_dir(LCD_Enable, IOPORT_DIR_OUTPUT);
+	ioport_set_port_dir(IOPORT_PIOC, LCD_mask_D4_D7, IOPORT_DIR_OUTPUT);
+	ioport_set_pin_level(LCD_Enable, LOW);
+	delayMicroseconds(30000);		/* wait > 15 ms */
    80c0a:	f247 5030 	movw	r0, #30000	; 0x7530
    80c0e:	4e2c      	ldr	r6, [pc, #176]	; (80cc0 <lcdInit+0xdc>)
    80c10:	47b0      	blx	r6
    80c12:	6367      	str	r7, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c14:	f04f 6a80 	mov.w	sl, #67108864	; 0x4000000
    80c18:	f8c4 a030 	str.w	sl, [r4, #48]	; 0x30
    80c1c:	f04f 7900 	mov.w	r9, #33554432	; 0x2000000
    80c20:	f8c4 9030 	str.w	r9, [r4, #48]	; 0x30
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c24:	f04f 7880 	mov.w	r8, #16777216	; 0x1000000
    80c28:	f8c4 8034 	str.w	r8, [r4, #52]	; 0x34
    80c2c:	f44f 0700 	mov.w	r7, #8388608	; 0x800000
    80c30:	6367      	str	r7, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c32:	6325      	str	r5, [r4, #48]	; 0x30
+	ioport_set_pin_level(LCD_D4, HIGH);
+	ioport_set_pin_level(LCD_D5, HIGH);
+	ioport_set_pin_level(LCD_D6, LOW);
+	ioport_set_pin_level(LCD_D7, LOW);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);		/* wait 1 us */
    80c34:	2001      	movs	r0, #1
    80c36:	47b0      	blx	r6
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c38:	6365      	str	r5, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);
+	delayMicroseconds(4100);	/* wait for more than 4,1 ms */
    80c3a:	f241 0004 	movw	r0, #4100	; 0x1004
    80c3e:	47b0      	blx	r6
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c40:	f8c4 a030 	str.w	sl, [r4, #48]	; 0x30
    80c44:	f8c4 9030 	str.w	r9, [r4, #48]	; 0x30
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c48:	f8c4 8034 	str.w	r8, [r4, #52]	; 0x34
    80c4c:	6367      	str	r7, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c4e:	6325      	str	r5, [r4, #48]	; 0x30
+	ioport_set_pin_level(LCD_D4, HIGH);
+	ioport_set_pin_level(LCD_D5, HIGH);
+	ioport_set_pin_level(LCD_D6, LOW);
+	ioport_set_pin_level(LCD_D7, LOW);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);	/* delay 1 us */
    80c50:	2001      	movs	r0, #1
    80c52:	47b0      	blx	r6
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c54:	6365      	str	r5, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);
+	delayMicroseconds(100);	/* wait 100 us */
    80c56:	2064      	movs	r0, #100	; 0x64
    80c58:	47b0      	blx	r6
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c5a:	f8c4 a030 	str.w	sl, [r4, #48]	; 0x30
    80c5e:	f8c4 9030 	str.w	r9, [r4, #48]	; 0x30
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c62:	f8c4 8034 	str.w	r8, [r4, #52]	; 0x34
    80c66:	6367      	str	r7, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c68:	6325      	str	r5, [r4, #48]	; 0x30
+	ioport_set_pin_level(LCD_D4, HIGH);
+	ioport_set_pin_level(LCD_D5, HIGH);
+	ioport_set_pin_level(LCD_D6, LOW);
+	ioport_set_pin_level(LCD_D7, LOW);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);	/* wait 1 us */
    80c6a:	2001      	movs	r0, #1
    80c6c:	47b0      	blx	r6
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c6e:	6365      	str	r5, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);		
+	delayMicroseconds(100);	/* wait 100 us */
    80c70:	2064      	movs	r0, #100	; 0x64
    80c72:	47b0      	blx	r6
    80c74:	f8c4 a034 	str.w	sl, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c78:	f8c4 9030 	str.w	r9, [r4, #48]	; 0x30
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c7c:	f8c4 8034 	str.w	r8, [r4, #52]	; 0x34
    80c80:	6367      	str	r7, [r4, #52]	; 0x34
+		bool level)
+{
+	Pio *base = arch_ioport_pin_to_base(pin);
+
+	if (level) {
+		base->PIO_SODR = arch_ioport_pin_to_mask(pin);
    80c82:	6325      	str	r5, [r4, #48]	; 0x30
+	ioport_set_pin_level(LCD_D4, LOW);
+	ioport_set_pin_level(LCD_D5, HIGH);
+	ioport_set_pin_level(LCD_D6, LOW);
+	ioport_set_pin_level(LCD_D7, LOW);
+	ioport_set_pin_level(LCD_Enable, HIGH);
+	delayMicroseconds(1);
    80c84:	2001      	movs	r0, #1
    80c86:	47b0      	blx	r6
+	} else {
+		base->PIO_CODR = arch_ioport_pin_to_mask(pin);
    80c88:	6365      	str	r5, [r4, #52]	; 0x34
+	ioport_set_pin_level(LCD_Enable, LOW);
+	delayMicroseconds(100);
    80c8a:	2064      	movs	r0, #100	; 0x64
    80c8c:	47b0      	blx	r6
+	lcdWrite(0b00101000, LOW);		/* Two rows, small font */
    80c8e:	2028      	movs	r0, #40	; 0x28
    80c90:	2100      	movs	r1, #0
    80c92:	4c0c      	ldr	r4, [pc, #48]	; (80cc4 <lcdInit+0xe0>)
    80c94:	47a0      	blx	r4
+	lcdWrite(0b00001000, LOW);		/* Display off */
    80c96:	2008      	movs	r0, #8
    80c98:	2100      	movs	r1, #0
    80c9a:	47a0      	blx	r4
+	lcdWrite(0b00000001, LOW);		/* Display clear */
    80c9c:	2001      	movs	r0, #1
    80c9e:	2100      	movs	r1, #0
    80ca0:	47a0      	blx	r4
+	delayMicroseconds(3000);
    80ca2:	f640 30b8 	movw	r0, #3000	; 0xbb8
    80ca6:	47b0      	blx	r6
+	lcdWrite(0b00000110, LOW);		/* Entry mode set: move cursor right, no display shift */
    80ca8:	2006      	movs	r0, #6
    80caa:	2100      	movs	r1, #0
    80cac:	47a0      	blx	r4
+	lcdWrite(0b00001111 ,LOW);		/* Display on, cursor on, blinking on */
    80cae:	200f      	movs	r0, #15
    80cb0:	2100      	movs	r1, #0
    80cb2:	47a0      	blx	r4
+
+	all_ok = 0;					/* simple return statement showing that the initialization of the LCD has completed */
+	return all_ok;
+}
    80cb4:	2000      	movs	r0, #0
    80cb6:	e8bd 87f0 	ldmia.w	sp!, {r4, r5, r6, r7, r8, r9, sl, pc}
    80cba:	bf00      	nop
@@ -1565,14 +2749,25 @@ static inline void usart_serial_getchar(usart_if p_usart, uint8_t *data)
    80cc4:	00080b55 	.word	0x00080b55
 
 00080cc8 <lcdClearDisplay>:
+	return 0;
+}
+
+/*clears the display*/
+int lcdClearDisplay(void)
+{
    80cc8:	b508      	push	{r3, lr}
+	lcdWrite(0x01, LOW);
    80cca:	2001      	movs	r0, #1
    80ccc:	2100      	movs	r1, #0
    80cce:	4b04      	ldr	r3, [pc, #16]	; (80ce0 <lcdClearDisplay+0x18>)
    80cd0:	4798      	blx	r3
+	delayMicroseconds(3000);	
    80cd2:	f640 30b8 	movw	r0, #3000	; 0xbb8
    80cd6:	4b03      	ldr	r3, [pc, #12]	; (80ce4 <lcdClearDisplay+0x1c>)
    80cd8:	4798      	blx	r3
+	
+	return 0;
+}
    80cda:	2000      	movs	r0, #0
    80cdc:	bd08      	pop	{r3, pc}
    80cde:	bf00      	nop
@@ -1604,19 +2799,13 @@ void USART1_Handler() {
    80d04:	d902      	bls.n	80d0c <USART1_Handler+0x24>
 	{
 		c_counter = 0;
-<<<<<<< refs/remotes/origin/master
    80d06:	2200      	movs	r2, #0
    80d08:	4b03      	ldr	r3, [pc, #12]	; (80d18 <USART1_Handler+0x30>)
    80d0a:	701a      	strb	r2, [r3, #0]
-=======
-   80cc6:	2200      	movs	r2, #0
-   80cc8:	4b03      	ldr	r3, [pc, #12]	; (80cd8 <USART1_Handler+0x30>)
-   80cca:	701a      	strb	r2, [r3, #0]
 		/*x1 = (rx[0] << 8) | (rx[1] << 0);
 		y1 = (rx[2] << 8) | (rx[3] << 0);
 		x2 = (rx[4] << 8) | (rx[5] << 0);
 		y2 = (rx[6] << 8) | (rx[7] << 0);*/
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
 	}
 	if (CONF_UART->US_CSR & (1 << US_CSR_RXBUFF))
    80d0c:	4b01      	ldr	r3, [pc, #4]	; (80d14 <USART1_Handler+0x2c>)
@@ -1705,7 +2894,6 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
    80d8c:	4b3e      	ldr	r3, [pc, #248]	; (80e88 <main+0x128>)
    80d8e:	4798      	blx	r3
 	delayMicroseconds(1000000);
-<<<<<<< refs/remotes/origin/master
    80d90:	483e      	ldr	r0, [pc, #248]	; (80e8c <main+0x12c>)
    80d92:	4b3f      	ldr	r3, [pc, #252]	; (80e90 <main+0x130>)
    80d94:	4798      	blx	r3
@@ -1718,18 +2906,10 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
    80d98:	f8ad 3006 	strh.w	r3, [sp, #6]
 	uint16_t x2 = 0;
    80d9c:	f8ad 3004 	strh.w	r3, [sp, #4]
-	uint16_t x3 = 0;
+	uint16_t x3 = 0; //irrelevant
    80da0:	f8ad 3002 	strh.w	r3, [sp, #2]
-	uint16_t x4 = 0;
+	uint16_t x4 = 0; //irrelevant
    80da4:	f8ad 3000 	strh.w	r3, [sp]
-=======
-   80d0c:	481c      	ldr	r0, [pc, #112]	; (80d80 <main+0xa0>)
-   80d0e:	4b1d      	ldr	r3, [pc, #116]	; (80d84 <main+0xa4>)
-   80d10:	4798      	blx	r3
-	char sy1[3];
-	char sx2[3];
-	char sy2[3];
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
 	while (1)
 	{
 		str1[0] = rx[0];
@@ -1745,20 +2925,10 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 		stringToInt(&x3, str3);
 		stringToInt(&x4, str4);
 		lcdClearDisplay();
-<<<<<<< refs/remotes/origin/master
    80dac:	f8df 80f8 	ldr.w	r8, [pc, #248]	; 80ea8 <main+0x148>
 	uint16_t x2 = 0;
-	uint16_t x3 = 0;
-	uint16_t x4 = 0;
-=======
-   80d12:	4e1d      	ldr	r6, [pc, #116]	; (80d88 <main+0xa8>)
-		lcdWrite(rx[0], HIGH);
-   80d14:	4d1d      	ldr	r5, [pc, #116]	; (80d8c <main+0xac>)
-   80d16:	4c1e      	ldr	r4, [pc, #120]	; (80d90 <main+0xb0>)
-	char sy1[3];
-	char sx2[3];
-	char sy2[3];
->>>>>>> Ändrade i ESP kommunikation, fungerar inte
+	uint16_t x3 = 0; //irrelevant
+	uint16_t x4 = 0; //irrelevant
 	while (1)
 	{
 		str1[0] = rx[0];
@@ -9219,59 +10389,102 @@ __STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
 Disassembly of section .relocate:
 
 20070000 <SystemInit>:
+__no_inline
+RAMFUNC
+void SystemInit(void)
+{
+	/* Set FWS according to SYS_BOARD_MCKR configuration */
+	EFC0->EEFC_FMR = EEFC_FMR_FWS(4);
 20070000:	f44f 6380 	mov.w	r3, #1024	; 0x400
 20070004:	4a20      	ldr	r2, [pc, #128]	; (20070088 <SystemInit+0x88>)
 20070006:	6013      	str	r3, [r2, #0]
+	EFC1->EEFC_FMR = EEFC_FMR_FWS(4);
 20070008:	f502 7200 	add.w	r2, r2, #512	; 0x200
 2007000c:	6013      	str	r3, [r2, #0]
+
+	/* Initialize main oscillator */
+	if (!(PMC->CKGR_MOR & CKGR_MOR_MOSCSEL)) {
 2007000e:	4b1f      	ldr	r3, [pc, #124]	; (2007008c <SystemInit+0x8c>)
 20070010:	6a1b      	ldr	r3, [r3, #32]
 20070012:	f013 7f80 	tst.w	r3, #16777216	; 0x1000000
 20070016:	d107      	bne.n	20070028 <SystemInit+0x28>
+		PMC->CKGR_MOR = SYS_CKGR_MOR_KEY_VALUE | SYS_BOARD_OSCOUNT | 
 20070018:	4a1d      	ldr	r2, [pc, #116]	; (20070090 <SystemInit+0x90>)
 2007001a:	4b1c      	ldr	r3, [pc, #112]	; (2007008c <SystemInit+0x8c>)
 2007001c:	621a      	str	r2, [r3, #32]
+			                     CKGR_MOR_MOSCRCEN | CKGR_MOR_MOSCXTEN;
+		while (!(PMC->PMC_SR & PMC_SR_MOSCXTS)) {
 2007001e:	461a      	mov	r2, r3
 20070020:	6e93      	ldr	r3, [r2, #104]	; 0x68
 20070022:	f013 0f01 	tst.w	r3, #1
 20070026:	d0fb      	beq.n	20070020 <SystemInit+0x20>
+		}
+	}
+
+	/* Switch to 3-20MHz Xtal oscillator */
+	PMC->CKGR_MOR = SYS_CKGR_MOR_KEY_VALUE | SYS_BOARD_OSCOUNT | 
 20070028:	4a1a      	ldr	r2, [pc, #104]	; (20070094 <SystemInit+0x94>)
 2007002a:	4b18      	ldr	r3, [pc, #96]	; (2007008c <SystemInit+0x8c>)
 2007002c:	621a      	str	r2, [r3, #32]
+	                           CKGR_MOR_MOSCRCEN | CKGR_MOR_MOSCXTEN | CKGR_MOR_MOSCSEL;
+
+	while (!(PMC->PMC_SR & PMC_SR_MOSCSELS)) {
 2007002e:	461a      	mov	r2, r3
 20070030:	6e93      	ldr	r3, [r2, #104]	; 0x68
 20070032:	f413 3f80 	tst.w	r3, #65536	; 0x10000
 20070036:	d0fb      	beq.n	20070030 <SystemInit+0x30>
+	}
+ 	PMC->PMC_MCKR = (PMC->PMC_MCKR & ~(uint32_t)PMC_MCKR_CSS_Msk) | 
 20070038:	4b14      	ldr	r3, [pc, #80]	; (2007008c <SystemInit+0x8c>)
 2007003a:	6b1a      	ldr	r2, [r3, #48]	; 0x30
 2007003c:	f022 0203 	bic.w	r2, r2, #3
 20070040:	f042 0201 	orr.w	r2, r2, #1
 20070044:	631a      	str	r2, [r3, #48]	; 0x30
+		                     PMC_MCKR_CSS_MAIN_CLK;
+	while (!(PMC->PMC_SR & PMC_SR_MCKRDY)) {
 20070046:	461a      	mov	r2, r3
 20070048:	6e93      	ldr	r3, [r2, #104]	; 0x68
 2007004a:	f013 0f08 	tst.w	r3, #8
 2007004e:	d0fb      	beq.n	20070048 <SystemInit+0x48>
+	}
+
+	/* Initialize PLLA */
+	PMC->CKGR_PLLAR = SYS_BOARD_PLLAR;
 20070050:	4a11      	ldr	r2, [pc, #68]	; (20070098 <SystemInit+0x98>)
 20070052:	4b0e      	ldr	r3, [pc, #56]	; (2007008c <SystemInit+0x8c>)
 20070054:	629a      	str	r2, [r3, #40]	; 0x28
+	while (!(PMC->PMC_SR & PMC_SR_LOCKA)) {
 20070056:	461a      	mov	r2, r3
 20070058:	6e93      	ldr	r3, [r2, #104]	; 0x68
 2007005a:	f013 0f02 	tst.w	r3, #2
 2007005e:	d0fb      	beq.n	20070058 <SystemInit+0x58>
+	}
+
+	/* Switch to main clock */
+	PMC->PMC_MCKR = (SYS_BOARD_MCKR & ~PMC_MCKR_CSS_Msk) | PMC_MCKR_CSS_MAIN_CLK;
 20070060:	2211      	movs	r2, #17
 20070062:	4b0a      	ldr	r3, [pc, #40]	; (2007008c <SystemInit+0x8c>)
 20070064:	631a      	str	r2, [r3, #48]	; 0x30
+	while (!(PMC->PMC_SR & PMC_SR_MCKRDY)) {
 20070066:	461a      	mov	r2, r3
 20070068:	6e93      	ldr	r3, [r2, #104]	; 0x68
 2007006a:	f013 0f08 	tst.w	r3, #8
 2007006e:	d0fb      	beq.n	20070068 <SystemInit+0x68>
+	}
+
+	/* Switch to PLLA */
+	PMC->PMC_MCKR = SYS_BOARD_MCKR;
 20070070:	2212      	movs	r2, #18
 20070072:	4b06      	ldr	r3, [pc, #24]	; (2007008c <SystemInit+0x8c>)
 20070074:	631a      	str	r2, [r3, #48]	; 0x30
+	while (!(PMC->PMC_SR & PMC_SR_MCKRDY)) {
 20070076:	461a      	mov	r2, r3
 20070078:	6e93      	ldr	r3, [r2, #104]	; 0x68
 2007007a:	f013 0f08 	tst.w	r3, #8
 2007007e:	d0fb      	beq.n	20070078 <SystemInit+0x78>
+	}
+
+	SystemCoreClock = CHIP_FREQ_CPU_MAX;
 20070080:	4a06      	ldr	r2, [pc, #24]	; (2007009c <SystemInit+0x9c>)
 20070082:	4b07      	ldr	r3, [pc, #28]	; (200700a0 <SystemInit+0xa0>)
 20070084:	601a      	str	r2, [r3, #0]
@@ -9285,49 +10498,72 @@ Disassembly of section .relocate:
 200700a0:	20070130 	.word	0x20070130
 
 200700a4 <system_init_flash>:
+__no_inline
+RAMFUNC
+void system_init_flash(uint32_t ul_clk)
+{
+	/* Set FWS for embedded Flash access according to operating frequency */
+	if (ul_clk < CHIP_FREQ_FWS_0) {
 200700a4:	4b1b      	ldr	r3, [pc, #108]	; (20070114 <system_init_flash+0x70>)
 200700a6:	4298      	cmp	r0, r3
 200700a8:	d806      	bhi.n	200700b8 <system_init_flash+0x14>
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(0);
 200700aa:	2300      	movs	r3, #0
 200700ac:	4a1a      	ldr	r2, [pc, #104]	; (20070118 <system_init_flash+0x74>)
 200700ae:	6013      	str	r3, [r2, #0]
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(0);
 200700b0:	f502 7200 	add.w	r2, r2, #512	; 0x200
 200700b4:	6013      	str	r3, [r2, #0]
 200700b6:	4770      	bx	lr
+	} else if (ul_clk < CHIP_FREQ_FWS_1) {
 200700b8:	4b18      	ldr	r3, [pc, #96]	; (2007011c <system_init_flash+0x78>)
 200700ba:	4298      	cmp	r0, r3
 200700bc:	d807      	bhi.n	200700ce <system_init_flash+0x2a>
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(1);
 200700be:	f44f 7380 	mov.w	r3, #256	; 0x100
 200700c2:	4a15      	ldr	r2, [pc, #84]	; (20070118 <system_init_flash+0x74>)
 200700c4:	6013      	str	r3, [r2, #0]
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(1);
 200700c6:	f502 7200 	add.w	r2, r2, #512	; 0x200
 200700ca:	6013      	str	r3, [r2, #0]
 200700cc:	4770      	bx	lr
+	} else if (ul_clk < CHIP_FREQ_FWS_2) {
 200700ce:	4b14      	ldr	r3, [pc, #80]	; (20070120 <system_init_flash+0x7c>)
 200700d0:	4298      	cmp	r0, r3
 200700d2:	d807      	bhi.n	200700e4 <system_init_flash+0x40>
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(2);
 200700d4:	f44f 7300 	mov.w	r3, #512	; 0x200
 200700d8:	4a0f      	ldr	r2, [pc, #60]	; (20070118 <system_init_flash+0x74>)
 200700da:	6013      	str	r3, [r2, #0]
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(2);
 200700dc:	f502 7200 	add.w	r2, r2, #512	; 0x200
 200700e0:	6013      	str	r3, [r2, #0]
 200700e2:	4770      	bx	lr
+	} else if (ul_clk < CHIP_FREQ_FWS_3) {
 200700e4:	4b0f      	ldr	r3, [pc, #60]	; (20070124 <system_init_flash+0x80>)
 200700e6:	4298      	cmp	r0, r3
 200700e8:	d807      	bhi.n	200700fa <system_init_flash+0x56>
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(3);
 200700ea:	f44f 7340 	mov.w	r3, #768	; 0x300
 200700ee:	4a0a      	ldr	r2, [pc, #40]	; (20070118 <system_init_flash+0x74>)
 200700f0:	6013      	str	r3, [r2, #0]
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(3);
 200700f2:	f502 7200 	add.w	r2, r2, #512	; 0x200
 200700f6:	6013      	str	r3, [r2, #0]
 200700f8:	4770      	bx	lr
+	} else if (ul_clk < CHIP_FREQ_FWS_4) {
 200700fa:	4b0b      	ldr	r3, [pc, #44]	; (20070128 <system_init_flash+0x84>)
 200700fc:	4298      	cmp	r0, r3
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(4);
 200700fe:	bf94      	ite	ls
 20070100:	f44f 6380 	movls.w	r3, #1024	; 0x400
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(4);	
+	} else {
+		EFC0->EEFC_FMR = EEFC_FMR_FWS(5);
 20070104:	f44f 63a0 	movhi.w	r3, #1280	; 0x500
 20070108:	4a03      	ldr	r2, [pc, #12]	; (20070118 <system_init_flash+0x74>)
 2007010a:	6013      	str	r3, [r2, #0]
+		EFC1->EEFC_FMR = EEFC_FMR_FWS(5);
 2007010c:	f502 7200 	add.w	r2, r2, #512	; 0x200
 20070110:	6013      	str	r3, [r2, #0]
 20070112:	4770      	bx	lr
