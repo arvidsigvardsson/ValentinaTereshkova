@@ -138,6 +138,9 @@ class Mapper:
 
         return (x, y)
 
+    def get_mapped_with_height_compensated(self, p, height):
+        return compensate_for_measured_error(self.get_mapped_with_height(p, height))
+
 # bilateration med två kända punkter, en i origo och den andra på y-axeln med avstånd dist till origo. r1 är okända punktens avstånd till origo, r2 avstånd till andra punkten. Returnerarpositivt x-värde, även -x är giltig lösning
 def bilat(dist, r1, r2):
     y = (r1**2 - r2**2 + dist**2) / (2 * dist)
@@ -164,6 +167,8 @@ def compensate_for_measured_error((x, y)):
 
     return (x_compensated, y_compensated)
     
+
+
 
 def main():
     # dist = 300
@@ -217,6 +222,8 @@ def main():
     p3 = (132.0, 107)
     mapped_p3 = mp.get_mapped(p3)
     print 'mappad p3:', mapped_p3
+
+    print 'kompenserad p3', mp.get_mapped_with_height_compensated(p3, 0.0)
 
 if __name__ == '__main__':
     main()
