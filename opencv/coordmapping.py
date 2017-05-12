@@ -144,6 +144,26 @@ def bilat(dist, r1, r2):
     x = math.sqrt(r1**2 - y**2)
     return (x, y)
 
+#Nya x,y koordinaterna blir kalibrerade enligt uppmätt fel
+def compensate_for_measured_error((x, y)):
+    y_cutoff = calibration.y_cutoff
+    y_k = calibration.y_k
+    y_m = calibration.y_m
+    if y < y_cutoff:
+        y_compensated = y
+    else:
+        y_compensated = y + (y_k * y + y_m)
+
+    x_cutoff = calibration.x_cutoff
+    x_k = calibration.x_k
+    x_m = calibration.x_m
+    if x < x_cutoff:
+        x_compensated = x
+    else:
+        x_compensated = x - (x_k * y + x_m)
+
+    return (x_compensated, y_compensated)
+    
 
 def main():
     # dist = 300
@@ -176,6 +196,11 @@ def main():
     # mp.remove_distortion((100,100))
     # mp.remove_distortion((400, 300))
 
+    #error_compensation_list = [(0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
+    #for p in error_compensation_list:
+    #    c_x, c_y = compensate_for_measured_error(p);
+    #    print "compensated x: ", c_x, " compensated y: ", c_y
+    
     mp = Mapper((149.0, 483.0), (656.0, 411.0), (587.0, 24.0), (111.0, 96.0), 500, 400, (1.0, 1.0, 1.0))
     p2 = (257.0, 274.0)
     mapped_p2 = mp.get_mapped(p2)
