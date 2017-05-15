@@ -16,3 +16,5 @@ Diaries/Arvid/arkiv.zip
 SPI/ESPTest/ESPTest.atsuo
 Diaries/Arvid/*.pdf
 Diaries/Arvid/*.tex
+opencv/Camera_calibration/test/*
+opencv/Camera_calibration/output/*
