@@ -1,24 +1,32 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
 * Tidrapport Arvid Sigvardsson
-  |      Datum | Aktivitet                                  | Nedlagd tid | Kommentar eller resultat                       |
-  |------------+--------------------------------------------+-------------+------------------------------------------------|
-  | 2017-04-03 | Brainstorming och idegenerering            |           3 | Se kronologisk journal...                      |
-  | 2017-04-03 | Research på olika metoder                  |           3 |                                                |
-  | 2017-04-04 | Handledningsmöte                           |           2 | [[./Tommy2017-04-04.html][mötesanteckningar]]                              |
-  | 2017-04-04 | Arbete med lösningsalternativ och research |           5 |                                                |
-  | 2017-04-05 | Planering                                  |           7 | Planeringsdokument i M1                        |
-  | 2017-04-17 | Första Fälttest Niagara                    |        4:30 | [[./niagara2017-04-17.html][anteckningar]]                                   |
-  | 2017-04-17 | Arbete med koordinatmappning i python      |           2 | filen coordmapping.py i kodrepot               |
-  | 2017-04-22 | Konstruktion av kamerarigg                 |           2 |                                                |
-  | 2017-04-23 | Fälttest Niagara                           |        3:45 |                                                |
-  | 2017-04-24 | Arbete med dagbok och milstolpar           |           4 |                                                |
-  | 2017-04-25 | Föreläsning om testning                    |           3 |                                                |
-  | 2017-04-25 | Seminarieuppgift om testning               |           4 | Kravspecifikation och testdokument i rapporten |
-  | 2017-04-27 | Arbete med rapporten                       |           3 |                                                |
-  | 2017-05-02 | Experimenterande med signalgenerering      |           7 |                                                |
-  | 2017-05-03 | Gick igenom matematiken bakom homography   |           4 |                                                |
-  | 2017-05-04 | Förberedelser inför fälttest 3 niagara     |           4 |                                                |
-  | 2017-05-04 | Omimplementering av koordinatmappning      |           3 | coordmapping.py, commiten taggad homography    |
-  | 2017-05-05 | Jobbat med geometrin för koordinatmappning |           3 | Klar. Resultat i filen coordmapping.python     |
-  | 2017-05-05 | Fälttest 3 Niagara                         |           4 |                                                |
+  |      Datum | Aktivitet                                    | Nedlagd tid | Kommentar eller resultat                          |
+  |------------+----------------------------------------------+-------------+---------------------------------------------------|
+  | 2017-04-03 | Brainstorming och idegenerering              |           3 | Se kronologisk journal...                         |
+  | 2017-04-03 | Research på olika metoder                    |           3 |                                                   |
+  | 2017-04-04 | Handledningsmöte                             |           2 | [[./Tommy2017-04-04.html][mötesanteckningar]]                                 |
+  | 2017-04-04 | Arbete med lösningsalternativ och research   |           5 |                                                   |
+  | 2017-04-05 | Planering                                    |           7 | Planeringsdokument i M1                           |
+  | 2017-04-17 | Första Fälttest Niagara                      |        4:30 | [[./niagara2017-04-17.html][anteckningar]]                                      |
+  | 2017-04-17 | Arbete med koordinatmappning i python        |           2 | filen coordmapping.py i kodrepot                  |
+  | 2017-04-22 | Konstruktion av kamerarigg                   |           2 |                                                   |
+  | 2017-04-23 | Fälttest Niagara                             |        3:45 |                                                   |
+  | 2017-04-24 | Arbete med dagbok och milstolpar             |           4 |                                                   |
+  | 2017-04-25 | Föreläsning om testning                      |           3 |                                                   |
+  | 2017-04-25 | Seminarieuppgift om testning                 |           4 | Kravspecifikation och testdokument i rapporten    |
+  | 2017-04-27 | Arbete med rapporten                         |           3 |                                                   |
+  | 2017-05-02 | Experimenterande med signalgenerering        |           7 |                                                   |
+  | 2017-05-03 | Gick igenom matematiken bakom homography     |           4 |                                                   |
+  | 2017-05-04 | Förberedelser inför fälttest 3 niagara       |           4 |                                                   |
+  | 2017-05-04 | Omimplementering av koordinatmappning        |           3 | coordmapping.py, commiten taggad homography       |
+  | 2017-05-05 | Jobbat med geometrin för koordinatmappning   |           3 | Klar. Resultat i filen coordmapping.python        |
+  | 2017-05-05 | Fälttest 3 Niagara                           |           4 |                                                   |
+  | 2017-05-08 | Planering                                    |           3 | Uppdaterat ganttdiagram                           |
+  | 2017-05-08 | Research kring barrel distortion eliminering |           4 | ATT GÖRA! Lägga till referenser                   |
+  | 2017-05-09 | Praktiskt eliminera distortion               |           7 | remove_distortion i coordmapping.py               |
+  | 2017-05-10 | Fälttest 4 Niagara                           |           7 |                                                   |
+  | 2017-05-11 | Arbete med egengjord spi                     |           3 | Inga resultat, gick inte att programmera uno      |
+  | 2017-05-12 | Arbete med kompensation av uppmätt fel       |           3 | Delvis bra resultat, i coordmapping.py            |
+  | 2017-05-12 | Fälttest 5 Niagara                           |           4 | Konstaterade att kompensationen inte är helt rätt |
+  |            |                                              |             |                                                   |
