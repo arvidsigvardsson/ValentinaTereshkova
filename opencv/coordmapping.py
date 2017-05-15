@@ -147,27 +147,44 @@ def bilat(dist, r1, r2):
     x = math.sqrt(r1**2 - y**2)
     return (x, y)
 
-#Nya x,y koordinaterna blir kalibrerade enligt uppmätt fel
+#Nya x,y koordinaterna blir kalibrerade enligt uppmätt fel    
 def compensate_for_measured_error((x, y)):
-    y_cutoff = calibration.y_cutoff
-    y_k = calibration.y_k
-    y_m = calibration.y_m
-    if y < y_cutoff:
-        y_compensated = y
-    else:
-        y_compensated = y + (y_k * y + y_m)
-
-    x_cutoff = calibration.x_cutoff
-    x_k = calibration.x_k
-    x_m = calibration.x_m
-    if x < x_cutoff:
-        x_compensated = x
-    else:
-        x_compensated = x - (x_k * y + x_m)
-
-    return (x_compensated, y_compensated)
+    textdata = ""
+    x_compensation = 0.0
+    y_compensation = 0.0
     
-
+    with open('kompensation_koefficienter.txt') as f:
+        textdata = f.readlines()
+    lines = []
+    for line in textdata:
+        lines.append(line.replace('\n', ''))
+    data = []
+    for line in lines:
+        data.append(line.split(','))
+    for curve in data:
+        if curve[1] == "linear":
+            if curve[0] == "xx":
+                x_compensation += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "xy":
+                x_compensation += float(curve[2]) * y + float(curve[3])
+            elif curve[0] == "yx":
+                y_compensation += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "yy":
+                y_compensation += float(curve[2]) * y + float(curve[3])
+        elif curve[1] == "squared":
+            if curve[0] == "xx":
+                x_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "xy":
+                x_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+            elif curve[0] == "yx":
+                y_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "yy":
+                y_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+    x -= x_compensation
+    y -= y_compensation
+    return (x, y)
+        
+        
 
 
 def main():
@@ -204,6 +221,7 @@ def main():
     error_compensation_list = [(-10.0, -10.0), (0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
     for p in error_compensation_list:
        c_x, c_y = compensate_for_measured_error(p);
+       print "previous x: ", p[0], " previous y: ", p[1]
        print "compensated x: ", c_x, " compensated y: ", c_y
     return
 
