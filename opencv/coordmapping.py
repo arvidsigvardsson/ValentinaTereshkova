@@ -201,11 +201,12 @@ def main():
     # mp.remove_distortion((100,100))
     # mp.remove_distortion((400, 300))
 
-    #error_compensation_list = [(0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
-    #for p in error_compensation_list:
-    #    c_x, c_y = compensate_for_measured_error(p);
-    #    print "compensated x: ", c_x, " compensated y: ", c_y
-    
+    error_compensation_list = [(-10.0, -10.0), (0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
+    for p in error_compensation_list:
+       c_x, c_y = compensate_for_measured_error(p);
+       print "compensated x: ", c_x, " compensated y: ", c_y
+    return
+
     mp = Mapper((149.0, 483.0), (656.0, 411.0), (587.0, 24.0), (111.0, 96.0), 500, 400, (1.0, 1.0, 1.0))
     p2 = (257.0, 274.0)
     mapped_p2 = mp.get_mapped(p2)
