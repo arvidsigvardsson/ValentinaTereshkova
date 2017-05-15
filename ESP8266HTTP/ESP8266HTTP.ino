@@ -73,8 +73,8 @@ void loop() {
       //String response = readResponse(payload);
       //Serial.println(response);
       JsonObject& root = jsonBuffer.parseObject(payload);
-      xcor = root["coordinate"]["x"];
-      ycor = root["coordinate"]["y"];
+      xcor = root["coordinate"]["x1"];
+      ycor = root["coordinate"]["y1"];
       xcors = String(xcor);
       ycors = String(ycor);
       x_1 = (uint16_t) int(xcor);
@@ -131,7 +131,7 @@ void loop() {
     rxtx.print(str1);
   }
   
-   delay(500);
+   delay(100                            );
    /*while(rxtx.available()) {
     char buf[8];
     rxtx.readBytes(buf, 8);
