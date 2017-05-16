@@ -1,4 +1,4 @@
-import turtle
+import turtle as turtle
 import time
 import math as math
 import urllib2
@@ -42,7 +42,10 @@ def getCenter(p1, p2):
 
 #flytta skoldpaddan
 def turtleMove(p1, p2):
-   turtle.goto(getCenter(p1, p2))
+    turtle.goto(getCenter(p1, p2))
+
+def turtleMoveOneCoordinate(p1):
+    turtle.goto(p1)
 
 #placera ett objekt pa kartan
 def placeobject(obj1, text, color):
@@ -71,6 +74,6 @@ def init():
 init()
 while(True):
     p1, p2 = getCoordinates()
-    turtleMove(p1, p2)
-    time.sleep(0.04) #25 Hz, kommer formodligen ta lite tid att gora GET dock
+    #turtleMove(p1, p2)
+    turtleMoveOneCoordinate(p1)
     
