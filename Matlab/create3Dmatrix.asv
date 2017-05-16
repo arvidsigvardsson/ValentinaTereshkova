@@ -1,0 +1,15 @@
+function create3Dmatrix(f1, f2)
+    v1 = [0:1:500];
+    v2 = [0:1:400];
+    
+    x_axis = f1(v1);
+    y_axis = f2(v2);
+    
+    M = zeros(500, 400);
+    for k=1:400
+        for n=1:500
+            M(n,k) = x_axis(n) + y_axis(k);
+        end
+    end
+    surf(v1, v2, M)
+end

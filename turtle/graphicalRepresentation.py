@@ -20,14 +20,14 @@ def getCoordinates():
 
 #hamtar objektens koordinater fran servern
 def getObjects():
-    content = urllib2.urlopen("http://192.168.20.133:5000/srv/coordinate/getlatest").read()
+    content = urllib2.urlopen("http://192.168.20.133:5000/srv/objectlist").read()
     j = json.loads(content)
-    socka_x = int(j['socka']['x'])
-    socka_y = int(j['socka']['y'])
-    kub_x = int(j['kub']['x2'])
-    kub_y = int(j['kub']['y2'])
-    glas_x = int(j['glas']['x1'])
-    glas_y = int(j['glas']['y1'])
+    socka_x = int(j['sock'][0]['x'])
+    socka_y = int(j['sock'][0]['y'])
+    kub_x = int(j['cube'][0]['x'])
+    kub_y = int(j['cube'][0]['y'])
+    glas_x = int(j['glas'][0]['x'])
+    glas_y = int(j['glas'][0]['y'])
     return ((socka_x, socka_y),(kub_x, kub_y),(glas_x, glas_y))
 
 #bestammer robotens center baserat pa dess koordinater
@@ -37,7 +37,7 @@ def getCenter(p1, p2):
     
     middle_x = min(p1[0], p2[0]) + diameter_x / 2
     middle_y = min(p1[1], p2[1]) + diameter_y / 2
-    
+    print "position: ", middle_x, ", ", middle_y
     return (middle_x, middle_y)
 
 #flytta skoldpaddan
