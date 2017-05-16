@@ -10,7 +10,7 @@ turtle.setworldcoordinates(0, 0, 500, 400)
 
 #hamtar robotens koordinater fran servern
 def getCoordinates():
-    content = urllib2.urlopen("http://192.168.20.133:5000/srv/coordinate/getlatest").read()
+    content = urllib2.urlopen("http://192.168.20.57:5000/srv/coordinate/getlatest").read()
     j = json.loads(content)
     x1 = int(j['coordinate']['x1'])
     y1 = int(j['coordinate']['y1'])
@@ -20,7 +20,7 @@ def getCoordinates():
 
 #hamtar objektens koordinater fran servern
 def getObjects():
-    content = urllib2.urlopen("http://192.168.20.133:5000/srv/objectlist").read()
+    content = urllib2.urlopen("http://192.168.20.57:5000/srv/objectlist").read()
     j = json.loads(content)
     socka_x = int(j['sock'][0]['x'])
     socka_y = int(j['sock'][0]['y'])
