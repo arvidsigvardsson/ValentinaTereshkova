@@ -10,29 +10,20 @@
 #define SLAVE_ADR 0x03
 const char* ssid     = "VHAM";
 const char* password = "MAHVMAHV";
-String mess = "";
-String payload="";
-int xcor = 0;
-int ycor = 0;
-int xcor2 = 0;
-int ycor2 = 0;
-String str1 = "";
-String xcors = "";
-String ycors = "";
-uint16_t x_1 = 200;
-uint16_t y_1 = 300;
-uint16_t x_2 = 400;
-uint16_t y_2 = 500;
-uint8_t x1_H = 0;
-uint8_t x1_L = 0;
-uint8_t y1_H = 0;
-uint8_t y1_L = 0;
-uint8_t x2_H = 10;
-uint8_t x2_L = 20;
-uint8_t y2_H = 15;
-uint8_t y2_L = 177;
 
+String payload = "";
+HTTPClient http;
+int httpCode;
 uint8_t byteArray[8];
+uint8_t sockArray[5];
+uint8_t cubeArray[5];
+uint8_t glassArray[5];
+uint8_t led1Array[5];
+uint8_t led2Array[5];
+
+uint8_t newState = 0;
+uint8_t state = 0;
+
 
 SoftwareSerial rxtx(12,14);
 
@@ -48,119 +39,113 @@ void setup() {
   Serial.println();
 
   
-  //Serial.print("Connecting to ");
-  //Serial.println(ssid);
+  Serial.print("Connecting to ");
+  Serial.println(ssid);
   
-  /*WiFi.begin(ssid, password);
+  WiFi.begin(ssid, password);
   
   while (WiFi.status() != WL_CONNECTED) {
     delay(500);
     Serial.print(".");
   }
-
+  state = 1;  //ansluten
   Serial.println("");
   Serial.println("WiFi connected");  
   Serial.println("IP address: ");
-  Serial.println(WiFi.localIP());*/
+  Serial.println(WiFi.localIP());
   
 }
 
 void loop() {
-  
-  if(WiFi.status() == WL_CONNECTED) {
-    HTTPClient http;
 
-    http.begin("http://192.168.20.133:5000/srv/coordinate/getlatest");
-    int httpCode = http.GET();
-
-    if(httpCode > 0){
-      payload = http.getString();
-      StaticJsonBuffer<512> jsonBuffer;
-      //String response = readResponse(payload);
-      //Serial.println(response);
-      JsonObject& root = jsonBuffer.parseObject(payload);
-      xcor = root["coordinate"]["x1"];
-      ycor = root["coordinate"]["y1"];
-<<<<<<< HEAD
-=======
-      xcor2 = root["coordinate"]["x2"];
-      ycor2 = root["coordinate"]["y2"];
->>>>>>> Lagt till bilder, och DUE-Twi kod
-      xcors = String(xcor);
-      ycors = String(ycor);
-      x_1 = (uint16_t) int(xcor);
-      y_1 = (uint16_t) int(ycor);
-      x_2 = (uint16_t) int(xcor2);
-      y_2 = (uint16_t) int(ycor2);
-      if(x_1 < 0) {
-        x_1 = 0;
-      }
-      if(y_1 < 0) {
-        y_1 = 0;
-      }
-
-      x1_H = (uint8_t) (x_1 >> 8);
-      x1_L = (uint8_t) (x_1);
-      y1_H = (uint8_t) (y_1 >> 8);
-      y1_L = (uint8_t) (y_1);
-      x2_H = (uint8_t) (x_2 >> 8);
-      x2_L = (uint8_t) (x_2);
-      y2_H = (uint8_t) (y_2 >> 8);
-      y2_L = (uint8_t) (y_2);
-
-
-      //Padds xcors with 0s to contain 4characters
-      while(xcors.length()<4){
-        
-        if(xcors.charAt(0)=='-'){
-          xcors = xcors.substring(1);
-          xcors = "0" + xcors;
-          xcors = "-" + xcors;          
-        }else{
-          xcors = "0" + xcors;
-        }
-        
-      }
-      //Padds ycors with 0s to contain 4characters
-      while(ycors.length()<4){
-        
-         if(ycors.charAt(0)=='-'){
-          ycors = ycors.substring(1);
-          ycors = "0" + ycors;
-          ycors = "-" + ycors;          
-        }else{
-          ycors = "0" + ycors;
-        }
-      }
-      str1 = xcors + '-' + ycors;
-
-    }
-    byteArray[0] = x1_H;
-    byteArray[1] = x1_L;
-    byteArray[2] = y1_H;
-    byteArray[3] = y1_L;
-    byteArray[4] = x2_H;
-    byteArray[5] = x2_L;
-    byteArray[6] = y2_H;
-    byteArray[7] = y2_L;
-    rxtx.write(byteArray, 8);
+  if(WiFi.status() != WL_CONNECTED) { //we have disconnected from the network
+    state = 0;
   }
+
+  switch(state) {
+    case 0: //reset the program in case we disconnect
+      newState = 2;
+    break;
+    case 1:
+      http.begin("http://192.168.20.111:5000/srv/objectlist");
+      httpCode = http.GET();
+
+      if(httpCode > 0){
+        payload = http.getString();
+        StaticJsonBuffer<512> jsonBuffer;
+        JsonObject& root = jsonBuffer.parseObject(payload);
+        uint16_t sockx = (uint16_t) int(root["sock"][0]["x"]);
+        uint16_t socky = (uint16_t) int(root["sock"][0]["y"]);
+        uint16_t cubex = (uint16_t) int(root["cube"][0]["x"]);
+        uint16_t cubey = (uint16_t) int(root["cube"][0]["y"]);
+        uint16_t glassx = (uint16_t) int(root["glas"][0]["x"]);
+        uint16_t glassy = (uint16_t) int(root["glas"][0]["y"]);
+        sockArray[0] = 0x52;
+        delay(1);
+        sockArray[1] = (uint8_t) (sockx >> 8);
+        sockArray[2] = (uint8_t) (sockx);
+        sockArray[3] = (uint8_t) (socky >> 8);
+        sockArray[4] = (uint8_t) (socky);
+        rxtx.write(sockArray, 5);
+        delay(1);
+        cubeArray[0] = 0x53;
+        cubeArray[1] = (uint8_t) (cubex >> 8);
+        cubeArray[2] = (uint8_t) (cubex);
+        cubeArray[3] = (uint8_t) (cubey >> 8);
+        cubeArray[4] = (uint8_t) (cubey);
+        rxtx.write(cubeArray, 5);
+        delay(1);
+        glassArray[0] = 0x54;
+        glassArray[1] = (uint8_t) (glassx >> 8);
+        glassArray[2] = (uint8_t) (glassx);
+        glassArray[3] = (uint8_t) (glassy >> 8);
+        glassArray[4] = (uint8_t) (glassy);
+        rxtx.write(glassArray, 5);
+        newState = 2;
+        Serial.println("sent obj");
+      }
+      else {
+        newState = 1;
+      }
+    break;
+    case 2:  
+      http.begin("http://192.168.20.111:5000/srv/coordinate/getlatest");
+      httpCode = http.GET();
   
-<<<<<<< HEAD
-   delay(100                            );
-=======
-   delay(100);
->>>>>>> Lagt till bilder, och DUE-Twi kod
-   /*while(rxtx.available()) {
-    char buf[8];
-    rxtx.readBytes(buf, 8);
-    if(String(buf) == "request!") {
-      rxtx.write(byteArray, 8);
-    }
-    else if(String(buf) == "okx") {
-      Serial.println("Success!");
-    }
-    Serial.println(String(buf));
-   }*/
+      if(httpCode > 0){
+        payload = http.getString();
+        StaticJsonBuffer<512> jsonBuffer;
+        JsonObject& root = jsonBuffer.parseObject(payload);
+        uint16_t x_1 = (uint16_t) int(root["coordinate"]["x1"]);
+        uint16_t y_1 = (uint16_t) int(root["coordinate"]["y1"]);
+        uint16_t x_2 = (uint16_t) int(root["coordinate"]["x2"]);
+        uint16_t y_2 = (uint16_t) int(root["coordinate"]["y1"]);
+        if(x_1 < 0) {
+          x_1 = 0;
+        }
+        if(y_1 < 0) {
+          y_1 = 0;
+        }
+
+        led1Array[0] = 0x50;
+        led1Array[1] = (uint8_t) (x_1 >> 8);
+        led1Array[2] = (uint8_t) (x_1);
+        led1Array[3] = (uint8_t) (y_1 >> 8);
+        led1Array[4] = (uint8_t) (y_1);
+        rxtx.write(led1Array, 5);
+        delay(1);
+        led2Array[0] = 0x51;
+        led2Array[1] = (uint8_t) (x_2 >> 8);
+        led2Array[2] = (uint8_t) (x_2);
+        led2Array[3] = (uint8_t) (y_2 >> 8);
+        led2Array[4] = (uint8_t) (y_2);
+        rxtx.write(led2Array, 5);
+        Serial.println("sent coord");
+      }
+      newState = 2;
+    break;
+  }
+  state = newState;
+  delay(100);
 
 }
