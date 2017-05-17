@@ -14,7 +14,6 @@ class FindEdge:
 
 
     def get_edges(self, frame):
-
         hsv = cv2.cvtColor(frame, cv2.COLOR_RGB2HSV)
         mask = cv2.inRange(hsv, self.colorLower, self.colorUpper)
         mask = cv2.erode(mask, None, iterations=1)
@@ -25,19 +24,20 @@ class FindEdge:
 
         for c in cnts:
             M = cv2.moments(c)
-            cX = int(M["m10"] / M["m00"])
-            cY = int(M["m01"] / M["m00"])
+            cX = float(M["m10"] / M["m00"])
+            cY = float(M["m01"] / M["m00"])
             xlist.append(str(cX))
             ylist.append(str(cY))
             cv2.drawContours(frame, [c], -1, (0, 255, 0), 2)
-            cv2.circle(frame, (cX, cY), 7, (255, 255, 255), -1)
-            cv2.putText(frame, "center", (cX - 20, cY - 20),
+            cv2.circle(frame, (int(cX), int(cY)), 7, (255, 255, 255), -1)
+            cv2.putText(frame, "center", (int(cX) - 20, int(cY) - 20),
             cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+            cv2.imshow("frame", frame)
+            cv2.waitKey(0)
+            cv2.destroyAllWindows()
 
 
-        cv2.imshow("frame", frame)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+
         return xlist, ylist
 
 

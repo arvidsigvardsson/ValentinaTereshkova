@@ -2,14 +2,20 @@
 #include <ESP8266WiFi.h>
 #include <SoftwareSerial.h>
 #include <ArduinoJson.h>
+#include <Wire.h>
+
+
 
 #define CS 14
+#define SLAVE_ADR 0x03
 const char* ssid     = "VHAM";
 const char* password = "MAHVMAHV";
 String mess = "";
 String payload="";
 int xcor = 0;
 int ycor = 0;
+int xcor2 = 0;
+int ycor2 = 0;
 String str1 = "";
 String xcors = "";
 String ycors = "";
@@ -17,6 +23,14 @@ uint16_t x_1 = 200;
 uint16_t y_1 = 300;
 uint16_t x_2 = 400;
 uint16_t y_2 = 500;
+uint8_t x1_H = 0;
+uint8_t x1_L = 0;
+uint8_t y1_H = 0;
+uint8_t y1_L = 0;
+uint8_t x2_H = 10;
+uint8_t x2_L = 20;
+uint8_t y2_H = 15;
+uint8_t y2_L = 177;
 
 uint8_t byteArray[8];
 
@@ -33,14 +47,6 @@ void setup() {
   Serial.println();
   Serial.println();
 
-      byteArray[0] = x_1 & 0xFF00;
-      byteArray[1] = x_1 & 0x00FF;
-      byteArray[2] = y_1 & 0xFF00;
-      byteArray[3] = y_1 & 0x00FF;
-      byteArray[4] = x_2 & 0xFF00;
-      byteArray[5] = x_2 & 0x00FF;
-      byteArray[6] = y_2 & 0xFF00;
-      byteArray[7] = y_2 & 0x00FF;
   
   //Serial.print("Connecting to ");
   //Serial.println(ssid);
@@ -75,20 +81,33 @@ void loop() {
       JsonObject& root = jsonBuffer.parseObject(payload);
       xcor = root["coordinate"]["x1"];
       ycor = root["coordinate"]["y1"];
+<<<<<<< HEAD
+=======
+      xcor2 = root["coordinate"]["x2"];
+      ycor2 = root["coordinate"]["y2"];
+>>>>>>> Lagt till bilder, och DUE-Twi kod
       xcors = String(xcor);
       ycors = String(ycor);
       x_1 = (uint16_t) int(xcor);
       y_1 = (uint16_t) int(ycor);
+      x_2 = (uint16_t) int(xcor2);
+      y_2 = (uint16_t) int(ycor2);
       if(x_1 < 0) {
         x_1 = 0;
       }
       if(y_1 < 0) {
         y_1 = 0;
       }
-      x_1 = 200;
-      y_1 = 200;
-      x_2 = 0;
-      y_2 = 0;
+
+      x1_H = (uint8_t) (x_1 >> 8);
+      x1_L = (uint8_t) (x_1);
+      y1_H = (uint8_t) (y_1 >> 8);
+      y1_L = (uint8_t) (y_1);
+      x2_H = (uint8_t) (x_2 >> 8);
+      x2_L = (uint8_t) (x_2);
+      y2_H = (uint8_t) (y_2 >> 8);
+      y2_L = (uint8_t) (y_2);
+
 
       //Padds xcors with 0s to contain 4characters
       while(xcors.length()<4){
@@ -114,24 +133,24 @@ void loop() {
         }
       }
       str1 = xcors + '-' + ycors;
-      uint8_t x1_H = x_1 & 0xFF00;
-      uint8_t x1_L = x_1 & 0x00FF;
-      uint8_t y1_H = y_1 & 0xFF00;
-      uint8_t y1_L = y_1 & 0x00FF;
-      uint8_t x2_H = x_2 & 0xFF00;
-      uint8_t x2_L = x_2 & 0x00FF;
-      uint8_t y2_H = y_2 & 0xFF00;
-      uint8_t y2_L = y_2 & 0x00FF;
-      uint8_t byteArray[] = {x1_H, x1_L, y1_H, y1_L, x2_H, x2_L, y2_H, y2_L};
-      //Serial.println(xcor);
-      str1 = xcors + ycors + "0000" + "0000";
-      Serial.println(str1);    
 
     }
-    rxtx.print(str1);
+    byteArray[0] = x1_H;
+    byteArray[1] = x1_L;
+    byteArray[2] = y1_H;
+    byteArray[3] = y1_L;
+    byteArray[4] = x2_H;
+    byteArray[5] = x2_L;
+    byteArray[6] = y2_H;
+    byteArray[7] = y2_L;
+    rxtx.write(byteArray, 8);
   }
   
+<<<<<<< HEAD
    delay(100                            );
+=======
+   delay(100);
+>>>>>>> Lagt till bilder, och DUE-Twi kod
    /*while(rxtx.available()) {
     char buf[8];
     rxtx.readBytes(buf, 8);

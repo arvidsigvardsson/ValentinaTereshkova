@@ -4,29 +4,31 @@ import imutils
 import numpy as np
 import time
 from collections import deque
-from coordmapping import Mapper
+from coordmapping import Mapper, compensate_for_measured_error
 from threading import Thread
 from post_request import send_request
+from FindEdges import FindEdge
 
+xlist = []
+ylist = []
 
-
-
-url = 'http://192.168.20.133:5000/srv/coordinates'
-
-#url = 'http://192.168.20.133:5000/srv/coordinates'
-
-stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
-frameCount = 1
 bytes=''
-mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
+url = 'http://192.168.20.57:5000/srv/coordinates'
+stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
+#frame = cv2.imread('hejhej1.jpg')
 
 
 
+#redLower = (115, 90, 100)
+#redUpper = (128, 255, 255)
+#findEdge = FindEdge(redLower, redUpper)
+#xlist,ylist = findEdge.get_edges(frame)
 
 
+frameCount = 1
+mapper = Mapper((168.2, 475.7), (633.5,466.8), (619.7,87.5), (156.1, 111.2), 500.0, 400.0, (304.4, 189.3, 801.0))
 
 while(frameCount):
-    #startTime = int(round(time.time() * 1000))
     bytes+=stream.read(1024)
     a = bytes.find('\xff\xd8')
     b = bytes.find('\xff\xd9')
@@ -40,23 +42,24 @@ while(frameCount):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # lower mask (0-10)
-    lower_red = np.array([150,100,100])
-    upper_red = np.array([180,255,255])
+    lower_red = np.array([0,100,100])
+    upper_red = np.array([30,255,255])
 
-    lower_blue = np.array([110,80,100])
+    lower_blue = np.array([110,100,100])
     upper_blue = np.array([130,255,255])
 
     kernel=np.ones((2,2), np.uint8) # Not used
 
     red = cv2.inRange(hsv, lower_red, upper_red)
     red = cv2.erode(red, None, iterations=1)
-    red = cv2.dilate(red, None , iterations=2)
+    red = cv2.dilate(red, None , iterations=3)
 
     blue = cv2.inRange(hsv, lower_blue, upper_blue)
-    blue = cv2.erode(blue, kernel, iterations=2)
+    blue = cv2.erode(blue, kernel, iterations=1)
     blue = cv2.dilate(blue, kernel, iterations=3)
-    #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, kernel)
-    #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, kernel)
+
+    #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, None)
+    #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, None)
 
     # res1 = cv2.bitwise_and(frame, frame, mask=blue)
     # res = cv2.bitwise_and(frame, frame, mask=red)
@@ -86,9 +89,6 @@ while(frameCount):
             cv2.putText(frame,"("+str(int(center_red[0]))+","+str(int(center_red[1]))+")", (int(center_red[0]) + 10, int(center_red[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(30, 200, 255),1)
 
     if len(cnts_blue) > 0:
-        # find the largest contour in the mask, then use
-        # it to compute the minimum enclosing circle and
-        # centroid
         c_blue = max(cnts_blue, key=cv2.contourArea)
         ((x_blue, y_blue), radius_blue) = cv2.minEnclosingCircle(c_blue)
         M_blue = cv2.moments(c_blue)
@@ -96,24 +96,35 @@ while(frameCount):
             center_blue = (float(M_blue["m10"] / M_blue["m00"]), float(M_blue["m01"] / M_blue["m00"]))
             cbX = center_blue[0]
             cbY = center_blue[1]
-            (newcbX, newcbY) = mapper.get_mapped_with_height((cbX, cbY), 28.5)
+            (newcbX1, newcbY1) = mapper.get_mapped_with_height((cbX, cbY), 3.3)
+            (newcbX1, newcbY1) = compensate_for_measured_error((newcbX1, newcbY1))
+            #(newcbX, newcbY) = mapper.get_mapped_with_height_compensated((cbX, cbY), 28.5)
+
+
             #(newcbX, newcbY) = mapper.get_mapped((cbX, cbY))
 
 
         # only proceed if the radius meets a minimum size
-        if radius_blue > 7:
-            # draw the circle and centroid on the frame,
-            # then update the list of tracked points
+        if radius_blue > 6:
+
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
             cv2.circle(frame, (int(center_blue[0]), int(center_blue[1])), 3, (255, 0, 255), -1)
             cv2.putText(frame,"BLUE_CENTER", (int(center_blue[0]) + 10, int(center_blue[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame,"("+str(int(center_blue[0]))+","+str(int(center_blue[1]))+")", (int(center_blue[0]) + 10, int(center_blue[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
             if (frameCount > 10):
-                print(int(newcbX))
-                print(int(newcbY))
-                post_fields = { 'x1' : int(newcbX) , 'y1' : int(newcbY), 'x2' : 0, 'y2' : 0} #Only blue center coordinates
+
+                post_fields = { 'x1' : int(newcbX1) , 'y1' : int(newcbY1), 'x2' : 0, 'y2' : 0} #Only blue center coordinates
                 send_request(url, post_fields)
+                print('-------------------OpenCV coordinates------------------')
+                print(int(cbX))
+                print(int(cbY))
+                #print('-------------------Height compensated------------------')
+                #print(int(newcbX))
+                #print(int(newcbY))
+                print('-------------------Height not compensated--------------')
+                print(int(newcbX1))
+                print(int(newcbY1))
                 #print('Post request send succesfully!')
 
                 # Uncomment to send coordinates for red_center aswell

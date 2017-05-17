@@ -5,7 +5,6 @@ import imutils
 import cv2
 import urllib
 from FindEdges import FindEdge
-from ipcamera import IpCamera
 
 xlist = []
 ylist = []
