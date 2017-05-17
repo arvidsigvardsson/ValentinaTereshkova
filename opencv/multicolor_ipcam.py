@@ -12,6 +12,12 @@ from FindEdges import FindEdge
 xlist = []
 ylist = []
 
+#initPosx = 400
+#initPosy = 500
+initPosx1 = 400
+initPosy1 = 400
+
+
 bytes=''
 url = 'http://192.168.20.57:5000/srv/coordinates'
 stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
@@ -42,11 +48,17 @@ while(frameCount):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
 
     # lower mask (0-10)
-    lower_red = np.array([0,100,100])
-    upper_red = np.array([30,255,255])
+    lower_red = np.array([160,100,100])
+    upper_red = np.array([180,255,255])
 
     lower_blue = np.array([110,100,100])
     upper_blue = np.array([130,255,255])
+
+    if initPosx1 < 50:
+        initPosx1 = 50
+
+    #roi = frame[initPosx:initPosx + 80, initPosy:initPosy+80]
+
 
     kernel=np.ones((2,2), np.uint8) # Not used
 
@@ -55,8 +67,10 @@ while(frameCount):
     red = cv2.dilate(red, None , iterations=3)
 
     blue = cv2.inRange(hsv, lower_blue, upper_blue)
-    blue = cv2.erode(blue, kernel, iterations=1)
+    bluue = cv2.erode(blue, kernel, iterations=1)
     blue = cv2.dilate(blue, kernel, iterations=3)
+
+    roi2 = blue[100:200, 100:200]
 
     #opening = cv2.morphologyEx(blue, cv2.MORPH_OPEN, None)
     #closing = cv2.morphologyEx(opening, cv2.MORPH_OPEN, None)
@@ -67,7 +81,7 @@ while(frameCount):
     cnts_red = cv2.findContours(red.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2]
     center_red = None
 
-    cnts_blue = cv2.findContours(blue.copy(), cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2]
+    cnts_blue = cv2.findContours(roi2, cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)[-2]
     center_blue = None
 
     if len(cnts_red) > 0:
@@ -96,6 +110,7 @@ while(frameCount):
             center_blue = (float(M_blue["m10"] / M_blue["m00"]), float(M_blue["m01"] / M_blue["m00"]))
             cbX = center_blue[0]
             cbY = center_blue[1]
+
             (newcbX1, newcbY1) = mapper.get_mapped_with_height((cbX, cbY), 3.3)
             (newcbX1, newcbY1) = compensate_for_measured_error((newcbX1, newcbY1))
             #(newcbX, newcbY) = mapper.get_mapped_with_height_compensated((cbX, cbY), 28.5)
@@ -105,7 +120,7 @@ while(frameCount):
 
 
         # only proceed if the radius meets a minimum size
-        if radius_blue > 6:
+        if radius_blue > 10:
 
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
             cv2.circle(frame, (int(center_blue[0]), int(center_blue[1])), 3, (255, 0, 255), -1)
@@ -113,9 +128,10 @@ while(frameCount):
             cv2.putText(frame,"("+str(int(center_blue[0]))+","+str(int(center_blue[1]))+")", (int(center_blue[0]) + 10, int(center_blue[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
             if (frameCount > 10):
-
+                initPosx1 = int(cbX)
+                initPosy1 = int(cbY)
                 post_fields = { 'x1' : int(newcbX1) , 'y1' : int(newcbY1), 'x2' : 0, 'y2' : 0} #Only blue center coordinates
-                send_request(url, post_fields)
+                #send_request(url, post_fields)
                 print('-------------------OpenCV coordinates------------------')
                 print(int(cbX))
                 print(int(cbY))
@@ -139,7 +155,9 @@ while(frameCount):
     #print('One frame time:' + str(oneFrame))
     cv2.imshow('frame', frame)
     cv2.imshow('red', red)
-    cv2.imshow('blue', blue)
+    #cv2.imshow('blue', blue)
+#    cv2.imshow('roi', roi)
+    cv2.imshow('roi2', roi2)
     frameCount += 1
     #cv2.imshow('res', res)
     #cv2.imshow('blue', blue)
