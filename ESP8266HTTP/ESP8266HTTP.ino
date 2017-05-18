@@ -50,7 +50,7 @@ void setup() {
   }
   state = 1;  //ansluten
   Serial.println("");
-  Serial.println("WiFi connected");  
+  Serial.println("WiFi connected ");  
   Serial.println("IP address: ");
   Serial.println(WiFi.localIP());
   
