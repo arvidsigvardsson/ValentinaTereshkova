@@ -32,11 +32,7 @@ newcameramtx, roi = cv2.getOptimalNewCameraMatrix(camera_matrix, dist_coefs, (w,
 print("NEW camera matrix:\n", newcameramtx)
 dst = cv2.undistort(img, camera_matrix, dist_coefs, None, newcameramtx)
 
-redLower = (118, 90, 100)
-redUpper = (127, 255, 255)
-findEdges = FindEdge(redLower, redUpper)
-
-x2list,y2list = findEdges.get_edges(dst)
+x2list,y2list = findEdge.get_edges(dst)
 print ('---------------Bild 2 koordinater--------------')
 for index in range(0,len(x2list)):
     print(x2list[index], y2list[index])
