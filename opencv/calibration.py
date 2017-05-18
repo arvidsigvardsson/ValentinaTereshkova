@@ -6,7 +6,7 @@ import numpy as np
 # [   0,          772.22419203,  295.98815378],
 # [   0,            0,           1      ]])
 # dist_coeffs = np.array([[-0.37057919,  0.16136903, -0.00133104,  0.001358,    0.09814105]])
-camera_matrix = np.array(
+# camera_matrix = np.array(
 
 
 #  [[ 761.58307271,   0,          413.22247041],

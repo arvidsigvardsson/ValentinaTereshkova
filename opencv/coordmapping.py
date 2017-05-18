@@ -182,11 +182,61 @@ def compensate_for_measured_error((x, y)):
                 y_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
             elif curve[0] == "yy":
                 y_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+
+
+        # print 'xkomp:', x_compensation
+        # print 'ykomp:', y_compensation
+
     x -= x_compensation
     y -= y_compensation
     return (x, y)
 
+def get_weighted_compensation((x, y)):
+    xx_comp = xy_comp = yx_comp = yy_comp = 0
+    with open('kompensation_koefficienter.txt') as f:
+        textdata = f.readlines()
+    lines = []
+    for line in textdata:
+        lines.append(line.replace('\n', ''))
+    data = []
+    for line in lines:
+        data.append(line.split(','))
+    for curve in data:
+        if curve[1] == "linear":
+            if curve[0] == "xx":
+                xx_comp += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "xy":
+                xy_comp += float(curve[2]) * y + float(curve[3])
+            elif curve[0] == "yx":
+                yx_comp += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "yy":
+                yy_comp += float(curve[2]) * y + float(curve[3])
+        elif curve[1] == "squared":
+            if curve[0] == "xx":
+                xx_comp += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "xy":
+                xy_comp += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+            elif curve[0] == "yx":
+                yx_comp += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "yy":
+                yy_comp += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
 
+
+        # print 'xkomp:', x_compensation
+        # print 'ykomp:', y_compensation
+
+    if (abs(x) + abs(y)) != 0:
+        x_compensation = (xx_comp * x + xy_comp * y) / (abs(x) + abs(y))
+        y_compensation = (yx_comp * x + yy_comp * y) / (abs(x) + abs(y))
+    else:
+        x_compensation = 0
+        y_compensation = 0
+
+    x -= x_compensation
+    y -= y_compensation
+    return (x, y)
+
+    
 
 def main():
     # dist = 300
