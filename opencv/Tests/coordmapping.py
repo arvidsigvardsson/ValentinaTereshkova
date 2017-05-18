@@ -138,54 +138,11 @@ class Mapper:
 
         return (x, y)
 
-    def get_mapped_with_height_compensated(self, p, height):
-        return compensate_for_measured_error(self.get_mapped_with_height(p, height))
-
 # bilateration med två kända punkter, en i origo och den andra på y-axeln med avstånd dist till origo. r1 är okända punktens avstånd till origo, r2 avstånd till andra punkten. Returnerarpositivt x-värde, även -x är giltig lösning
 def bilat(dist, r1, r2):
     y = (r1**2 - r2**2 + dist**2) / (2 * dist)
     x = math.sqrt(r1**2 - y**2)
     return (x, y)
-
-
-#Nya x,y koordinaterna blir kalibrerade enligt uppmätt fel
-
-def compensate_for_measured_error((x, y)):
-    textdata = ""
-    x_compensation = 0.0
-    y_compensation = 0.0
-
-    with open('kompensation_koefficienter.txt') as f:
-        textdata = f.readlines()
-    lines = []
-    for line in textdata:
-        lines.append(line.replace('\n', ''))
-    data = []
-    for line in lines:
-        data.append(line.split(','))
-    for curve in data:
-        if curve[1] == "linear":
-            if curve[0] == "xx":
-                x_compensation += float(curve[2]) * x + float(curve[3])
-            elif curve[0] == "xy":
-                x_compensation += float(curve[2]) * y + float(curve[3])
-            elif curve[0] == "yx":
-                y_compensation += float(curve[2]) * x + float(curve[3])
-            elif curve[0] == "yy":
-                y_compensation += float(curve[2]) * y + float(curve[3])
-        elif curve[1] == "squared":
-            if curve[0] == "xx":
-                x_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
-            elif curve[0] == "xy":
-                x_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
-            elif curve[0] == "yx":
-                y_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
-            elif curve[0] == "yy":
-                y_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
-    x -= x_compensation
-    y -= y_compensation
-    return (x, y)
-
 
 
 def main():
@@ -219,17 +176,6 @@ def main():
     # mp.remove_distortion((100,100))
     # mp.remove_distortion((400, 300))
 
-    error_compensation_list = [(-10.0, -10.0), (0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
-    for p in error_compensation_list:
-       c_x, c_y = compensate_for_measured_error(p);
-       print "previous x: ", p[0], " previous y: ", p[1]
-       print "compensated x: ", c_x, " compensated y: ", c_y
-    return
-    #error_compensation_list = [(0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
-    #for p in error_compensation_list:
-    #    c_x, c_y = compensate_for_measured_error(p);
-    #    print "compensated x: ", c_x, " compensated y: ", c_y
-
     mp = Mapper((149.0, 483.0), (656.0, 411.0), (587.0, 24.0), (111.0, 96.0), 500, 400, (1.0, 1.0, 1.0))
     p2 = (257.0, 274.0)
     mapped_p2 = mp.get_mapped(p2)
@@ -246,8 +192,6 @@ def main():
     p3 = (132.0, 107)
     mapped_p3 = mp.get_mapped(p3)
     print 'mappad p3:', mapped_p3
-
-    print 'kompenserad p3', mp.get_mapped_with_height_compensated(p3, 0.0)
 
 if __name__ == '__main__':
     main()
