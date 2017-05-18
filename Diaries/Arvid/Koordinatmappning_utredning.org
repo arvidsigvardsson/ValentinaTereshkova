@@ -1,0 +1,19 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: num:nil
+* Koordinatmappning i positioneringssystemet
+I vårt kommunikationssystem identifierar ett program en lysdiod i en digital bild, som tas från en videoström. Resultatet från programmet blir då en koordinat i en bild, och det kallar vi pixelkoordinat. Men det vi är intresserade av är inte vilken koordinat i en bild ett föremål befinner sig på, det vi är intresserade av är vilken position i fysiska världen ett föremål har. Detta kallar vi världskoordinat. I detta projekt är de världskoordinater vi är intresserade av ett koordinatsystem vi ritar upp på golvet i entreplanet på Niagara. Formulerat på ett annat sätt vill vi hitta en funktion från pixelkoordinat till världskoordinat.
+
+Under arbetet med detta system har vi identifierat följande problem som måste lösas för att lösa problemet med koordinatmappning:
+- [[Avbildningsfel i optiken]]
+- [[Anpassa pixelkoordinater till ett referenssystem]]
+- [[Kompensera för att lysdiod inte ligger i markplanet]]
+
+** Avbildningsfel i optiken
+Denna [[./bilder/axis_chess.png][bild]] illustrerar problemet. Det två schackmönstren är samma bild, det övre kommer direkt från kameran, och i det undre har vi kompenserat för den optiska distortionen. I det mönster vi fotar är alla linjer räta, men i den övre bilden är linjerna istället bågar, och detta är ett exempel på optisk distortion. Med [[http://opencv.org][OpenCV]], det bibliotek vi använder för bildbehandling, kan man eliminera distortion genom att fota av testmönster, t ex schackmönster, och på så sätt bygga upp en profil för optiken. I det undre mönstret har vi korrigerat för distortionen, och linjerna i bilden är nu räta.
+
+** Anpassa pixelkoordinater till ett referenssystem
+För att översätta pixelkoordinater till världskoordinater behöver vi ett referenssystem, alltså en koppling mellan bilden och verkligheten. Vi har valt att
+Denna [[./bilder/Niagara_birds_eye.jpg][bild]]
+
+** Kompensera för att lysdiod inte ligger i markplanet

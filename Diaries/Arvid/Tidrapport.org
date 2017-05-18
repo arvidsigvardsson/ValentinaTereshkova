@@ -29,4 +29,6 @@
   | 2017-05-11 | Arbete med egengjord spi                     |           3 | Inga resultat, gick inte att programmera uno      |
   | 2017-05-12 | Arbete med kompensation av uppmätt fel       |           3 | Delvis bra resultat, i coordmapping.py            |
   | 2017-05-12 | Fälttest 5 Niagara                           |           4 | Konstaterade att kompensationen inte är helt rätt |
+  | 2017-05-14 | Arbete med rapporten                         |           5 | Inlämning M3, beskrivning av system               |
+  | 2017-05-15 | Sammanställer arbetet med koordinatmappning  |           7 | Dokumentet Koordinatmappning i dagboken           |
   |            |                                              |             |                                                   |
