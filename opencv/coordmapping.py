@@ -182,11 +182,61 @@ def compensate_for_measured_error((x, y)):
                 y_compensation += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
             elif curve[0] == "yy":
                 y_compensation += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+
+
+        # print 'xkomp:', x_compensation
+        # print 'ykomp:', y_compensation
+
     x -= x_compensation
     y -= y_compensation
     return (x, y)
 
+def get_weighted_compensation((x, y)):
+    xx_comp = xy_comp = yx_comp = yy_comp = 0
+    with open('kompensation_koefficienter.txt') as f:
+        textdata = f.readlines()
+    lines = []
+    for line in textdata:
+        lines.append(line.replace('\n', ''))
+    data = []
+    for line in lines:
+        data.append(line.split(','))
+    for curve in data:
+        if curve[1] == "linear":
+            if curve[0] == "xx":
+                xx_comp += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "xy":
+                xy_comp += float(curve[2]) * y + float(curve[3])
+            elif curve[0] == "yx":
+                yx_comp += float(curve[2]) * x + float(curve[3])
+            elif curve[0] == "yy":
+                yy_comp += float(curve[2]) * y + float(curve[3])
+        elif curve[1] == "squared":
+            if curve[0] == "xx":
+                xx_comp += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "xy":
+                xy_comp += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
+            elif curve[0] == "yx":
+                yx_comp += float(curve[2]) * x**2 + float(curve[3]) * x + float(curve[4])
+            elif curve[0] == "yy":
+                yy_comp += float(curve[2]) * y**2 + float(curve[3]) * y + float(curve[4])
 
+
+        # print 'xkomp:', x_compensation
+        # print 'ykomp:', y_compensation
+
+    if (abs(x) + abs(y)) != 0:
+        x_compensation = (xx_comp * x + xy_comp * y) / (abs(x) + abs(y))
+        y_compensation = (yx_comp * x + yy_comp * y) / (abs(x) + abs(y))
+    else:
+        x_compensation = 0
+        y_compensation = 0
+
+    x -= x_compensation
+    y -= y_compensation
+    return (x, y)
+
+    
 
 def main():
     # dist = 300
@@ -219,16 +269,19 @@ def main():
     # mp.remove_distortion((100,100))
     # mp.remove_distortion((400, 300))
 
+
     error_compensation_list = [(-10.0, -10.0), (0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
     for p in error_compensation_list:
        c_x, c_y = compensate_for_measured_error(p);
        print "previous x: ", p[0], " previous y: ", p[1]
        print "compensated x: ", c_x, " compensated y: ", c_y
     return
+
     #error_compensation_list = [(0, 52),(1, 101),(2, 150),(3, 198),(4, 245),(4, 292),(4, 339), (5, 384)];
     #for p in error_compensation_list:
     #    c_x, c_y = compensate_for_measured_error(p);
     #    print "compensated x: ", c_x, " compensated y: ", c_y
+
 
     mp = Mapper((149.0, 483.0), (656.0, 411.0), (587.0, 24.0), (111.0, 96.0), 500, 400, (1.0, 1.0, 1.0))
     p2 = (257.0, 274.0)
