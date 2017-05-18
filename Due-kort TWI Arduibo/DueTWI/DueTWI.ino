@@ -1,14 +1,14 @@
 #include <Wire.h>
 
 uint8_t rx_buff[3];
-int8_t send_data[5];
-int8_t byteArray[8];
+byte send_data[5];
+byte byteArray[8];
 int8_t twi_state = 0,request_state = 0;
-int8_t led1[5];
-int8_t led2[5];
-int8_t strumpa[5];
-int8_t kub[5];
-int8_t glas[5];
+byte led1[5];
+byte led2[5];
+byte strumpa[5];
+byte kub[5];
+byte glas[5];
 
 
 
@@ -64,7 +64,7 @@ void loop() {
         //Serial.println("kub");
       break;
       case 0x54:  //glasets position
-        kub[0] = 0x54;
+        glas[0] = 0x54;
         glas[1] = byteArray[1];
         glas[2] = byteArray[2];
         glas[3] = byteArray[3];
@@ -119,35 +119,42 @@ void recieveEvent(int TURNDOWNFORWHAT){
       //send_data[4] = 150;
     break;
     case 0x52:  //efterfrågar strumpa position
-      /*for(int n = 0; n < 5; n++) {
+      for(int n = 0; n < 5; n++) {
         send_data[n] = strumpa[n];
-      }*/
+      }
 
-      send_data[0] = 0x52;
-      send_data[1] = 0;
-      send_data[2] = 100;
-      send_data[3] = 0;
-      send_data[4] = 100;
+      //send_data[0] = 0x52;
+      //send_data[1] = -1;
+      //send_data[2] = 0;
+      //send_data[3] = 0;
+      //send_data[4] = 100;
     break;
     case 0x53:  //efterfrågar kubens position
-      /*for(int n = 0; n < 5; n++) {
+      for(int n = 0; n < 5; n++) {
         send_data[n] = kub[n];
-      }*/
-      send_data[0] = 0x53;
-      send_data[1] = 0;
-      send_data[2] = 50;
-      send_data[3] = 0;
-      send_data[4] = 50;
+      }
+      //send_data[0] = 0x53;
+      //send_data[1] = 0;
+      //send_data[2] = 50;
+      //send_data[3] = 0;
+      //send_data[4] = 50;
     break;
     case 0x54:  //efterfrågar glasets position
-      /*for(int n = 0; n < 5; n++) {
+      for(int n = 0; n < 5; n++) {
         send_data[n] = glas[n];
-      }*/
-      send_data[0] = 0x54;
+      }
+      //send_data[0] = 0x54;
+      //send_data[1] = 0;
+      //send_data[2] = 10;
+      //send_data[3] = 0;
+      //send_data[4] = 10;
+    break;
+    case 0x55:
+      send_data[0] = 0x55;
       send_data[1] = 0;
-      send_data[2] = 10;
+      send_data[2] = 0;
       send_data[3] = 0;
-      send_data[4] = 10;
+      send_data[4] = 0;
     break;
   }
   
