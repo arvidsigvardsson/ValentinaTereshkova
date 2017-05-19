@@ -32,14 +32,10 @@ upper_blue = np.array([130,255,255])
 #frame = cv2.imread('.\calibration.jpg', 1)
 
 #xlist,ylist = findEdge.get_edges(frame)
-
 pointfinder = pointFinder()
 (x1, y1), (x2, y2) = pointfinder.findPoints('test.jpg')
 ipcam = IpCam(cameraUrl)
 ipcam.start()
-
-
-
 
 
 #for c in xlist:
@@ -47,12 +43,9 @@ ipcam.start()
 #for c in ylist:
 #    print (str(c)+'yhorn')
 
-
-
-
-#mapper = Mapper((xlist[0], ylist[0]), (xlist[1],ylist[1]), (xlist[2],ylist[2]), (xlist[3], ylist[3]), 500.0, 400.0, (278.9, 134.6, 801.0))
 mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
 while(frameCount):
+
     frame = ipcam.getFrame()
 
     if frame == None:
@@ -171,7 +164,6 @@ while(frameCount):
                 #send_request(url,post_fields)
 
                 frameCount = 1
-
 
     #endTime = int(round(time.time() * 1000))
     #oneFrame = endTime - startTime
