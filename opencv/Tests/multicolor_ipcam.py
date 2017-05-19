@@ -8,59 +8,64 @@ from coordmapping import Mapper
 from post_request import send_request
 from FindEdges1 import FindEdge
 from clickEvent import pointFinder
+from IpCamera import IpCam
 
 
 
 roihalfsize = 10
 
 
-url = 'http://192.168.20.111:5000/srv/coordinates'
-stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
+url = 'http://192.168.20.133:5000/srv/coordinates'
+#stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
+
+cameraUrl = 'http://192.168.20.149/axis-cgi/mjpg/video.cgi'
 
 
 initPosition = 1
 frameCount = 1
-gotFrame = 1
 bytes=''
 lower_blue = np.array([110,80,100])
 upper_blue = np.array([130,255,255])
-redLower = (118, 90, 100)
-redUpper = (127, 255, 255)
-findEdge = FindEdge(redLower, redUpper)
-frame = cv2.imread('.\calibration.jpg', 1)
+#redLower = (118, 90, 100)
+#redUpper = (127, 255, 255)
+#findEdge = FindEdge(redLower, redUpper)
+#frame = cv2.imread('.\calibration.jpg', 1)
 
-xlist,ylist = findEdge.get_edges(frame)
+#xlist,ylist = findEdge.get_edges(frame)
 
 pointfinder = pointFinder()
 (x1, y1), (x2, y2) = pointfinder.findPoints('test.jpg')
-
-for c in xlist:
-    print (str(c)+'xhorn')
-for c in ylist:
-    print (str(c)+'yhorn')
+ipcam = IpCam(cameraUrl)
+ipcam.start()
 
 
 
 
-mapper = Mapper((xlist[0], ylist[0]), (xlist[1],ylist[1]), (xlist[2],ylist[2]), (xlist[3], ylist[3]), 500.0, 400.0, (278.9, 134.6, 801.0))
-#mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
+
+#for c in xlist:
+#    print (str(c)+'xhorn')
+#for c in ylist:
+#    print (str(c)+'yhorn')
+
+
+
+
+#mapper = Mapper((xlist[0], ylist[0]), (xlist[1],ylist[1]), (xlist[2],ylist[2]), (xlist[3], ylist[3]), 500.0, 400.0, (278.9, 134.6, 801.0))
+mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
 while(frameCount):
-    bytes+=stream.read(1024)
-    a = bytes.find('\xff\xd8')
-    b = bytes.find('\xff\xd9')
-    if a!=-1 and b!=-1:
-        jpg = bytes[a:b+2]
-        bytes= bytes[b+2:]
-        frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR)
-        shading_led1 = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
-        shading_led2 = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
-        gray_led1 = cv2.cvtColor(shading_led1, cv2.COLOR_BGR2GRAY)  #---converting to gray
-        gray_led2 = cv2.cvtColor(shading_led2, cv2.COLOR_BGR2GRAY)  #---converting to gray
-    else:
+    frame = ipcam.getFrame()
+
+    if frame == None:
         continue
+
+
+    shading_led1 = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
+    shading_led2 = np.zeros((frame.shape[0], frame.shape[1], 3), np.uint8)
+    gray_led1 = cv2.cvtColor(shading_led1, cv2.COLOR_BGR2GRAY)  #---converting to gray
+    gray_led2 = cv2.cvtColor(shading_led2, cv2.COLOR_BGR2GRAY)  #---converting to gray
     if initPosition == 1:
-        roi1 = cv2.rectangle(gray_led1, (x1 - roihalfsize, y1 - roihalfsize), (x1 + roihalfsize, y1 + roihalfsize),(255, 255, 255), -1)
-        roi2 = cv2.rectangle(gray_led2, (x2 - roihalfsize, y2 - roihalfsize), (x2 + roihalfsize, y2 + roihalfsize),(255, 255, 255), -1)
+        roi1 = cv2.rectangle(gray_led1, (x1 - roihalfsize, y1 - roihalfsize), (x1 + roihalfsize, y1 + roihalfsize), (255, 255, 255), -1)
+        roi2 = cv2.rectangle(gray_led2, (x2 - roihalfsize, y2 - roihalfsize), (x2 + roihalfsize, y2 + roihalfsize), (255, 255, 255), -1)
         initPosition = 0
 
 
@@ -150,7 +155,7 @@ while(frameCount):
             cv2.putText(frame2,"BLUE_CENTER2", (int(center_blue2[0]) + 10, int(center_blue2[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame2,"("+str(int(center_blue2[0]))+","+str(int(center_blue2[1]))+")", (int(center_blue2[0]) + 10, int(center_blue2[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 5):
+            if (frameCount > 9):
                 # print('----------LED1 Coordinates-------------')
                 # print(int(cbX1))
                 # print(int(cbY1))
@@ -182,4 +187,5 @@ while(frameCount):
     #cv2.imshow('res1', res1)
     k = cv2.waitKey(5) & 0xFF
     if k==27:
+        ipcam.shut_down()
         break

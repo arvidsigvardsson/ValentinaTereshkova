@@ -1,11 +1,44 @@
-import cv2
-import numpy as np
-import urllib
-from clickEvent import pointFinder
+from IpCamera import IpCam, cv2, np
+
+url = 'http://192.168.20.149/axis-cgi/mjpg/video.cgi'
+
+ipcam = IpCam(url)
+ipcam.start()
+
+while True:
+    frame = ipcam.getFrame()
+
+    if frame == None:
+        continue
+    else:
+        cv2.imshow('frame', frame)
+        k = cv2.waitKey(1) & 0xFF
+        if k==27:
+            break
 
 
-pointfinder = pointFinder()
-(x1,y1), (x2, y2) = pointfinder.findPoints('test.jpg')
+    # frame = np.fromstring(str1, dtype=np.uint8)
+    # if frame == None:
+    #     print('Camera None')
+    # else:
+    #     print('Camera found')
+    # cv2.imshow('frame1', frame)
+    # k = cv2.waitKey(5) & 0xFF
+    # if k==27:
+    #     break
+
+    # bytes = ipcam.getFrame
+    # jpg = bytes[a:b+2]
+    # bytes = bytes[b+2:]
+    # frame = cv2.imdecode(np.fromstring(jpg, dtype=np.uint8),cv2.IMREAD_COLOR)
+    # cv2.imshow('cam', frame)
+    # if cv2.waitKey(1) == 27:
+    #     exit(0)
+    #     cv2.destroyAllWindows()
+
+
+
+
 
 
 # def click_event(event, x, y, flags, param):

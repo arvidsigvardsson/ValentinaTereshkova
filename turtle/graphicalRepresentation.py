@@ -4,13 +4,15 @@ import math as math
 import urllib2
 import json
 import requests
-
+image = "cube.gif"
+screen = turtle.Screen()
+screen.addshape(image)
 turtle.screensize(1000,800)
 turtle.setworldcoordinates(0, 0, 500, 400)
 
 #hamtar robotens koordinater fran servern
 def getCoordinates():
-    content = urllib2.urlopen("http://192.168.20.57:5000/srv/coordinate/getlatest").read()
+    content = urllib2.urlopen("http://192.168.0.3:5000/srv/coordinate/getlatest").read()
     j = json.loads(content)
     x1 = int(j['coordinate']['x1'])
     y1 = int(j['coordinate']['y1'])
@@ -20,7 +22,7 @@ def getCoordinates():
 
 #hamtar objektens koordinater fran servern
 def getObjects():
-    content = urllib2.urlopen("http://192.168.20.57:5000/srv/objectlist").read()
+    content = urllib2.urlopen("http://192.168.0.3:5000/srv/objectlist").read()
     j = json.loads(content)
     socka_x = int(j['sock'][0]['x'])
     socka_y = int(j['sock'][0]['y'])
@@ -34,7 +36,7 @@ def getObjects():
 def getCenter(p1, p2):
     diameter_x = abs(p1[0] - p2[0])
     diameter_y = abs(p1[1] - p2[1])
-    
+
     middle_x = min(p1[0], p2[0]) + diameter_x / 2
     middle_y = min(p1[1], p2[1]) + diameter_y / 2
     print "position: ", middle_x, ", ", middle_y
@@ -53,7 +55,7 @@ def placeobject(obj1, text, color):
     turtle.penup()
     turtle.goto(obj1[0], obj1[1])
     turtle.pendown()
-    turtle.dot()
+    turtle.dot(image)
     turtle.penup()
     turtle.goto(obj1[0], obj1[1] + 10)
     turtle.pendown()
@@ -64,16 +66,15 @@ def placeobject(obj1, text, color):
 
 #gor skoldpaddan fin och placerar objekten
 def init():
-    turtle.shape('circle')
+    turtle.shape("circle")
     socka, kub, glas = getObjects()
     placeobject(socka, 'strumpa', 'green')
     placeobject(kub, 'kub', 'red')
     placeobject(glas, 'glas', 'blue')
     turtle.color('black', 'black')
-    
+
 init()
 while(True):
     p1, p2 = getCoordinates()
     #turtleMove(p1, p2)
     turtleMoveOneCoordinate(p1)
-    

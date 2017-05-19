@@ -7,11 +7,9 @@ from api import CoordinateAPI, CoordinateListAPI, ObjectAPI, Resource
 
 app = Flask(__name__)
 api = Api(app)
-
 sockList = []
 glasList = []
 cubeList = []
-testList = []
 
 coordinatelist = [
     {
@@ -25,7 +23,7 @@ coordinatelist = [
         'x1' : 200,
         'y1' : 200,
         'x2' : 550,
-        'y2' : 400
+        'y2' : 150
 
     }
 ]
@@ -47,6 +45,7 @@ class ObjectListAPI(Resource):
 
     def get(self):
         file_object = open("objects.txt", "r")
+        testList = []
         for line in file_object:
             testList.extend(line.split(','))
             print(testList)
@@ -58,14 +57,14 @@ class ObjectListAPI(Resource):
                 'x':testList[1],
                 'y':testList[2]
             }
-        ]
+            ]
         cubeList = [
             {
                 'type':testList[3],
                 'x':testList[4],
                 'y':testList[5]
             }
-        ]
+            ]
 
         glasList = [
             {
@@ -73,7 +72,9 @@ class ObjectListAPI(Resource):
                 'x':testList[7],
                 'y':testList[8]
             }
-        ]
+            ]
+
+        #testList = None
 
         #print(testList)
 
@@ -146,4 +147,4 @@ api.add_resource(CoordinateListAPI, '/srv/coordinates', endpoint = 'coordinates'
 api.add_resource(CoordinateAPI, '/srv/coordinate/getlatest', endpoint = 'coordinate')
 
 if __name__ == '__main__':
-    app.run(host ='0.0.0.0')
+    app.run(host='0.0.0.0')

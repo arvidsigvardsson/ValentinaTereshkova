@@ -1,0 +1,1 @@
+curl -i -H "Content-Type: application/json" -X POST -d "{"""x1""":"""-1337""", """y1""":"""-1337""", """x2""":"""-1337""", """y2""":"""-1337"""}" http://192.168.20.111:5000/srv/coordinates
