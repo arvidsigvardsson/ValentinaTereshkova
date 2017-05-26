@@ -20,7 +20,7 @@ void setup() {
   Wire.onReceive(recieveEvent);
   Serial.begin(115200);
   Serial1.begin(115200);
-  Serial.println("Starting up twi");
+  //Serial.println("Starting up twi");
 }
 
 void loop() {
@@ -72,7 +72,7 @@ void loop() {
         //Serial.println("glas");
       break;
     }
-    Serial.println(".");
+    //Serial.println(".");
   }
 }
 
@@ -80,9 +80,9 @@ void loop() {
 void requestEvent(){
   if(send_data[0] != 0){
     Wire.write(send_data, 5);
-    for(int n = 0; n < 5; n++) {
+    /*for(int n = 0; n < 5; n++) {
       Serial.println(send_data[n]);
-    }
+    }*/
   }
 }
 
@@ -92,8 +92,8 @@ void recieveEvent(int TURNDOWNFORWHAT){
     twi_state = Wire.read();
     rx_buff[0] = twi_state;
   }
-  Serial.print("Kommando: ");
-  Serial.println(rx_buff[0], HEX);
+  //Serial.print("Kommando: ");
+  //Serial.println(rx_buff[0], HEX);
   switch(rx_buff[0]){
     case 0x00:
       send_data[0] = 0;

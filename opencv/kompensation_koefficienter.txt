@@ -1,5 +1,5 @@
-xx,squared,0.00003951,0.003228,2.702
-xy,linear,0.0,2.0,
-yx,squared,-0.00003312,0.01957,-2.702
-yy,squared,-0.00006026,0.01558,-2.854
+xx,squared,0.00006185,-0.02331,1.743
+xy,linear,0.0,2.0
+yx,squared,0.00001939,-0.01557,-2.623
+yy,squared,0.00002481,-0.01473,-2.811
 [koordinat som kompenseras][som en funktion av axel],[vilken typ av kurva],[koefficienter i ordning]

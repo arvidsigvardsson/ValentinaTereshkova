@@ -8,8 +8,8 @@
 
 #define CS 14
 #define SLAVE_ADR 0x03
-const char* ssid     = "VHAM";
-const char* password = "MAHVMAHV";
+const char* ssid     = "vetinte";
+const char* password = "redbull123";
 
 String payload = "";
 HTTPClient http;
@@ -24,11 +24,11 @@ byte led2Array[5];
 uint8_t newState = 0;
 uint8_t state = 0;
 
-
 SoftwareSerial rxtx(12,14);
 
 void setup() {
   pinMode(CS, OUTPUT);
+  pinMode(2, OUTPUT);
   Serial.begin(115200);
   rxtx.begin(115200);
   delay(10);
@@ -49,6 +49,7 @@ void setup() {
     Serial.print(".");
   }
   state = 1;  //ansluten
+  digitalWrite(2, LOW);
   Serial.println("");
   Serial.println("WiFi connected ");  
   Serial.println("IP address: ");
@@ -65,9 +66,10 @@ void loop() {
   switch(state) {
     case 0: //reset the program in case we disconnect
       newState = 2;
+      digitalWrite(2, HIGH);
     break;
     case 1:
-      http.begin("http://192.168.20.111:5000/srv/objectlist");
+      http.begin("http://192.168.20.133:5000/srv/objectlist");
       httpCode = http.GET();
 
       if(httpCode > 0){
@@ -103,13 +105,14 @@ void loop() {
         delay(1);
         newState = 2;
         Serial.println("sent obj");
+        digitalWrite(2, LOW);
       }
       else {
         newState = 1;
       }
     break;
     case 2:  
-      http.begin("http://192.168.20.111:5000/srv/coordinate/getlatest");
+      http.begin("http://192.168.20.133:5000/srv/coordinate/getlatest");
       httpCode = http.GET();
   
       if(httpCode > 0){
@@ -134,6 +137,7 @@ void loop() {
         led2Array[4] = (byte) (y_2);
         rxtx.write(led2Array, 5);
         Serial.println("sent coord");
+        digitalWrite(2, LOW);
       }
       newState = 2;
     break;
