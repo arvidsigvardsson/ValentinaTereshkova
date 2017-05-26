@@ -11,7 +11,7 @@ def click_event(event, x, y, flags, param):
         print(refPt)
 
 class pointFinder:
-    
+
     def __init__(self):
         self = self
 

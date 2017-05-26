@@ -8,8 +8,11 @@
 
 #define CS 14
 #define SLAVE_ADR 0x03
+<<<<<<< HEAD
 const char* ssid     = "vetinte";
 const char* password = "redbull123";
+const char* ssid     = "ComHem<F580A8>";
+const char* password = "4673a335";
 
 String payload = "";
 HTTPClient http;
@@ -70,6 +73,7 @@ void loop() {
     break;
     case 1:
       http.begin("http://192.168.20.133:5000/srv/objectlist");
+      http.begin("http://192.168.20.12:5000/srv/objectlist");
       httpCode = http.GET();
 
       if(httpCode > 0){
@@ -113,6 +117,7 @@ void loop() {
     break;
     case 2:  
       http.begin("http://192.168.20.133:5000/srv/coordinate/getlatest");
+      http.begin("http://192.168.20.12:5000/srv/coordinate/getlatest");
       httpCode = http.GET();
   
       if(httpCode > 0){
@@ -143,6 +148,6 @@ void loop() {
     break;
   }
   state = newState;
-  delay(400);
+  delay(200);
 
 }

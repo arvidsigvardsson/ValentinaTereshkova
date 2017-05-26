@@ -3,6 +3,7 @@ import cv2
 import requests
 import threading
 from threading import Thread, Event, ThreadError
+import time
 
 class IpCam:
 

@@ -7,6 +7,9 @@ from api import CoordinateAPI, CoordinateListAPI, ObjectAPI, Resource
 
 app = Flask(__name__)
 api = Api(app)
+sockList = []
+glasList = []
+cubeList = []
 
 coordinatelist = [
     {
@@ -19,16 +22,9 @@ coordinatelist = [
     {
         'x1' : 200,
         'y1' : 200,
-        'x2' : 200,
-        'y2' : 400
+        'x2' : 550,
+        'y2' : 150
 
-    }
-]
-
-sockList = [
-    {
-        'x' : 500,
-        'y' : 600
     }
 ]
 
@@ -48,7 +44,41 @@ class ObjectListAPI(Resource):
         super(ObjectListAPI, self).__init__()
 
     def get(self):
-        return make_response(jsonify({'sock' : sockList}))
+        file_object = open("objects.txt", "r")
+        testList = []
+        for line in file_object:
+            testList.extend(line.split(','))
+            print(testList)
+        file_object.close()
+
+        sockList = [
+            {
+                'type':testList[0],
+                'x':testList[1],
+                'y':testList[2]
+            }
+            ]
+        cubeList = [
+            {
+                'type':testList[3],
+                'x':testList[4],
+                'y':testList[5]
+            }
+            ]
+
+        glasList = [
+            {
+                'type':testList[6],
+                'x':testList[7],
+                'y':testList[8]
+            }
+            ]
+
+        #testList = None
+
+        #print(testList)
+
+        return make_response(jsonify({'sock' : sockList, 'cube' : cubeList, 'glas' : glasList}))
 
     def post(self):
         json_data = request.get_json(force=true)
@@ -117,4 +147,4 @@ api.add_resource(CoordinateListAPI, '/srv/coordinates', endpoint = 'coordinates'
 api.add_resource(CoordinateAPI, '/srv/coordinate/getlatest', endpoint = 'coordinate')
 
 if __name__ == '__main__':
-    app.run(host ='0.0.0.0')
+    app.run(host='0.0.0.0', threaded=True)

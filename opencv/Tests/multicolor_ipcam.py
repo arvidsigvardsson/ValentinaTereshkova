@@ -12,13 +12,17 @@ from IpCamera import IpCam
 
 
 
-roihalfsize = 10
+roihalfsize = 30
 
+newcbX1 = 0
+newcbY1 = 0
+newcbX2 = 0
+newcbY2 = 0
 
-url = 'http://192.168.20.133:5000/srv/coordinates'
+url = 'http://192.168.0.3:5000/srv/coordinates'
 #stream=urllib.urlopen('http://192.168.20.149/axis-cgi/mjpg/video.cgi')
 
-cameraUrl = 'http://192.168.20.149/axis-cgi/mjpg/video.cgi'
+#cameraUrl = 'http://192.168.20.149/axis-cgi/mjpg/video.cgi'
 
 
 initPosition = 1
@@ -26,27 +30,22 @@ frameCount = 1
 bytes=''
 lower_blue = np.array([110,80,100])
 upper_blue = np.array([130,255,255])
-#redLower = (118, 90, 100)
-#redUpper = (127, 255, 255)
-#findEdge = FindEdge(redLower, redUpper)
-#frame = cv2.imread('.\calibration.jpg', 1)
 
+
+cap = cv2.VideoCapture(0)
 #xlist,ylist = findEdge.get_edges(frame)
 pointfinder = pointFinder()
 (x1, y1), (x2, y2) = pointfinder.findPoints('test.jpg')
-ipcam = IpCam(cameraUrl)
-ipcam.start()
+#ipcam = IpCam(cameraUrl)
+#ipcam.start()
 
-
-#for c in xlist:
-#    print (str(c)+'xhorn')
-#for c in ylist:
-#    print (str(c)+'yhorn')
-
-mapper = Mapper((183.0, 502.0), (650.0,452.0), (601.0,82.0), (149.0, 137.0), 500.0, 400.0, (278.9, 134.6, 801.0))
+mapper = Mapper((149.0, 465.0), (582.0,445.0), (562.0,93.0), (131.0, 123.0), 500.0, 400.0, (303.9, 188.9, 801.0))
 while(frameCount):
 
-    frame = ipcam.getFrame()
+    ret, frame = cap.read()
+    #startTime = int(round(time.time() * 1000))
+
+#    frame = ipcam.getFrame()
 
     if frame == None:
         continue
@@ -70,9 +69,6 @@ while(frameCount):
 
     hsv_blue1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2HSV)
     hsv_blue2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2HSV)
-
-
-
 
     kernel=np.ones((2,2), np.uint8) # Not used
 
@@ -108,12 +104,12 @@ while(frameCount):
             cbY1 = center_blue1[1]
             roi1 = cv2.rectangle(shading_led1, (int(cbX1) - roihalfsize, int(cbY1) - roihalfsize), (int(cbX1) + roihalfsize, int(cbY1) + roihalfsize),(255, 255, 255), -1)
             roi1 = cv2.cvtColor(roi1,cv2.COLOR_BGR2GRAY)
-            (newcbX1, newcbY1) = mapper.get_mapped_with_height((cbX1, cbY1), 28.5)
-            #(newcbX, newcbY) = mapper.get_mapped((cbX, cbY))
+            #(newcbX1, newcbY1) = mapper.get_mapped_with_height((cbX1, cbY1), 27.5)
+            (newcbX1, newcbY1) = mapper.get_mapped_with_height_compensated((cbX1, cbY1), 41)
 
 
         # only proceed if the radius meets a minimum size
-        if radius_blue > 5:
+        if radius_blue > 7:
             # draw the circle and centroid on the frame,
             # then update the list of tracked points
             #cv2.circle(frame, (int(x_blue), int(y_blue)), int(radius_blue),(0, 255, 255), 2)
@@ -135,8 +131,8 @@ while(frameCount):
             cbY2 = center_blue2[1]
             roi2 = cv2.rectangle(shading_led2, (int(cbX2) - roihalfsize, int(cbY2) - roihalfsize),(int(cbX2) + roihalfsize, int(cbY2) + roihalfsize), (255, 255, 255), -1)
             roi2 = cv2.cvtColor(roi2, cv2.COLOR_BGR2GRAY)
-            (newcbX2, newcbY2) = mapper.get_mapped_with_height((cbX2, cbY2), 28.5)
-            #(newcbX, newcbY) = mapper.get_mapped((cbX, cbY))
+            (newcbX2, newcbY2) = mapper.get_mapped_with_height_compensated((cbX2, cbY2), 41)
+            #(newcbX2, newcbY2) = mapper.get_mapped_with_height((cbX2, cbY2), 27.5)
 
 
         # only proceed if the radius meets a minimum size
@@ -148,22 +144,23 @@ while(frameCount):
             cv2.putText(frame2,"BLUE_CENTER2", (int(center_blue2[0]) + 10, int(center_blue2[1])), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
             cv2.putText(frame2,"("+str(int(center_blue2[0]))+","+str(int(center_blue2[1]))+")", (int(center_blue2[0]) + 10, int(center_blue2[1]) + 15), cv2.FONT_HERSHEY_SIMPLEX, 0.4,(255, 0, 255),1)
 
-            if (frameCount > 9):
-                # print('----------LED1 Coordinates-------------')
-                # print(int(cbX1))
-                # print(int(cbY1))
-                # print('----------LED2 Coordinates-------------')
-                # print(int(cbX2))
-                # print(int(cbY2))
-                post_fields = { 'x1' : int(cbX1) , 'y1' : int(cbY1), 'x2' : int(cbX2), 'y2' : int(cbY2)} #Only blue center coordinates
-                send_request(url, post_fields)
-                print('Post request send succesfully!')
+    if (frameCount > 9):
+        print('----------LED1 Coordinates-------------')
+        print(int(newcbX1))
+        print(int(newcbY1))
+        print('----------LED2 Coordinates-------------')
+        print(int(newcbX2))
+        print(int(newcbY2))
+        post_fields = { 'x1' : int(newcbX1) , 'y1' : int(newcbY1), 'x2' : int(newcbX2), 'y2' : int(newcbY2)} #Only blue center coordinates
+        send_request(url, post_fields)
+        print('Post request send succesfully!')
+        frameCount = 1
 
-                # Uncomment to send coordinates for red_center aswell
-                #post_fields = { 'x1' : int(newcbX), 'y1' : int(newcbY), 'x2' : int(newcrX), 'y2' : int(newcrY) }
-                #send_request(url,post_fields)
 
-                frameCount = 1
+                    # Uncomment to send coordinates for red_center aswell
+                    #post_fields = { 'x1' : int(newcbX), 'y1' : int(newcbY), 'x2' : int(newcrX), 'y2' : int(newcrY) }
+                    #send_request(url,post_fields)
+
 
     #endTime = int(round(time.time() * 1000))
     #oneFrame = endTime - startTime
@@ -179,5 +176,6 @@ while(frameCount):
     #cv2.imshow('res1', res1)
     k = cv2.waitKey(5) & 0xFF
     if k==27:
-        ipcam.shut_down()
+        #ipcam.shut_down()
+        cv2.destroyAllWindows()
         break
