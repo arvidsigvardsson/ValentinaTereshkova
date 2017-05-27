@@ -1,3 +1,7 @@
+"""
+Author: Anton Hellbe, Mikael Nilsson
+
+"""
 import numpy as np
 import cv2
 import requests
@@ -7,6 +11,11 @@ import time
 
 class IpCam:
 
+    """
+    Initialize ipcamera object
+    Params: url to cameras mjpeg stream
+    Returns: None
+    """
     def __init__(self, url):
         self.stream = requests.get(url, stream=True)
         self.thread_cancelled = False
@@ -14,10 +23,17 @@ class IpCam:
         self.img = None
         print('Init camera done')
 
+    """
+    Starts the camerafeed from the IP-camera in a new thread
+    """
     def start(self):
         self.thread.start()
         print('Starting camera')
 
+    """
+    Self called when using start function.
+    Fetches the bytestream from the camera and puts it in a cv2 frame
+    """
     def run(self):
         bytes = ''
         while not self.thread_cancelled:
@@ -33,12 +49,19 @@ class IpCam:
                 self.thread_cancelled
                 self.img = None
 
+    """
+    Used for checking if the thread is still running
+    """
     def is_running(self):
         return self.thread.isAlive()
-
+    """
+    Returns the cv2 frame
+    """
     def getFrame(self):
         return self.img
-
+    """
+    Shuts down the thread, IMPORTANT: Call this method when closing the program
+    """
     def shut_down(self):
         self.thread_cancelled = True
         #block while waiting for thread to terminate
