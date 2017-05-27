@@ -8,7 +8,12 @@ import requests
 turtle.screensize(1920,1080)
 turtle.setworldcoordinates(0, 0, 500, 400)
 
-#hamtar robotens koordinater fran servern
+'''
+retrieves the robots coordinates from the server
+return: p1, p2
+p1: a tuple with coordinates for the LED 1 on the robot
+p2: a tuple with coordinates for the LED 2 on the robot
+'''
 def getCoordinates():
     content = urllib2.urlopen("http://192.168.20.133:5000/srv/coordinate/getlatest").read()
     j = json.loads(content)
@@ -18,7 +23,13 @@ def getCoordinates():
     y2 = int(j['coordinate']['y2'])
     return ((x1, y1), (x2,y2))
 
-#hamtar objektens koordinater fran servern
+'''
+retrieves the coordinates for the objects
+return: socka, kub, glas
+socka: a tuple with the coordinates for the sock
+kub: a tuple with the coordinates for the cube
+glas: a tuple with the coordinates for the glass
+'''
 def getObjects():
     content = urllib2.urlopen("http://192.168.20.133:5000/srv/objectlist").read()
     j = json.loads(content)
@@ -30,43 +41,63 @@ def getObjects():
     glas_y = int(j['glas'][0]['y'])
     return ((socka_x, socka_y),(kub_x, kub_y),(glas_x, glas_y))
 
-#bestammer robotens center baserat pa dess koordinater
+'''
+Returns the center of the robot
+param: p1, p2
+p1: a tuple with the coordinates for LED 1
+p2: a tuple with the coordinates for LED 2
+return: p
+p: a tuple with the coordinates for the center of the robot
+'''
 def getCenter(p1, p2):
     diameter_x = abs(p1[0] - p2[0])
     diameter_y = abs(p1[1] - p2[1])
 
     middle_x = min(p1[0], p2[0]) + diameter_x / 2
     middle_y = min(p1[1], p2[1]) + diameter_y / 2
-    #print "position: ", middle_x, ", ", middle_y
     return (middle_x, middle_y)
 
-#flytta skoldpaddan
+'''
+Moves the turtle to the center of the given points
+param: p1, p2
+p1: a tuple with the coordinates for LED 1
+p2: a tuple with the coordinated for LED 2
+'''
 def turtleMove(p1, p2):
     turtle.goto(getCenter(p1, p2))
 
+'''
+Moves the turtle
+param: p1
+p1: a tuple with the coordinates of where to move
+'''
 def turtleMoveOneCoordinate(p1):
     turtle.goto(p1)
 
-#placera ett objekt pa kartan
-def placeobject(obj1, text, color):
+'''
+Places an object on the map
+param: obj, text, color
+obj: a tuple with the coordinates for the object
+text: a string with the name of the object
+color: a string with the color of which the object shall be represented
+'''
+def placeobject(obj, text, color):
     turtle.color(color)
     turtle.penup()
-    turtle.goto(obj1[0], obj1[1])
+    turtle.goto(obj[0], obj[1])
     turtle.pendown()
     turtle.dot(image)
     turtle.penup()
-    #turtle.goto(obj1[0], obj1[1] - 100)
-    #turtle.pendown()
-    #turtle.circle(100)
-    #turtle.penup()
-    turtle.goto(obj1[0], obj1[1] + 10)
+    turtle.goto(obj[0], obj[1] + 10)
     turtle.pendown()
     turtle.write(text, False, 'left', font=('Arial', 12, 'normal'))
     turtle.penup()
     turtle.home()
     turtle.pendown()
 
-#gor skoldpaddan fin och placerar objekten
+'''
+Initializes the program by drawing the map, placing the objects, setting the shape and setting the speed
+'''
 def init():
     turtle.speed(0)
     turtle.home()
@@ -88,42 +119,25 @@ def init():
     #Gion
     turtle.Screen().addshape("gion.gif")
     turtle.shape("gion.gif")
-    
     turtle.speed(5)
 
-def erasableWrite(tortoise, name, font, align, reuse=None):
-    eraser = turtle.Turtle() if reuse is None else reuse
-    eraser.hideturtle()
-    eraser.penup()
-    eraser.setposition(tortoise.position())
-    eraser.pendown()
-    eraser.write(name, font=font, align=align)
-    eraser.penup()
-    return eraser
-
+'''
+Resets the drawing by removing everything and redrawing it
+param: x, y
+x: Unused
+y: Unused
+'''
 def restartTurtle(x, y):
     turtle.reset()
     turtle.speed(0)
     init()
     turtle.speed(5)
 
-def printCoordinate(erasable, p1):
-    turtle.hideturtle()
-    turtle.penup()
-    turtleMoveOneCoordinate((600, 400))
-    erasable.clear()
-    erasable = erasableWrite(turtle, (p1[0], ", ", p1[1]), font=("Arial", 12, "normal"), align="center", reuse=erasable)
-    turtle.showturtle()
-    turtle.pendown()
-    
-    return erasable
-
-turtle.onscreenclick(restartTurtle)
+turtle.onscreenclick(restartTurtle) #when the user clicks the screen, reset the program
 init()
 while(True):
     p1, p2 = getCoordinates()
     #turtleMove(p1, p2)
     turtleMoveOneCoordinate(p1)
-    #erasable = printCoordinate(erasable, p1)
     
     
