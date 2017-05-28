@@ -1,5 +1,6 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
+#+OPTIONS: num:nil
 * Möte med Tommy 2017-04-04, och sedan en plan
   Vi diskuterade de teknologier vi haft uppe
   - Tommy var positiv till triangulering med ultraljud. Han hade handlett (tror jag) ett examensarbete som inkluderade en sån lösning, som han skickade till oss. 

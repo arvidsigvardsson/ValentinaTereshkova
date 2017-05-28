@@ -1,7 +1,6 @@
 #+OPTIONS: html-postamble:nil
 #+OPTIONS: toc:nil
 #+OPTIONS: num:nil
-# #+HTML_HEAD: <link rel="stylesheet" type="text/css" href=org-style.css"
 * Teknisk dagbok - Projekt VT 2017
   /Arvid Sigvardsson/
 ** 2017-04-03
@@ -55,8 +54,22 @@
    - Jag började arbeta på pythonkoden för koordinatmappningen, i filen coordmapping.py. Jag experimenterade med numpy, och konstaterade att numpy.multiply inte är matrismultiplikation, utan elementvis multiplikation. För matrismultiplikation används numpy.matmul.
 ** 2017-04-17
    Första fälttestet på Niagara. Vi mätte upp en rektangulär bana på golvet i Niagara med /perfekta/ räta vinklar, som vi fick fram genom att mäta upp 3-4-5-trianglar, samt satte ut ett antal testpunkter. Vi fotade sedan detta från två olika vinklar. Rakt ovanifrån två trappor upp i Niagara är den mest lovande vinkeln. Jag antecknade koordinaterna för testpunkterna relativt hörnen i [[./niagara2017-04-17.html][detta dokument]]. 
+** 2017-04-20 
+   Arbetade med att fastställa koordinater utifrån avstånd till kända punkter. Ofta kallas det triangulering, men om det är sträckor man mätt upp kallas det trilaterering. Det krävs tre kända punkter, härav trilaterering, men om man har två kända punkter får man två möjliga positioner, och det är oftast tillräckligt. Med två avstånd kallas detta bilaterering. Vi har två saker i projektet som behöver detta
+   - Ultraljudslösningen bygger på detta
+   - När vi mäter upp en bana och lägger ut objekt vill vi veta vilka koordinater dessa har. Enklast är att mäta avstånd från två av våra hörn och bilaterera.
+   Min härledning av formeln för bilaterering är denna, [[./bilder/Bilateration.jpg][länk till bild]]. a och c är i härledningen x- och ykoordinater. Jag har även skrivit en funktion i filen koordmapping.py:
+   #+BEGIN_SRC python
+   # bilateration med två kända punkter, en i origo och den andra på y-axeln med avstånd dist till origo. 
+   # r1 är okända punktens avstånd till origo, r2 avstånd till andra punkten. 
+   # Returnerarpositivt x-värde, även -x är giltig lösning
+   def bilat(dist, r1, r2):
+     y = (r1**2 - r2**2 + dist**2) / (2 * dist)
+     x = math.sqrt(r1**2 - y**2)
+     return (x, y)
+   #+END_SRC
 ** 2017-04-22
-   Egentligen inte en arbetsdag, men jag byggde en ställning eller rigg för att på ett säkert sätt kunna ha den kamera vi ska använda en bit ut från kanten två våningar upp på Niagara. Detta för att den ska komma så nära mitt över banan som möjligt. Konstruktionen är i träreglar med säkerhetslina
+   Egentligen inte en arbetsdag, men jag byggde en ställning eller rigg för att på ett säkert sätt kunna ha den kamera vi ska använda en bit ut från kanten två våningar upp på Niagara. Detta för att den ska komma så nära mitt över banan som möjligt. Konstruktionen är i träreglar med säkerhetslina 
 ** 2017-04-23
    Fälttest på Niagara. Vi testade flera saker
    - Om vårt opencv-program kunde identifiera en lysdiod med kameran på tredje våningen
@@ -81,3 +94,7 @@
    Homography...
 ** 2017-05-04
    Vad hände idag?
+** 2017-05-05
+   Idag hade Gustaf och Anton en liten konflikt som jag försökte hjälpa dem att lösa. Jag dokumenterade det hela på [[https://youtu.be/cvYUlMf6RG4][på youtube]]
+** 2017-05-16
+   Utvärdering och undersökning av kompensation av fel

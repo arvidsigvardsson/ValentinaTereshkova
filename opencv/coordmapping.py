@@ -191,6 +191,7 @@ def compensate_for_measured_error((x, y)):
     y -= y_compensation
     return (x, y)
 
+# en viktning av kompensationen som utförs i compensate_for_measured_error
 def get_weighted_compensation((x, y)):
     xx_comp = xy_comp = yx_comp = yy_comp = 0
     with open('kompensation_koefficienter.txt') as f:

@@ -1,0 +1,4 @@
+#+OPTIONS: html-postamble:nil
+#+OPTIONS: toc:nil
+#+OPTIONS: num:nil
+* Lärandemål huvudgrupp 1
