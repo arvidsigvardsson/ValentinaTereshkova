@@ -12,7 +12,7 @@ from IpCamera import IpCam
 
 
 # Define variables for coordinates of blue LED1 and blue LED2 and the size of the ROI
-roihalfsize = 30
+roihalfsize = 20
 newcbX1 = 0
 newcbY1 = 0
 newcbX2 = 0
@@ -35,6 +35,9 @@ cap = cv2.VideoCapture(0)
 #Loads the image to set the starting position for LED1, LED2
 pointfinder = pointFinder()
 (x1, y1), (x2, y2) = pointfinder.findPoints('test.jpg')
+(x1, y1), (x2, y2) = pointfinder.findPoints('test2.jpg')
+#ipcam = IpCam(cameraUrl)
+#ipcam.start()
 
 mapper = Mapper((149.0, 465.0), (582.0,445.0), (562.0,93.0), (131.0, 123.0), 500.0, 400.0, (303.9, 188.9, 801.0))
 while(frameCount):
@@ -62,6 +65,12 @@ while(frameCount):
     #Filtering of the image for the color blue, and then removes noise
     frame1 = cv2.bitwise_and(frame, frame, mask = roi1)
     frame2 = cv2.bitwise_and(frame, frame, mask = roi2)
+
+    frame1 = imutils.resize(frame1, width=600, height=800)
+    frame2 = imutils.resize(frame2, width = 600, height=800)
+
+    #if (roi2 != ''):
+    #    frame2 = cv2.bitwise_and(frame,frame,mask = roi)
 
     hsv_blue1 = cv2.cvtColor(frame1, cv2.COLOR_BGR2HSV)
     hsv_blue2 = cv2.cvtColor(frame2, cv2.COLOR_BGR2HSV)
@@ -138,9 +147,9 @@ while(frameCount):
         print('----------LED2 Coordinates-------------')
         print(int(newcbX2))
         print(int(newcbY2))
-        post_fields = { 'x1' : int(newcbX1) , 'y1' : int(newcbY1), 'x2' : int(newcbX2), 'y2' : int(newcbY2)} #Only blue center coordinates
-        send_request(url, post_fields)
-        print('Post request send succesfully!')
+        #post_fields = { 'x1' : int(newcbX1) , 'y1' : int(newcbY1), 'x2' : int(newcbX2), 'y2' : int(newcbY2)} #Only blue center coordinates
+        #send_request(url, post_fields)
+        #print('Post request send succesfully!')
         frameCount = 1
 
     #cv2.imshow('frame', frame)
@@ -155,5 +164,6 @@ while(frameCount):
     k = cv2.waitKey(5) & 0xFF
     if k==27:
         #ipcam.shut_down()
+        cap.release()
         cv2.destroyAllWindows()
         break
