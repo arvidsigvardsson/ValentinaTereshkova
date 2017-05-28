@@ -66,9 +66,6 @@ void configure_console(void) {
 	sysclk_enable_peripheral_clock(BOARD_USART1_BASE);
 	usart_serial_init(CONF_UART_ESP, &uart_serial_options_esp);
 	
-	//CONF_UART_ESP->US_MR &= ~(0xF << 0);
-	//CONF_UART_ESP->US_MR |= (0x3 << 6);
-	//CONF_UART_ESP->US_MR |= (1 << 20);
 }
 
 void USART1_Handler() {
@@ -90,9 +87,6 @@ int main (void)
 	board_init();
 	delay_init();
 	configure_console();
-	/*NVIC_SetPriority((IRQn_Type) ID_USART1, 0x0e);
-	usart_enable_interrupt(CONF_UART_ESP, UART_IER_RXRDY);
-	NVIC_EnableIRQ((IRQn_Type) ID_USART1);*/
 	
 	if (xTaskCreate(task_dummy1, (const signed char * const) "task_dummy1", TASK_DUMMY1_STACK_SIZE, NULL, TASK_DUMMY1_STACK_PRIORITY, NULL) != pdPASS)
 	{
