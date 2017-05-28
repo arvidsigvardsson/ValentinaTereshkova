@@ -21,6 +21,8 @@ class FindEdge:
 
         """
         creates a ROI of the specified corner of the supplied frame
+        params: number representing a corner in frame, frame
+        returns: black frame with ROI in designated corner of original frame
         """
     def get_Masker(self, number, frame):
         if (number == 0):
@@ -38,7 +40,9 @@ class FindEdge:
 
     """
     Finds the center of the cornermark, one in each quadrant of the frame, returns one list of x-values and one list of y-values
-    """  
+    params: frame
+    return xList, yList coordinates for each corner
+    """
     def get_edges(self, frame):
         self.frame = frame
 
