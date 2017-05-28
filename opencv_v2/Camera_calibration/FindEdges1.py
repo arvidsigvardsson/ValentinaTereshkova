@@ -18,10 +18,9 @@ class FindEdge:
         self.colorLower = colorLower
         self.colorUpper = colorUpper
 
-
-        """
-        creates a ROI of the specified corner of the supplied frame
-        """
+    """
+    creates a ROI of the specified corner of the supplied frame
+    """
     def get_Masker(self, number, frame):
         if (number == 0):
             black1 = cv2.rectangle(self.black,(0,(frame.shape[0]/2)),((frame.shape[1]/2),frame.shape[0]),(255, 255, 255), -1)
@@ -35,13 +34,13 @@ class FindEdge:
         elif(number == 3):
             black1 = cv2.rectangle(self.black,(0,0),((frame.shape[1]/2),frame.shape[0]/2),(255, 255, 255), -1)
             return black1
-
     """
     Finds the center of the cornermark, one in each quadrant of the frame, returns one list of x-values and one list of y-values
-    """  
+    """    
     def get_edges(self, frame):
         self.frame = frame
-
+        xlist = []
+        ylist = []
         nbr = 0
         #one iteration for each corner of the picture
         while nbr<4:
@@ -84,5 +83,6 @@ class FindEdge:
                 break
             nbr += 1
 
-        cv2.destroyAllWindows()
+        cv2.destroyWindow('frame')
+        cv2.destroyWindow('fin')
         return xlist, ylist
